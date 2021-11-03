@@ -8,11 +8,11 @@ import myapp.domain.Interactor
 import myapp.util.Logger
 import javax.inject.Inject
 
-class SetNetworkMedia @Inject constructor(
+class SaveNetworkMedia @Inject constructor(
     private val logger: Logger,
     private val dataSource: CamDataSource,
     private val camManager: CamManager
-) : Interactor<SetNetworkMedia.Params>() {
+) : Interactor<SaveNetworkMedia.Params>() {
 
     data class Params(val ip: String, val networkMedia: String)
 
@@ -26,7 +26,7 @@ class SetNetworkMedia @Inject constructor(
             wifi = params.networkMedia.contains("wifi"),
         ).getOrThrow()
 
-        camManager.updateConfig2 { old ->
+        camManager.updateConfig { old ->
             old.copy(enabledNetworkMedia = params.networkMedia)
         }
     }

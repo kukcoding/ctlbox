@@ -6,19 +6,33 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import myapp.ReduxViewModel
 import myapp.data.cam.CamManager
+import myapp.data.code.VideoQualityKind
+import myapp.domain.interactors.SaveRecordingQuality
+import myapp.domain.interactors.SaveStreamingQuality
 import myapp.util.ObservableLoadingCounter
 import javax.inject.Inject
 
 
 internal sealed class StreamQualityAction {
-    object Dummy : StreamQualityAction()
+    data class Setup(
+        val videoQualityKind: VideoQualityKind,
+        val fps: Int,
+        val resolution: String,
+        val availableResolutions: List<String>
+    ) : StreamQualityAction()
+
+    data class SetResolution(val resolution: String) : StreamQualityAction()
+    data class SetFps(val fps: Int) : StreamQualityAction()
 }
 
 internal data class StreamQualityViewState(
+    val videoQualityKind: VideoQualityKind = VideoQualityKind.STREAMING,
     val availableResolutions: List<String> = emptyList(),
     val resolution: String = "1280x720",
     val fps: Int = 15,
@@ -29,9 +43,12 @@ internal data class StreamQualityViewState(
 internal class StreamQualityDialogViewModel @Inject constructor(
     @ApplicationContext context: Context,
     val camManager: CamManager,
+    private val saveStreamingQuality: SaveStreamingQuality,
+    private val saveRecordingQuality: SaveRecordingQuality,
 ) : ReduxViewModel<StreamQualityViewState>(
     StreamQualityViewState()
 ) {
+    private val pendingActions = Channel<StreamQualityAction>(Channel.BUFFERED)
     private val loadingState = ObservableLoadingCounter()
 
     // for data binding
@@ -47,16 +64,37 @@ internal class StreamQualityDialogViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            camManager.observeConfig().collect { cfg ->
-                if (cfg == null) {
-                    setState { copy(availableResolutions = emptyList()) }
-                } else {
-                    setState {
+//            camManager.observeConfig().collect { cfg ->
+//                Timber.w("camManager.observeConfig() cfg = ${cfg}")
+//                if (cfg == null) {
+//                    setState { copy(availableResolutions = emptyList()) }
+//                } else {
+//                    setState {
+//                        copy(
+//                            availableResolutions = cfg.recordingResolutions,
+//                            resolution = cfg.recording.resolution,
+//                            fps = cfg.recording.fps
+//                        )
+//                    }
+//                }
+//            }
+        }
+
+        // 액션 처리
+        viewModelScope.launch {
+            pendingActions.consumeAsFlow().collect { action ->
+                when (action) {
+                    is StreamQualityAction.SetResolution -> setState { copy(resolution = action.resolution) }
+                    is StreamQualityAction.Setup -> setState {
                         copy(
-                            availableResolutions = cfg.recordingResolutions,
-                            resolution = cfg.recording.resolution,
-                            fps = cfg.recording.fps
+                            videoQualityKind = action.videoQualityKind,
+                            resolution = action.resolution,
+                            availableResolutions = action.availableResolutions,
+                            fps = action.fps
                         )
+                    }
+                    is StreamQualityAction.SetFps -> setState {
+                        copy(fps = action.fps)
                     }
                 }
             }
@@ -69,17 +107,28 @@ internal class StreamQualityDialogViewModel @Inject constructor(
         }
     }
 
-    fun updateResolution(resolution: String) {
+
+    fun submitAction(vararg actions: StreamQualityAction) {
         viewModelScope.launch {
-            setState { copy(resolution = resolution) }
+            if (!pendingActions.isClosedForSend) {
+                actions.forEach { pendingActions.send(it) }
+            }
         }
     }
 
-    fun updateResolution1920() {
-        viewModelScope.launch {
-            setState { copy(resolution = "1920x1080") }
+
+    suspend fun saveVideoQuality(ip: String, resolution: String, fps: Int) {
+        val kind = this.currentState().videoQualityKind
+        loadingState.addLoader()
+        try {
+            if (kind == VideoQualityKind.STREAMING) {
+                saveStreamingQuality.executeSync(ip = ip, resolution = resolution, fps = fps)
+            } else if (kind == VideoQualityKind.RECORDING) {
+                saveRecordingQuality.executeSync(ip = ip, resolution = resolution, fps = fps)
+            }
+        } finally {
+            loadingState.removeLoader()
         }
     }
-
 }
 

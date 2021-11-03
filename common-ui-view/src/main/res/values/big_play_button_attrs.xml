@@ -3,11 +3,16 @@
 <resources>
     <attr name="title" format="string" />
     <attr name="subtitle" format="string" />
+    <attr name="resolution" format="string" />
     <attr name="icon" format="reference" />
 
     <declare-styleable name="BigPlayButton">
         <attr name="title" />
         <attr name="subtitle" />
+    </declare-styleable>
+
+    <declare-styleable name="ResolutionRadioButton">
+        <attr name="resolution" />
     </declare-styleable>
 
     <declare-styleable name="LoginNetworkLabel">

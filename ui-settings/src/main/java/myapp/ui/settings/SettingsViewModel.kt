@@ -1,11 +1,13 @@
 package myapp.ui.settings
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kr.ohlab.android.recyclerviewgroup.ItemBase
 import myapp.ReduxViewModel
@@ -41,7 +43,29 @@ internal class SettingsViewModel @Inject constructor(
 
     val viewItems = MutableLiveData<List<ItemBase<*>>>()
     val isLoadingLive = liveFieldOf(SettingsState::isLoading)
+    val streamingQualityTextLive = camManager.observeConfig().map { cfg ->
+        if (cfg != null) {
+            "${cfg.streaming.resolution} / ${cfg.streaming.fps} FPS"
+        } else {
+            "-"
+        }
+    }.asLiveData()
 
+    val recordingQualityTextLive = camManager.observeConfig().map { cfg ->
+        if (cfg != null) {
+            "${cfg.recording.resolution} / ${cfg.recording.fps} FPS"
+        } else {
+            "-"
+        }
+    }.asLiveData()
+
+    val cameraNameLive = camManager.observeConfig().map { cfg ->
+        cfg?.cameraName ?: "-"
+    }.asLiveData()
+
+    val enabledNetworkTextLive = camManager.observeConfig().map { cfg ->
+        cfg?.enabledNetworkMedia?.uppercase() ?: "-"
+    }.asLiveData()
 
     init {
         // 스낵바 에러 처리

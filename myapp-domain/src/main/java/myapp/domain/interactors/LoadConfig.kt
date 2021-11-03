@@ -17,7 +17,7 @@ class LoadConfig @Inject constructor(
 
     override suspend fun doWork(params: Unit): KuCameraConfig = withContext(Dispatchers.IO) {
         val cfg = dataSource.config().getOrThrow()
-        camManager.updateConfig(config = cfg)
+        camManager.updateConfig(cfg)
         cfg
     }
 }

@@ -73,7 +73,6 @@ class NetworkMediaDialogFragment : DialogFragment() {
         mBind.btDone.setOnClickListener {
             val state = mViewModel.currentState()
             trySave(media = state.media)
-            dismissWithDataChanged(state.media)
         }
 
         // 닫기 버튼 클릭
@@ -92,7 +91,7 @@ class NetworkMediaDialogFragment : DialogFragment() {
     }
 
     private fun preferWindowWidth(ctx: Context): Float {
-        val preferWidth = dpf(320)
+        val preferWidth = dpf(260)
         val screenWidth = AndroidUtils.screenSmallSide(ctx)
 
 
@@ -110,10 +109,9 @@ class NetworkMediaDialogFragment : DialogFragment() {
         lifecycleScope.launch {
             try {
                 mViewModel.saveNetworkMedia(ip = clientIp, media = media)
-                mResultNetworkMedia = media
                 mBind.root.snack("저장되었습니다")
                 delay(500)
-                dismiss()
+                dismissWithDataChanged(media)
             } catch (e: Throwable) {
                 if (e is AppException) {
                     mBind.root.snack(e.displayMessage())

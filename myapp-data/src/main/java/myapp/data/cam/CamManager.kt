@@ -72,26 +72,25 @@ class CamManager constructor(
         }
     }
 
-    fun updateConfig(config: KuCameraConfig?) {
-        configFlow.tryEmit(config)
-    }
-
-    fun updateConfig2(cb: (config: KuCameraConfig) -> KuCameraConfig) {
+    fun updateConfig(action: (config: KuCameraConfig) -> KuCameraConfig) {
         val cfg = this.config
         if (cfg != null) {
-            val newCfg = cb(cfg)
-            updateConfig(newCfg)
+            configFlow.tryEmit(action(cfg))
         }
+    }
+
+    fun updateConfig(config: KuCameraConfig) {
+        configFlow.tryEmit(config)
     }
 
     fun onLoggedIn(cameraId: String, cameraIp: String) {
         this.loginStateFlow.tryEmit(CamLoggedIn(cameraId = cameraId, cameraIp = cameraIp))
-
     }
 
     fun onLoggedOut() {
         this.configFlow.tryEmit(null)
         this.loginStateFlow.tryEmit(CamLoggedOut)
     }
+
 }
 

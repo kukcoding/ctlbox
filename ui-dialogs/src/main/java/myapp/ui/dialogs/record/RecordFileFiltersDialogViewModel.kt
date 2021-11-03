@@ -66,8 +66,5 @@ internal class RecordFileFiltersDialogViewModel @Inject constructor(
     fun replaceFileFilters(recordFileFilters: List<RecordFileFilter>) {
         this.viewItems.value = recordFileFilters.map { RecordFileFilterItem(filter = it, id = toNumId(it.key)) }
     }
-
-    val recordFileFilterItems
-        get() = this.viewItems.value.filterIsInstance(RecordFileFilterItem::class.java)
 }
 

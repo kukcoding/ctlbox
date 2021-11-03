@@ -14,8 +14,8 @@ data class MjpgQuality(
 data class KuCameraConfig(
     val cameraId: String,
     var cameraName: String?,
-    var recordingResolutions: List<String>, // 3840x2160,1920x1080,1280x720
-    var streamingResolutions: List<String>, // 1920x1080,1280x720,640x480
+    var recordingResolutions: List<String>, // listOf(3840x2160,1920x1080,1280x720)
+    var streamingResolutions: List<String>, // listOf(1920x1080,1280x720,640x480)
     var enabledNetworkMedia: String, // wifi,lte
     var availableNetworkMedia: String, // wifi,lte
     //var networkAvailableList: List<String>, // [wifi, lte]

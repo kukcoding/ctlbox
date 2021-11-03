@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import myapp.ReduxViewModel
 import myapp.data.cam.CamManager
-import myapp.domain.interactors.SetNetworkMedia
+import myapp.domain.interactors.SaveNetworkMedia
 import myapp.util.ObservableLoadingCounter
 import javax.inject.Inject
 
@@ -25,7 +25,7 @@ internal data class NetworkMediaViewState(
 internal class NetworkMediaDialogViewModel @Inject constructor(
     @ApplicationContext context: Context,
     val camManager: CamManager,
-    val setNetworkMedia: SetNetworkMedia,
+    private val saveNetworkMedia: SaveNetworkMedia,
 ) : ReduxViewModel<NetworkMediaViewState>(
     NetworkMediaViewState()
 ) {
@@ -73,7 +73,7 @@ internal class NetworkMediaDialogViewModel @Inject constructor(
     suspend fun saveNetworkMedia(ip: String, media: String) {
         loadingState.addLoader()
         try {
-            setNetworkMedia.executeSync(ip = ip, networkMedia = media)
+            saveNetworkMedia.executeSync(ip = ip, networkMedia = media)
         } finally {
             loadingState.removeLoader()
         }

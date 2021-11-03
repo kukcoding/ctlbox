@@ -32,8 +32,8 @@ class SplashFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         mBind = FragmentSplashBinding.inflate(inflater, container, false)
-        mBind.vm = mViewModel
         mBind.lifecycleOwner = this
+        mBind.vm = mViewModel
         return mBind.root
 
     }

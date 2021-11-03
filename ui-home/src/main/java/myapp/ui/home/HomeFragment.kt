@@ -58,10 +58,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         mBind = FragmentHomeBinding.inflate(inflater, container, false)
-        mBind.vm = mViewModel
-        mBind.fragment = this
         mBind.lifecycleOwner = this
-
+        mBind.vm = mViewModel
         return mBind.root
     }
 
@@ -119,6 +117,13 @@ class HomeFragment : Fragment() {
             override fun onDrawerStateChanged(newState: Int) {
             }
         })
+
+        mBind.layoutLoginBtn.setOnClickListener {
+            onClickLoginButton()
+        }
+        mBind.layoutNetworkBtn.setOnClickListener {
+            openWifiSetting()
+        }
 
         // RTSP 플레이 버튼 클릭
         mBind.btRtspPlayButton.setOnClickListener {
@@ -240,6 +245,44 @@ class HomeFragment : Fragment() {
         }
     }
 
+    fun openWifiSetting() {
+        val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
+
+
+    fun onClickLoginButton() {
+        val ctx = context ?: return
+        if (mViewModel.isLoggedInLive.value == true) {
+            mViewModel.submitAction(HomeAction.Logout)
+            return
+        }
+
+        val popup = PopupMenu(ContextThemeWrapper(context, R.style.LoginPopupMenu), mBind.txtviewLoginBtn)
+        popup.inflate(R.menu.popup_login_media)
+
+        //val initial = mViewModel.currentState().playerAutoStopTime
+        popup.menu.iterator().forEach { menuItem ->
+            // 이렇게 하면 안되네
+            // menuItem.isChecked = playerAutoStopActionIdToCode[menuItem.itemId] == initial
+//            if (playerAutoStopActionIdToCode[menuItem.itemId] == initial) {
+//                menuItem.isChecked = true
+//            }
+        }
+
+        popup.setOnMenuItemClickListener { menuItem ->
+            if (menuItem.itemId == R.id.popup_wifi) {
+                CameraDialogs.openLoginWifi(fm = childFragmentManager)
+            } else {
+                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = null)
+            }
+            true
+        }
+        popup.show()
+    }
+
+
 
     /**
      * 백키 핸들러 - 오른쪽 메뉴가 열려있으면 닫히도록
@@ -277,48 +320,4 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun openWifiSetting() {
-        val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
-    }
-
-
-    fun onClickLoginButton() {
-        val ctx = context ?: return
-        if (mViewModel.isLoggedInLive.value == true) {
-            mViewModel.submitAction(HomeAction.Logout)
-            return
-        }
-
-        val popup = PopupMenu(ContextThemeWrapper(context, R.style.LoginPopupMenu), mBind.txtviewLoginBtn)
-        popup.inflate(R.menu.popup_login_media)
-
-        //val initial = mViewModel.currentState().playerAutoStopTime
-        popup.menu.iterator().forEach { menuItem ->
-            // 이렇게 하면 안되네
-            // menuItem.isChecked = playerAutoStopActionIdToCode[menuItem.itemId] == initial
-//            if (playerAutoStopActionIdToCode[menuItem.itemId] == initial) {
-//                menuItem.isChecked = true
-//            }
-        }
-
-        popup.setOnMenuItemClickListener { menuItem ->
-            if (menuItem.itemId == R.id.popup_wifi) {
-                onClickLoginWifi()
-            } else {
-                onClickLoginLte()
-            }
-            true
-        }
-        popup.show()
-    }
-
-    private fun onClickLoginWifi() {
-        CameraDialogs.openLoginWifi(fm = childFragmentManager)
-    }
-
-    private fun onClickLoginLte() {
-        CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = null)
-    }
 }
