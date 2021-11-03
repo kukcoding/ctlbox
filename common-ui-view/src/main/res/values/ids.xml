@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <id name="navigation_discover" />
+    <id name="action_splashFragment_to_homeFragment" />
+</resources>

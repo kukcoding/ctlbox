@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 사도신경 -->
+    <dimen name="creed_text_size_small">18sp</dimen>
+    <dimen name="creed_text_size_big">20sp</dimen>
+
+    <!-- 사도신경 좌우 여백, 태블릿에서는 여백을 좀더 많이 주는게 예쁘다 -->
+    <dimen name="creed_sentence_margin_horizontal">0dp</dimen>
+</resources>

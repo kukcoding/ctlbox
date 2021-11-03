@@ -1,0 +1,34 @@
+facebook에는 요거 등록
+Signature: s8Emt5EMAdMPTJUbcWn9kvZ6Usc=
+
+
+$ keytool -exportcert -list -v -alias ohlab -keystore ohlab_pw111111.keystore
+키 저장소 비밀번호 입력:  111111
+별칭 이름: ohlab
+생성 날짜: 2019. 6. 21
+항목 유형: PrivateKeyEntry
+인증서 체인 길이: 1
+인증서[1]:
+소유자: CN=OHLAB, OU=OHLAB, O=Unknown, L=Seoul, ST=Unknown, C=KR
+발행자: CN=OHLAB, OU=OHLAB, O=Unknown, L=Seoul, ST=Unknown, C=KR
+일련 번호: 7015de53
+적합한 시작 날짜: Fri Jun 21 00:45:37 KST 2019 종료 날짜: Sun Sep 29 00:45:37 KST 2019
+인증서 지문:
+         MD5:  34:75:C8:22:B6:F1:C8:A5:AB:A8:3B:CC:9B:DD:40:E9
+         SHA1: B3:C1:26:B7:91:0C:01:D3:0F:4C:95:1B:71:69:FD:92:F6:7A:52:C7
+         SHA256: 0E:3D:B8:F4:AA:B3:73:4F:77:C8:BB:AF:ED:F5:4E:41:12:0A:D0:F6:1D:7F:03:89:C3:6D:26:00:8C:E7:56:DD
+서명 알고리즘 이름: SHA256withRSA
+주체 공용 키 알고리즘: 2048비트 RSA 키
+버전: 3
+
+확장:
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: EB 31 76 E8 1D 35 FD B5   1F BD BB D6 85 3F 79 CF  .1v..5.......?y.
+0010: DE A7 E9 3C                                        ...<
+]
+]
+
+

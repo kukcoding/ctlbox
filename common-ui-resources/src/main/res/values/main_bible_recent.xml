@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- 최근읽은 성경 -->
+    <dimen name="bible_recent_horizontal_padding1">0dp</dimen>
+    <dimen name="bible_recent_horizontal_padding2">0dp</dimen>
+
+
+</resources>

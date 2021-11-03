@@ -1,0 +1,196 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    app:cardBackgroundColor="@color/transparent"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="0dp"
+    app:cardPreventCornerOverlap="true"
+    tools:cardBackgroundColor="?attr/colorSurface">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_check"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:tint="@color/selector_text8_and_primary"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/check_box_selector2" />
+
+        <myapp.ui.widget.TRRoundedImageView
+            android:id="@+id/imgview_thumbnail"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="8dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="H,1:1.5"
+            app:layout_constraintStart_toEndOf="@id/imgview_check"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginStart="16dp"
+            app:riv_corner_radius="4dp"
+            app:srcCompat="@drawable/sample_campic" />
+
+        <TextView
+            android:id="@+id/txtview_resolution"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/black_overlay11"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingVertical="2dp"
+            android:textColor="?attr/colorOnSurface6"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgview_thumbnail"
+            app:layout_constraintEnd_toEndOf="@+id/imgview_thumbnail"
+            app:layout_constraintStart_toStartOf="@+id/imgview_thumbnail"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="1920x1080" />
+
+        <TextView
+            android:id="@+id/txtview_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?attr/colorOnSurface6"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtview_title"
+            app:layout_constraintStart_toStartOf="@+id/txtview_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="2020년" />
+
+        <TextView
+            android:id="@+id/txtview_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?attr/colorOnSurface1"
+            android:textSize="14sp"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imgview_thumbnail"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="12월 12일 19:10 ~ 19:12" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_downloadBtn"
+            android:layout_width="48dp"
+            android:layout_height="0dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:minHeight="48dp"
+            android:padding="14dp"
+            android:tint="@color/selector_primary_and_secondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_download_24" />
+
+        <TextView
+            android:id="@+id/txtview_fileSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="?attr/colorOnSurface6"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/txtview_title"
+            app:layout_constraintTop_toBottomOf="@+id/txtview_title"
+            tools:text="39MB" />
+
+        <View
+            android:id="@+id/hdivider"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="8dp"
+            android:background="#20000000"
+            app:layout_constraintBottom_toBottomOf="@+id/txtview_fileSize"
+            app:layout_constraintStart_toEndOf="@+id/txtview_fileSize"
+            app:layout_constraintTop_toTopOf="@+id/txtview_fileSize" />
+
+        <TextView
+            android:id="@+id/txtview_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="?attr/colorOnSurface6"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txtview_fileSize"
+            app:layout_constraintStart_toEndOf="@+id/txtview_fileSize"
+            app:layout_constraintTop_toTopOf="@+id/txtview_fileSize"
+            tools:text="03:35" />
+
+        <View
+            android:id="@+id/hdivider2"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="8dp"
+            android:background="#20000000"
+            app:layout_constraintBottom_toBottomOf="@+id/txtview_duration"
+            app:layout_constraintStart_toEndOf="@+id/txtview_duration"
+            app:layout_constraintTop_toTopOf="@+id/txtview_duration" />
+
+        <TextView
+            android:id="@+id/txtview_fps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="?attr/colorOnSurface6"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txtview_duration"
+            app:layout_constraintStart_toEndOf="@+id/txtview_duration"
+            app:layout_constraintTop_toTopOf="@+id/txtview_duration"
+            tools:text="25fps" />
+
+        <View
+            android:id="@+id/overlay_selection"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="#20FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="16dp"
+        android:background="#80888888" />
+</com.google.android.material.card.MaterialCardView>
+

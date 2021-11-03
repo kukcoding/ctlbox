@@ -1,0 +1,61 @@
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
+//    id("dagger.hilt.android.plugin")
+}
+
+android {
+    compileSdkVersion(build_versions.target_sdk)
+
+    defaultConfig {
+        minSdkVersion(build_versions.min_sdk)
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        disable 'RtlHardcoded', 'RtlCompat', 'RtlEnabled'
+        disable 'TypographyFractions', 'TypographyQuotes'
+        abortOnError false
+        ignoreWarnings true
+    }
+}
+
+dependencies {
+    // Kotlin
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}")
+
+    // Kotlin Coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines_android}")
+
+    api("com.google.dagger:hilt-android:${LibHilt.hilt}")
+    api("com.squareup.retrofit2:retrofit:${versions.retrofit2}")
+    api("com.squareup.okhttp3:logging-interceptor:${versions.okhttp3}")
+
+
+    // Dagger & Hilt
+//    compileOnly("com.squareup.inject:assisted-inject-annotations-dagger2:${LibHilt.assist}")
+//    kapt("com.squareup.inject:assisted-inject-processor-dagger2:${LibHilt.assist}")
+//    implementation("com.google.dagger:hilt-android:${LibHilt.hilt}")
+//    kapt("com.google.dagger:hilt-android-compiler:${LibHilt.hilt}")
+
+    // AndroidX
+    api("androidx.core:core-ktx:${LibAndroidX.core_ktx}")
+    api("androidx.fragment:fragment-ktx:${LibAndroidX.fragment_ktx}")
+
+    // Spilitties
+    api("com.louiscad.splitties:splitties-preferences:${versions.splitties}")
+
+    // Timber
+    api("com.jakewharton.timber:timber:${versions.timber}")
+
+    // ThreeTenabp
+    api("com.jakewharton.threetenabp:threetenabp:${versions.threetenabp}")
+
+    api("com.pierfrancescosoffritti.androidyoutubeplayer:core:${versions.pierfrancescosoffritti_youtube}")
+}

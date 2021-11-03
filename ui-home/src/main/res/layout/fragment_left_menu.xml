@@ -1,0 +1,81 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="myapp.ui.home.leftmenu.LeftMenuViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_left_menu"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/splash_bg_layer2"
+            android:orientation="vertical">
+
+            <Space
+                android:id="@+id/dummyStatusBar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:columnCount="1"
+                android:paddingTop="0dp"
+                android:paddingBottom="52dp"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/viewholder_left_menu_camera" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:visible="@{vm.isEmptyLive}">
+
+            <TextView
+                android:id="@+id/txtview_noData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:text="NO DATA"
+                android:textColor="?attr/colorOnSurface8"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtview_appVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:paddingLeft="24dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:text="@{vm.appVersionLive}"
+            android:textColor="?attr/colorOnSurface5"
+            android:textSize="13dp"
+            tools:text="v1.1.0" />
+
+
+    </FrameLayout>
+</layout>

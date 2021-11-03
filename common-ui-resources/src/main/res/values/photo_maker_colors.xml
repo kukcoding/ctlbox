@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="photo_maker_dark_surface">#90000000</color>
+    <color name="photo_maker_color_primary">#00E0FF</color>
+    <color name="photo_maker_color_primary_variant">#00aecc</color>
+
+    <color name="photo_maker_color_primary_light1">#6dffff</color>
+    <color name="photo_maker_color_primary_light2">#b1f5ff</color>
+    <color name="photo_maker_color_primary_light3">#d8faff</color>
+
+    <color name="photo_maker_color_secondary">@color/color_amber_500</color>
+    <color name="photo_maker_color_secondary_variant">@color/color_amber_700</color>
+    <color name="photo_maker_color_background">#1f1f1f</color>
+    <color name="photo_maker_color_surface">#1f1f1f</color>
+    <color name="photo_maker_color_surface0">#1f1f1f</color>
+    <color name="photo_maker_color_surface1">#292929</color>
+    <color name="photo_maker_color_surface2">#333333</color>
+    <color name="photo_maker_color_surface3">#3d3d3d</color>
+    <color name="photo_maker_color_surface4">#474747</color>
+    <color name="photo_maker_color_surface5">#525252</color>
+    <color name="photo_maker_color_surface6">#5c5c5c</color>
+    <color name="photo_maker_color_surface7">#666</color>
+    <color name="photo_maker_color_surface8">#707070</color>
+    <color name="photo_maker_color_surface9">#7a7a7a</color>
+
+    <color name="photo_maker_color_on_primary">#ffffff</color>
+    <color name="photo_maker_color_on_secondary">#ffffff</color>
+    <color name="photo_maker_color_on_background">#ffffff</color>
+    <color name="photo_maker_color_on_surface">#ffffff</color>
+    <color name="photo_maker_color_on_error">#ffffff</color>
+
+
+    <color name="photo_maker_color_on_surface0">@color/colorLightText0</color>
+    <color name="photo_maker_color_on_surface1">@color/colorLightText1</color>
+    <color name="photo_maker_color_on_surface2">@color/colorLightText2</color>
+    <color name="photo_maker_color_on_surface3">@color/colorLightText3</color>
+    <color name="photo_maker_color_on_surface4">@color/colorLightText4</color>
+    <color name="photo_maker_color_on_surface5">@color/colorLightText5</color>
+    <color name="photo_maker_color_on_surface6">@color/colorLightText6</color>
+    <color name="photo_maker_color_on_surface7">@color/colorLightText7</color>
+    <color name="photo_maker_color_on_surface8">@color/colorLightText8</color>
+    <color name="photo_maker_color_on_surface9">@color/colorLightText9</color>
+
+
+    <color name="photo_maker_color_light_text">#E8FFFB</color>
+</resources>

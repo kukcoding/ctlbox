@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="ThemeOverlay.MyTheme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.MyTheme.BottomSheet.Modal</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/Widget.MyTheme.BottomSheet.Modal</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">
+            @android:color/transparent
+        </item>
+    </style>
+
+
+    <style name="ThemeOverlay.MyTheme.AppBarLayout" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
+        <item name="colorControlNormal">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="ThemeOverlay.MyTheme.AppBarLayout.Diary" parent="ThemeOverlay.MaterialComponents.Toolbar.Surface" />
+
+    <style name="Widget.MyTheme.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearanceOverlay">?shapeAppearanceLargeComponent</item>
+    </style>
+
+    <style name="Widget.MyTheme.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="itemTextAppearance">?textAppearanceBody2</item>
+    </style>
+
+    <style name="Widget.MyTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary" />
+
+
+    <style name="Widget.MyTheme.Toolbar.White" parent="Widget.MyTheme.Toolbar">
+        <item name="navigationContentDescription">@string/toolbar_navigation_close_description
+        </item>
+        <item name="android:background">?attr/colorSurface1</item>
+        <item name="titleTextColor">?attr/colorOnSurface3</item>
+        <item name="subtitleTextColor">?attr/colorOnSurface5</item>
+        <!-- Note: this theme overlay will only work if the style is applied directly to a Toolbar. -->
+        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Toolbar.Surface</item>
+    </style>
+
+
+    <style name="TransparentText">
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
+
+    <style name="LaunchToolbarText" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textColor">?attr/colorOnSurface4</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="WhiteToolbarText" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textColor">?attr/colorOnSurface4</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="ThemeOverlay.MyTheme.MaterialAlertDialog.Picker.Date.Spinner" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog.Picker.Date.Spinner" />
+
+    <style name="ThemeOverlay.MyTheme.MaterialAlertDialog.Picker.Date.Calendar" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog.Picker.Date.Calendar" />
+
+    <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransparentBackgroundBottomSheetStyle</item>
+    </style>
+
+    <style name="TransparentBackgroundBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="scrimBackground">@android:color/transparent</item>
+    </style>
+
+
+    <style name="Widget.MyTheme.ProgressBar.Horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">6dip</item>
+        <item name="android:maxHeight">6dip</item>
+        <item name="android:indeterminate">true</item>
+    </style>
+
+
+    <style name="DialogTitleTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorDialogToolbarTitle</item>
+    </style>
+
+    <style name="BibleFontSizeSlider">
+        <item name="isb_indicator_color">#80000000</item>
+        <item name="isb_indicator_text_color">#FFF</item>
+        <item name="isb_indicator_text_size">11sp</item>
+        <item name="isb_show_indicator">circular_bubble</item>
+        <item name="isb_show_tick_texts">false</item>
+        <item name="isb_thumb_color">#FFFF00</item>
+        <item name="isb_thumb_size">48dp</item>
+        <item name="isb_thumb_adjust_auto">true</item>
+        <item name="isb_seek_smoothly">true</item>
+        <item name="isb_tick_texts_color">@color/color_blue_500</item>
+        <item name="isb_tick_texts_size">11sp</item>
+        <item name="isb_ticks_count">30</item>
+        <item name="isb_track_background_color">@color/color_pink_50</item>
+        <item name="isb_track_background_size">4dp</item>
+        <item name="isb_track_progress_color">@color/color_pink_500</item>
+        <item name="isb_track_progress_size">4dp</item>
+    </style>
+
+
+    <style name="Theme.MyTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"></style>
+
+    <style name="Theme.MyTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="android:textColor">#900</item>
+        <item name="android:itemBackground">@color/grey50</item>
+        <item name="android:background">@color/grey50</item>
+    </style>
+
+
+
+    <style name="Theme.MyTheme.Song.AppBarOverlayBlue" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="colorPrimary">#36ADDB</item>
+        <item name="colorPrimaryDark">#36ADDB</item>
+        <item name="statusBarBackground">#36ADDB</item>
+    </style>
+
+    <style name="Theme.MyTheme.SongToolbarBlue" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:background">#36ADDB</item>
+        <item name="titleTextColor">?attr/colorOnPrimary</item>
+        <item name="subtitleTextColor">@color/material_on_primary_emphasis_medium</item>
+    </style>
+
+    <style name="TextAppearance.MyTheme.Songs.Toolbar.Text" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="VLC.Player.TimeText" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:shadowColor">@color/blacktransparent</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">6</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+    </style>
+
+    <style name="LoginPopupMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="SettingItemLabelText" >
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="SettingItemValueText">
+        <item name="android:textColor">?attr/colorOnSurface3</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+</resources>

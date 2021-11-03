@@ -1,0 +1,39 @@
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+}
+
+android {
+    compileSdkVersion(build_versions.target_sdk)
+
+    defaultConfig {
+        minSdkVersion(build_versions.min_sdk)
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    // Kotlin
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}")
+
+    // AndroidX
+    implementation("androidx.appcompat:appcompat:${LibAndroidX.appcompat}")
+    implementation("androidx.core:core-ktx:${LibAndroidX.core_ktx}")
+    implementation("androidx.recyclerview:recyclerview:${LibAndroidX.recyclerview}")
+
+    // AndroidX paging
+    implementation("androidx.paging:paging-common-ktx:${LibAndroidX.paging}")
+    implementation("androidx.paging:paging-runtime-ktx:${LibAndroidX.paging}")
+
+    // Timber
+    api("com.jakewharton.timber:timber:${versions.timber}")
+
+}

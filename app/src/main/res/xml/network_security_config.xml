@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">ohlab.kr</domain>
+        <domain includeSubdomains="true">jjfive.net</domain>
+        <domain includeSubdomains="true">dev.jjfive.com</domain>
+        <domain includeSubdomains="true">d.jjfive.net</domain>
+    </domain-config>
+
+</network-security-config>

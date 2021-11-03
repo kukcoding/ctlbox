@@ -1,0 +1,306 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="myapp.ui.dialogs.streamquality.StreamQualityDialogViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/layout_root"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_dialog1"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/background_dialog_toolbar1">
+
+                <TextView
+                    android:id="@+id/txtview_dialog_title"
+                    style="@style/DialogTitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:maxLines="1"
+                    android:text="스트리밍 품질"
+                    android:textColor="?attr/colorOnSurface1"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/layout_closeBtn"
+                    android:layout_width="?actionBarSize"
+                    android:layout_height="0dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_close_vd_theme_24px"
+                        app:tint="@color/selector_text4_and_secondary" />
+                </FrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="left|center_vertical"
+                    android:onClick="@{() -> vm.updateResolution(1920)}"
+                    android:orientation="horizontal"
+                    android:paddingStart="48dp"
+                    app:selected="@{vm.resolutionLive == 1920}">
+
+
+                    <ImageView
+                        android:id="@+id/imgview_radio1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/selector_radio_button_circle"
+                        app:tint="@color/selector_text8_and_primary" />
+
+                    <TextView
+                        android:id="@+id/txtview1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:text="1920 x 1080"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="left|center_vertical"
+                    android:onClick="@{() -> vm.updateResolution(1280)}"
+                    android:orientation="horizontal"
+                    android:paddingStart="48dp"
+                    app:selected="@{vm.resolutionLive == 1280}">
+
+                    <ImageView
+                        android:id="@+id/imgview_radio2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/selector_radio_button_circle"
+                        app:tint="@color/selector_text8_and_primary" />
+
+                    <TextView
+                        android:id="@+id/txtview2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:text="1280 x 720"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="left|center_vertical"
+                    android:onClick="@{() -> vm.updateResolution(640)}"
+                    android:orientation="horizontal"
+                    android:paddingStart="48dp"
+                    app:selected="@{vm.resolutionLive == 640}">
+
+                    <ImageView
+                        android:id="@+id/imgview_radio3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/selector_radio_button_circle"
+                        app:tint="@color/selector_text8_and_primary" />
+
+                    <TextView
+                        android:id="@+id/txtview3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:text="640 x 480"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="left|center_vertical"
+                    android:orientation="horizontal"
+                    app:flexDirection="row"
+                    app:flexWrap="wrap"
+                    app:justifyContent="flex_start">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/selector_fps_button"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:minWidth="60dp"
+                        android:onClick="@{() -> vm.updateFps(5)}"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="6dp"
+                        android:text="5 fps"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="14sp"
+                        app:selected="@{vm.fpsLive == 5}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/selector_fps_button"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:minWidth="60dp"
+                        android:onClick="@{() -> vm.updateFps(10)}"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="6dp"
+                        android:text="10 fps"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="14sp"
+                        app:selected="@{vm.fpsLive == 10}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/selector_fps_button"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:minWidth="60dp"
+                        android:onClick="@{() -> vm.updateFps(15)}"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="6dp"
+                        android:text="15 fps"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="14sp"
+                        app:selected="@{vm.fpsLive == 15}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/selector_fps_button"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:minWidth="60dp"
+                        android:onClick="@{() -> vm.updateFps(20)}"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="6dp"
+                        android:text="20 fps"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="14sp"
+                        app:layout_wrapBefore="true"
+                        app:selected="@{vm.fpsLive == 20}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/selector_fps_button"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:minWidth="60dp"
+                        android:onClick="@{() -> vm.updateFps(25)}"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="6dp"
+                        android:text="25 fps"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="14sp"
+                        app:selected="@{vm.fpsLive == 25}" />
+
+                    <!--
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/selector_fps_button"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:minWidth="60dp"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="6dp"
+                        app:selected="@{vm.fpsLive == 30}"
+                        android:onClick="@{() -> vm.updateFps(30)}"
+                        android:text="30 fps"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="14sp" />
+                        -->
+                </com.google.android.flexbox.FlexboxLayout>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_done"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="16dp"
+                    android:text="확인"
+                    android:textColor="@color/selector_secondary_and_white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/layout_loading"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#40FFFFFF"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            app:visible="@{vm.isLoadingLive}">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true" />
+        </FrameLayout>
+    </FrameLayout>
+</layout>

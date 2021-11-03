@@ -1,0 +1,51 @@
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id('dagger.hilt.android.plugin')
+}
+
+android {
+    compileSdkVersion(build_versions.target_sdk)
+
+    defaultConfig {
+        minSdkVersion(build_versions.min_sdk)
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+
+dependencies {
+    api(project(":myapp-base"))
+    api(project(":myapp-data"))
+    api(project(":common-ui-resources"))
+    api(project(":recyclerview-group"))
+
+    // Dagger & Hilt
+    implementation("com.google.dagger:hilt-android:${LibHilt.hilt}")
+    kapt("com.google.dagger:hilt-android-compiler:${LibHilt.hilt}")
+
+    // AndroidX
+    implementation("androidx.core:core-ktx:${LibAndroidX.core_ktx}")
+    implementation("androidx.fragment:fragment-ktx:${LibAndroidX.fragment_ktx}")
+
+    // AndroidX paging
+    implementation("androidx.paging:paging-common-ktx:${LibAndroidX.paging}")
+    implementation("androidx.paging:paging-runtime-ktx:${LibAndroidX.paging}")
+
+    // dropbox store
+    implementation("com.dropbox.mobile.store:store4:${versions.dropbox_store}")
+
+    // Timber
+    implementation("com.jakewharton.timber:timber:${versions.timber}")
+
+    // Splitties
+    implementation("com.louiscad.splitties:splitties-preferences:${versions.splitties}")
+
+    // ThreeTenabp
+    implementation("com.jakewharton.threetenabp:threetenabp:${versions.threetenabp}")
+}

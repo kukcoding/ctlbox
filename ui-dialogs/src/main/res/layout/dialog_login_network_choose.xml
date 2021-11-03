@@ -1,0 +1,52 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layout_root"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_dialog1"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <TextView
+            android:id="@+id/txtview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:text="로그인 방법 선택"
+            android:textColor="?attr/colorOnSurface8" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_wifi"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:minWidth="200dp"
+            android:paddingVertical="16dp"
+            android:text="WIFI로 로그인"
+            android:textColor="@color/selector_primary_and_secondary"
+            android:textSize="18sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_lte"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:minWidth="200dp"
+            android:paddingVertical="16dp"
+            android:text="LTE로 로그인"
+            android:textColor="@color/selector_primary_and_secondary"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</layout>

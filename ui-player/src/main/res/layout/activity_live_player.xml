@@ -1,0 +1,62 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="myapp.ui.player.LivePlayerViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/player_root"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:keepScreenOn="true">
+
+        <org.videolan.libvlc.util.VLCVideoLayout
+            android:id="@+id/video_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="false" />
+
+        <ViewStub
+            android:id="@+id/player_brightness_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="16dp"
+            android:layout="@layout/player_overlay_brightness" />
+
+        <ViewStub
+            android:id="@+id/player_volume_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="48dp"
+            android:layout_marginBottom="16dp"
+            android:layout="@layout/player_overlay_volume" />
+
+        <RelativeLayout
+            android:id="@+id/player_ui_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/progress_overlay">
+
+
+            <com.github.ybq.android.spinkit.SpinKitView
+                android:id="@+id/player_overlay_loading"
+                style="@style/SpinKitView.Large.Circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                app:SpinKit_Color="?attr/colorAccent" />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

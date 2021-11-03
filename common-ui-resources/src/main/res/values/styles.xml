@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="MainToolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:background">#000</item>
+        <item name="titleTextColor">#FFF</item>
+        <item name="subtitleTextColor">@color/material_on_primary_emphasis_medium</item>
+    </style>
+
+    <declare-styleable name="LPGPlotView">
+        <attr name="lpg_color" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="LPGLegendView">
+        <attr name="lpg_plot_view" format="reference" />
+    </declare-styleable>
+
+</resources>

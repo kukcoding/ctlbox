@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <declare-styleable name="TopLeftCutoutBackgroundView">
+        <attr name="topLeftCutSize" format="dimension" />
+        <attr name="backgroundColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="PopupMenuButton">
+        <attr name="menu" />
+    </declare-styleable>
+
+    <declare-styleable name="MaterialShapeConstraintLayout">
+        <attr name="materialBackgroundTopLeftRadius" format="dimension" />
+        <attr name="materialBackgroundTopRightRadius" format="dimension" />
+        <attr name="materialBackgroundColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="HeaderHolderFrameLayout">
+        <attr name="dividerDrawable" format="reference" />
+        <attr name="dividerMarginStart" format="dimension" />
+        <attr name="dividerMarginEnd" format="dimension" />
+        <attr name="materialBackgroundColor" />
+    </declare-styleable>
+
+
+
+    <!--Common attributes-->
+    <attr name="colorSurface0" format="color" />
+    <attr name="colorSurface1" format="color" />
+    <attr name="colorSurface2" format="color" />
+    <attr name="colorSurface3" format="color" />
+    <attr name="colorSurface4" format="color" />
+    <attr name="colorSurface5" format="color" />
+    <attr name="colorSurface6" format="color" />
+    <attr name="colorSurface7" format="color" />
+    <attr name="colorSurface8" format="color" />
+    <attr name="colorSurface9" format="color" />
+
+    <attr name="colorOnSurface0" format="color" />
+    <attr name="colorOnSurface1" format="color" />
+    <attr name="colorOnSurface2" format="color" />
+    <attr name="colorOnSurface3" format="color" />
+    <attr name="colorOnSurface4" format="color" />
+    <attr name="colorOnSurface5" format="color" />
+    <attr name="colorOnSurface6" format="color" />
+    <attr name="colorOnSurface7" format="color" />
+    <attr name="colorOnSurface8" format="color" />
+    <attr name="colorOnSurface9" format="color" />
+
+    <attr name="colorViewHolderBackground" format="color" />
+    <attr name="colorViewHolderSelectedBackground" format="color" />
+    <attr name="colorDialogBackground1" format="color" />
+    <attr name="colorDialogBackground2" format="color" />
+    <attr name="colorDialogToolbar" format="color" />
+    <attr name="colorDialogToolbarTitle" format="color" />
+    <attr name="bottomSheetDialogTheme" format="reference" />
+    <attr name="navigationViewStyle" format="reference" />
+
+    <attr name="color" format="color" />
+    <attr name="selected" format="boolean" />
+    <attr name="interitemSpace" format="dimension" />
+
+    <declare-styleable name="BiblePhotoSelectorView">
+        <attr name="maxCount" format="integer" />
+        <attr name="itemSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="BiblePaletteTextView">
+        <attr name="paletteCircleSize" format="dimension" />
+        <attr name="paletteBackgroundColor" format="color" />
+        <attr name="paletteTextColor" format="color" />
+    </declare-styleable>
+</resources>

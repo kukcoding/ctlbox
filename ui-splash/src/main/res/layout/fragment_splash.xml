@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="myapp.ui.splash.SplashViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000">
+
+        <myapp.ui.splash.SplashView
+            android:id="@+id/splash_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/txtview_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/splash_toast_surface"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@{vm.loadingTextLive}"
+            android:textColor="#FFF"
+            android:textSize="12sp"
+            app:goneIfEmpty="@{vm.loadingTextLive}"
+            tools:text="디버그" />
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal.NoPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="4dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:mpb_progressStyle="horizontal"
+            app:mpb_progressTint="?attr/colorPrimary"
+            tools:visibility="visible" />
+    </FrameLayout>
+</layout>

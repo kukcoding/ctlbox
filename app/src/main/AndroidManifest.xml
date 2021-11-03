@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.google.ctlbox">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+
+    <application
+        android:name="com.google.ctlbox.ApplicationLoader"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="false"
+        android:theme="@style/Theme.MyTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:supportsRtl,allowBackup">
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
+
+        <activity
+            android:name="com.google.ctlbox.LaunchActivity"
+            android:configChanges="keyboard|keyboardHidden"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:theme="@style/Theme.MyTheme.Launch"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="myapp.ui.player.LivePlayerActivity"
+            android:configChanges="keyboard|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:theme="@style/Theme.MyTheme.Player"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+
+
+        <activity
+            android:name="myapp.ui.player.FilePlayerActivity"
+            android:configChanges="keyboard|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:theme="@style/Theme.MyTheme.Player"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+
+        <activity
+            android:name="myapp.ui.settings.SettingsActivity"
+            android:configChanges="keyboard|keyboardHidden"
+            android:screenOrientation="user"
+            android:theme="@style/Theme.MyTheme.Settings"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name="myapp.ui.record.RecordFilesActivity"
+            android:configChanges="keyboard|keyboardHidden"
+            android:screenOrientation="user"
+            android:theme="@style/Theme.MyTheme.RecordFiles"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
+    </application>
+
+</manifest>

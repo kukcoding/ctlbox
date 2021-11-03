@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 왼쪽 메뉴 아이템 높이, 태블릿에서는 조금 더 크게-->
+    <dimen name="left_menu_item_height">56dp</dimen>
+
+    <!-- 왼쪽 메뉴 너비 -->
+    <dimen name="navigation_drawer_width">250dp</dimen>
+</resources>

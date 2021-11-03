@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black_overlay">#33000000</color>
+    <color name="black_overlay1">#33000000</color>
+    <color name="black_overlay2">#44000000</color>
+    <color name="black_overlay3">#44000000</color>
+    <color name="black_overlay4">#55000000</color>
+    <color name="black_overlay5">#66000000</color>
+    <color name="black_overlay6">#77000000</color>
+    <color name="black_overlay7">#88000000</color>
+    <color name="black_overlay8">#99000000</color>
+    <color name="black_overlay10">#AA000000</color>
+    <color name="black_overlay11">#BB000000</color>
+    <color name="white_overlay">#33FFFFFF</color>
+
+    <color name="colorDarkText0">#000</color>
+    <color name="colorDarkText1">#191919</color>
+    <color name="colorDarkText2">#333</color>
+    <color name="colorDarkText3">#444</color>
+    <color name="colorDarkText4">#555</color>
+    <color name="colorDarkText5">#777</color>
+    <color name="colorDarkText6">#888</color>
+    <color name="colorDarkText7">#969696</color>
+    <color name="colorDarkText8">#AAA</color>
+    <color name="colorDarkText9">#BBB</color>
+
+    <color name="colorLightText0">#FFF</color>
+    <color name="colorLightText1">#F5F5F5</color>
+    <color name="colorLightText2">#F0F0F0</color>
+    <color name="colorLightText3">#E0E0E0</color>
+    <color name="colorLightText4">#CCC</color>
+    <color name="colorLightText5">#BBB</color>
+    <color name="colorLightText6">#AAA</color>
+    <color name="colorLightText7">#999</color>
+    <color name="colorLightText8">#888</color>
+    <color name="colorLightText9">#777</color>
+
+
+    <color name="colorGuideIcon1">#5EC8FD</color>
+    <color name="colorGuideIcon2">#8DC8E8</color>
+    <color name="colorGuideIcon3">#FF948F</color>
+    <color name="colorGuideIcon4">#FFA1AF</color>
+    <color name="colorGuideIcon5">#FECD60</color>
+    <color name="colorGuideIcon6">#FFCC88</color>
+
+
+
+
+
+</resources>

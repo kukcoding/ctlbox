@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 왼쪽 메뉴 너비 -->
+    <dimen name="navigation_drawer_width">300dp</dimen>
+</resources>

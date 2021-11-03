@@ -1,0 +1,141 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="myapp.ui.player.LivePlayerViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/player_root"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:keepScreenOn="true">
+
+        <org.videolan.libvlc.util.VLCVideoLayout
+            android:id="@+id/video_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="false" />
+
+
+        <ViewStub
+            android:id="@+id/player_seek_stub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="false"
+            android:layout="@layout/player_overlay_seek" />
+
+
+        <ViewStub
+            android:id="@+id/player_brightness_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="16dp"
+            android:layout="@layout/player_overlay_brightness" />
+
+        <ViewStub
+            android:id="@+id/player_volume_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="48dp"
+            android:layout_marginBottom="16dp"
+            android:layout="@layout/player_overlay_volume" />
+
+
+        <View
+            android:id="@+id/hud_background"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/gradient_hud_player"
+            android:visibility="gone" />
+
+
+        <View
+            android:id="@+id/hud_right_background"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/gradient_title_player"
+            android:visibility="gone" />
+
+
+        <RelativeLayout
+            android:id="@+id/player_ui_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
+
+
+            <com.github.ybq.android.spinkit.SpinKitView
+                android:id="@+id/player_overlay_loading"
+                style="@style/SpinKitView.Large.Circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                app:SpinKit_Color="?attr/colorAccent" />
+
+
+            <ViewStub
+                android:id="@+id/player_info_stub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/progress_overlay"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"
+                android:layout="@layout/player_overlay_info" />
+
+
+            <ViewStub
+                android:id="@+id/player_overlay_settings_stub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/progress_overlay"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout="@layout/player_overlay_settings" />
+
+
+            <ViewStub
+                android:id="@+id/player_hud_right_stub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout="@layout/player_hud_right" />
+
+            <ViewStub
+                android:id="@+id/player_hud_stub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout="@layout/player_hud" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/progress_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                tools:theme="@style/Theme.MyTheme.Player"
+                tools:visibility="visible"></androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>

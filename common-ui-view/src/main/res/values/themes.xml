@@ -1,0 +1,148 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.MyTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor" tools:targetApi="l">@color/base_color_status_bar</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+
+        <!-- TODO 어떤 건지 몰라서 일단 주석 처리해둔다
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:navigationBarColor">?android:colorBackground</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">
+            ?colorControlHighlight
+        </item>
+        -->
+
+        <!-- enable window content transitions -->
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!--Material color attributes -->
+        <item name="colorPrimary">@color/base_color_primary</item>
+        <item name="colorPrimaryVariant">@color/base_color_primary_variant</item>
+        <item name="colorSecondary">@color/base_color_secondary</item>
+        <item name="colorSecondaryVariant">@color/base_color_secondary_variant</item>
+
+        <item name="android:colorBackground">#000</item>
+        <item name="colorSurface">@color/base_color_surface</item>
+        <item name="colorSurface0">@color/base_color_surface0</item>
+        <item name="colorSurface1">@color/base_color_surface1</item>
+        <item name="colorSurface2">@color/base_color_surface2</item>
+        <item name="colorSurface3">@color/base_color_surface3</item>
+        <item name="colorSurface4">@color/base_color_surface4</item>
+        <item name="colorSurface5">@color/base_color_surface5</item>
+        <item name="colorSurface6">@color/base_color_surface6</item>
+        <item name="colorSurface7">@color/base_color_surface7</item>
+        <item name="colorSurface8">@color/base_color_surface8</item>
+        <item name="colorSurface9">@color/base_color_surface9</item>
+
+        <item name="colorError">@color/base_color_error</item>
+        <item name="colorOnPrimary">@color/base_color_on_primary</item>
+        <item name="colorOnSecondary">@color/base_color_on_secondary</item>
+        <item name="colorOnBackground">@color/base_color_on_background</item>
+        <item name="colorOnSurface">@color/base_color_on_surface</item>
+        <item name="colorOnError">@color/base_color_on_error</item>
+
+        <!-- custom text colors -->
+        <item name="colorOnSurface0">@color/base_color_on_surface0</item>
+        <item name="colorOnSurface1">@color/base_color_on_surface1</item>
+        <item name="colorOnSurface2">@color/base_color_on_surface2</item>
+        <item name="colorOnSurface3">@color/base_color_on_surface3</item>
+        <item name="colorOnSurface4">@color/base_color_on_surface4</item>
+        <item name="colorOnSurface5">@color/base_color_on_surface5</item>
+        <item name="colorOnSurface6">@color/base_color_on_surface6</item>
+        <item name="colorOnSurface7">@color/base_color_on_surface7</item>
+        <item name="colorOnSurface8">@color/base_color_on_surface8</item>
+        <item name="colorOnSurface9">@color/base_color_on_surface9</item>
+
+
+        <!--Material type attributes-->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.MyTheme.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.MyTheme.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.MyTheme.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.MyTheme.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.MyTheme.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MyTheme.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.MyTheme.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.MyTheme.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MyTheme.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.MyTheme.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.MyTheme.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.MyTheme.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.MyTheme.Overline</item>
+
+        <!--Material shape attributes-->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MyTheme.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.MyTheme.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.MyTheme.LargeComponent
+        </item>
+
+        <!--Component styles-->
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog.Alert
+        </item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.MyTheme.BottomSheetDialog</item>
+        <item name="navigationViewStyle">@style/Widget.MyTheme.NavigationView</item>
+        <!--        <item name="toolbarStyle">@style/Widget.MyTheme.Toolbar</item>-->
+
+        <!-- Custom styles-->
+
+
+        <item name="colorViewHolderBackground">?attr/colorSurface</item>
+        <item name="colorViewHolderSelectedBackground">#20000000</item>
+        <item name="colorDialogBackground1">?attr/colorSurface</item>
+        <item name="colorDialogBackground2">?attr/colorSurface2</item>
+        <item name="colorDialogToolbar">?attr/colorSurface</item>
+        <item name="colorDialogToolbarTitle">?attr/colorPrimary</item>
+
+
+        <!--Remap legacy AppCompat attributes to MaterialComponent attributes-->
+        <item name="colorPrimaryDark">?colorPrimaryVariant</item>
+        <item name="colorAccent">?colorSecondary</item>
+    </style>
+
+    <style name="Theme.MyTheme.Launch">
+    </style>
+
+    <style name="Theme.MyTheme.Immerse" parent="Theme.MyTheme">
+        <item name="android:navigationBarColor">@color/nav_bar_scrim</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">
+            @bool/use_light_nav_bar
+        </item>
+    </style>
+
+    <style name="Theme.MyTheme.Splash" parent="Theme.MyTheme.Immerse">
+        <item name="android:windowLightStatusBar">@bool/use_light_status_bar</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="Theme.MyTheme.Settings" parent="Theme.MyTheme">
+        <item name="android:windowFullscreen">false</item>
+    </style>
+
+    <style name="Theme.MyTheme.Player" parent="Theme.MyTheme">
+        <item name="android:windowFullscreen">false</item>
+    </style>
+
+    <style name="Theme.MyTheme.RecordFiles" parent="Theme.MyTheme">
+        <item name="android:windowFullscreen">false</item>
+    </style>
+
+
+    <style name="Theme.MyTheme.Song">
+        <item name="colorPrimary">@color/color_deep_purple_500</item>
+        <item name="colorPrimaryVariant">@color/color_deep_purple_900</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+
+
+</resources>

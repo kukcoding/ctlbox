@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 북마크 -->
+    <dimen name="bookmark_label_width">90dp</dimen>
+    <dimen name="bookmark_action_button_width">40dp</dimen>
+
+</resources>

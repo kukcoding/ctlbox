@@ -1,0 +1,6 @@
+[submodule "recyclerview-group"]
+	path = recyclerview-group
+	url = ssh://git@ohlab.kr:18022/jjfive/recyclerview-group.git
+[submodule "permission-manager"]
+	path = permission-manager
+	url = ssh://git@ohlab.kr:18022/jjfive/permission-manager.git

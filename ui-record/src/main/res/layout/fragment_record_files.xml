@@ -1,0 +1,309 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="myapp.ui.record.RecordFilesFragmentViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurface"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/Theme.MyTheme.AppBarOverlay">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                style="@style/MainToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:gravity="left|center_vertical"
+                    android:orientation="horizontal"
+                    app:visible="@{!vm.isEditingLive}"
+                    tools:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/txtview_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@{vm.cameraNameLive}"
+                        tools:text="거실 카메라"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <FrameLayout
+                        android:id="@+id/layout_editBtn"
+                        android:layout_width="?actionBarSize"
+                        android:layout_height="?actionBarSize"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        app:visible="@{!vm.isEmptyLive}">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="편집"
+                            android:textColor="@color/selector_text0_and_primary"
+                            android:textSize="14sp" />
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:gravity="left|center_vertical"
+                    android:orientation="horizontal"
+                    app:visible="@{vm.isEditingLive}">
+
+                    <LinearLayout
+                        android:id="@+id/layout_checkAllBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="?actionBarSize"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="left|center"
+                        android:paddingHorizontal="8dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgview_check"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:tint="@color/selector_text6_and_secondary"
+                            android:visibility="visible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/check_box_selector2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="전체"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtview_selectionCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:text="@{vm.selectionCountTextLive}"
+                        android:textColor="?attr/colorSecondary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="0" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="SELECTED"
+                        android:textColor="@color/colorLightText4"
+                        android:textSize="12sp" />
+
+                    <FrameLayout
+                        android:id="@+id/layout_deleteBtn"
+                        android:layout_width="?actionBarSize"
+                        android:layout_height="?actionBarSize"
+                        android:alpha="@{vm.selectionCountLive > 0 ? 1f : 0.3f}"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="삭제"
+                            android:textColor="@color/selector_text0_and_primary"
+                            android:textSize="14sp" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/layout_editCancelBtn"
+                        android:layout_width="?actionBarSize"
+                        android:layout_height="?actionBarSize"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="취소"
+                            android:textColor="@color/selector_text0_and_primary"
+                            android:textSize="14sp" />
+                    </FrameLayout>
+                </LinearLayout>
+
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:id="@+id/layout_statusBar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="?attr/colorSurface0"
+                android:gravity="left|center_vertical"
+                android:paddingStart="20dp"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toTopOf="parent"
+                app:visible="@{vm.fileCountLive > 0 &amp;&amp; !vm.isEditingLive}">
+
+                <TextView
+                    android:id="@+id/txtview_fileCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{vm.fileCountTextLive}"
+                    android:textColor="@color/selector_text4_and_secondary"
+                    android:textSize="14sp"
+                    app:selected="@{vm.isFilterOnLive}"
+                    tools:text="123 Files" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+
+                <LinearLayout
+                    android:id="@+id/layout_filterBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:paddingHorizontal="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="left|center_vertical">
+
+                    <TextView
+                        android:id="@+id/txtview_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.filterTextLive}"
+                        android:textColor="?attr/colorSecondary"
+                        android:textSize="14sp"
+                        android:layout_marginRight="18dp"
+                        tools:text="2021년 12월 12일 13시" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgview_filterBtn"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:tint="@color/selector_text2_and_secondary"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:selected="@{vm.isFilterOnLive}"
+                        app:srcCompat="@drawable/filter_list_selector2" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefreshLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                ads:layout_constraintBottom_toBottomOf="parent"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@id/layout_statusBar">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:columnCount="1"
+                    android:overScrollMode="never"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="60dp"
+                    android:scrollbars="vertical"
+                    app:visible="@{!vm.isEmptyVisibleLive}"
+                    tools:listitem="@layout/viewholder_record_file" />
+
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:visible="@{ vm.isEmptyVisibleLive}"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/txtview_noData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:text="NO DATA"
+                android:textColor="?attr/colorOnSurface8"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_refresh"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="새로고침"
+                android:textColor="@color/selector_text0_and_primary"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/progress_bar"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal.NoPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:indeterminate="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:mpb_progressStyle="horizontal"
+            app:mpb_progressTint="?attr/colorSecondary"
+            app:visible="@{vm.isProgressBarVisibleLive}"
+            tools:visible="true" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

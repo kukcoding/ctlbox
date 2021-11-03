@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <root-path name="sdcard" path="." />
+    <cache-path name="cache" path="." />
+
+    <external-path
+        name="files_root"
+        path="Android/data/com.google.ctlbox/"/>
+
+    <external-path name="external_storage_root" path="."/>
+
+</paths>

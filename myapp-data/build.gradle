@@ -1,0 +1,59 @@
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
+}
+
+android {
+    compileSdkVersion(build_versions.target_sdk)
+
+    defaultConfig {
+        minSdkVersion(build_versions.min_sdk)
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                argument("room.incremental", "true")
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+
+dependencies {
+    implementation(project(":myapp-base"))
+
+    // Dagger Hilt
+    implementation("com.google.dagger:hilt-android:${LibHilt.hilt}")
+    kapt("com.google.dagger:hilt-android-compiler:${LibHilt.hilt}")
+
+    // Kotlin Coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines_android}")
+
+    // AndroidX
+    implementation("androidx.collection:collection-ktx:${LibAndroidX.collection_ktx}")
+    implementation("androidx.preference:preference-ktx:${LibAndroidX.preference}")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${LibAndroidX.lifecycle}")
+    implementation("androidx.lifecycle:lifecycle-process:${LibAndroidX.lifecycle}")
+
+    // dropbox store
+    implementation("com.dropbox.mobile.store:store4:${versions.dropbox_store}")
+
+    // Spilitties
+    implementation("com.louiscad.splitties:splitties-preferences:${versions.splitties}")
+
+
+    // Timber
+    api("com.jakewharton.timber:timber:${versions.timber}")
+
+    // ThreeTenabp
+    api("com.jakewharton.threetenabp:threetenabp:${versions.threetenabp}")
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+}

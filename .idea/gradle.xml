@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/common-ui-databinding" />
+            <option value="$PROJECT_DIR$/common-ui-resources" />
+            <option value="$PROJECT_DIR$/common-ui-view" />
+            <option value="$PROJECT_DIR$/myapp-base" />
+            <option value="$PROJECT_DIR$/myapp-data" />
+            <option value="$PROJECT_DIR$/myapp-domain" />
+            <option value="$PROJECT_DIR$/permission-manager" />
+            <option value="$PROJECT_DIR$/recyclerview-group" />
+            <option value="$PROJECT_DIR$/ui-dialogs" />
+            <option value="$PROJECT_DIR$/ui-home" />
+            <option value="$PROJECT_DIR$/ui-player" />
+            <option value="$PROJECT_DIR$/ui-record" />
+            <option value="$PROJECT_DIR$/ui-settings" />
+            <option value="$PROJECT_DIR$/ui-splash" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

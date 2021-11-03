@@ -1,0 +1,239 @@
+import java.nio.file.Files
+
+plugins {
+    id "com.android.application"
+    id "dagger.hilt.android.plugin"
+    id "kotlin-android"
+    id "kotlin-kapt"
+    id "androidx.navigation.safeargs.kotlin"
+}
+
+android {
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        applicationId "com.google.ctlbox"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+
+        // modify version code in root/build.gradle file
+        versionCode project.android_version_code
+        versionName project.android_version_name
+
+
+        // library 프로젝트에서 BuildConfig.VERSION_CODE를 접근할 수 없음
+        // https://issuetracker.google.com/issues/158695880#comment15
+        buildConfigField 'int', 'VERSION_CODE', "${project.myAppVersion.code}"
+        buildConfigField 'String', 'VERSION_NAME', "\"${project.myAppVersion.name}\""
+
+        archivesBaseName = "ctlbox-$versionName"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "MARKET_URL", "\"market://details?id=kr.ohlab.bible\""
+        buildConfigField "String", "PLAYSTORE_URL", "\"https://play.google.com/store/apps/details?id=kr.ohlab.bible\""
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('extra/signconfigs/debug/ohlab.keystore')
+            keyAlias "ohlab"
+            keyPassword "111111"
+            storePassword "111111"
+        }
+        release {
+            storeFile file('extra/signconfigs/release/obible-upload.jks')
+            keyAlias "obible-upload"
+            keyPassword "111111"
+            storePassword "111111"
+        }
+    }
+
+    buildTypes {
+        debug {
+            // 프로가드 활성화
+            minifyEnabled false
+            debuggable true
+//            signingConfig signingConfigs.debug
+//            // 기본 프로가드 설정
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            // 프로가드 활성화
+            minifyEnabled true
+            signingConfig signingConfigs.release
+            debuggable false
+
+            // 프로가드 설정
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFile 'proguard/proguard-app.txt'
+            proguardFile 'proguard/proguard-androidx_security.txt'
+            proguardFile 'proguard/proguard-tr-android.txt'
+            proguardFile 'proguard/proguard-room.txt'
+            proguardFile 'proguard/proguard-androidx.txt'
+            proguardFile 'proguard/proguard-support.txt'
+            proguardFile 'proguard/proguard-retrofit2.txt'
+            proguardFile 'proguard/proguard-moshi.txt'
+            proguardFile 'proguard/proguard-timber.txt'
+            proguardFile 'proguard/proguard-okhttp3.txt'
+            proguardFile 'proguard/proguard-glide4.txt'
+            proguardFile 'proguard/proguard-smarttablayout.txt'
+            proguardFile 'proguard/proguard-threetenabp.txt'
+            proguardFile 'proguard/proguard-daimajia_easing.txt'
+            proguardFile 'proguard/proguard-daimajia_androidanimations.txt'
+            proguardFile 'proguard/proguard-materialprogressbar.txt'
+            proguardFile 'proguard/proguard-ucrop.txt'
+            proguardFile 'proguard/proguard-wang_avi_indicators.txt'
+        }
+    }
+
+
+    lintOptions {
+        disable 'RtlHardcoded', 'RtlCompat', 'RtlEnabled'
+        disable 'TypographyFractions', 'TypographyQuotes'
+        abortOnError false
+        ignoreWarnings true
+    }
+
+    flavorDimensions 'server' //, 'app'
+    productFlavors {
+        dev {
+            dimension = 'server'
+            buildConfigField "String", "API_BASE_URL", '"https://192.168.0.100/obible/"'
+            buildConfigField "String", "SERVER_BASE_URL", '"https://192.168.0.100/obible/"'
+            buildConfigField "String", "APP_ADMIN_EMAIL", '"test@gmail.com"'
+        }
+        prod {
+            dimension = 'server'
+            buildConfigField "String", "API_BASE_URL", '"https://192.168.0.100/obible/"'
+            buildConfigField "String", "SERVER_BASE_URL", '"https://192.168.0.100/obible/"'
+            buildConfigField "String", "APP_ADMIN_EMAIL", '"test@gmail.com"'
+        }
+    }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
+    }
+
+}
+
+dependencies {
+    implementation(project(":recyclerview-group"))
+    implementation(project(":permission-manager"))
+    implementation(project(":myapp-base"))
+    implementation(project(":myapp-data"))
+    implementation(project(":myapp-domain"))
+    implementation(project(":common-ui-resources"))
+    implementation(project(":common-ui-view"))
+    implementation(project(":common-ui-databinding"))
+    implementation(project(":ui-splash"))
+    implementation(project(":ui-home"))
+    implementation(project(":ui-dialogs"))
+    implementation(project(":ui-player"))
+    implementation(project(":ui-record"))
+    implementation(project(":ui-settings"))
+
+    // Kotlin
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}")
+
+
+    // Kotlin Coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines_android}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines_android}")
+
+    // Dagger & Hilt
+    implementation("com.google.dagger:hilt-android:${LibHilt.hilt}")
+    kapt("com.google.dagger:hilt-android-compiler:${LibHilt.hilt}")
+
+    // AndroidX
+    implementation("androidx.appcompat:appcompat:${LibAndroidX.appcompat}")
+    implementation("androidx.viewpager2:viewpager2:${LibAndroidX.viewpager2}")
+    implementation("androidx.core:core-ktx:${LibAndroidX.core_ktx}")
+    implementation("androidx.activity:activity-ktx:${LibAndroidX.activity_ktx}")
+    implementation("androidx.fragment:fragment-ktx:${LibAndroidX.fragment_ktx}")
+    implementation("androidx.collection:collection-ktx:${LibAndroidX.collection_ktx}")
+    implementation("androidx.palette:palette-ktx:${LibAndroidX.palette_ktx}")
+    implementation("androidx.recyclerview:recyclerview:${LibAndroidX.recyclerview}")
+    implementation("androidx.constraintlayout:constraintlayout:${LibAndroidX.constraintlayout}")
+    implementation("androidx.navigation:navigation-fragment-ktx:${LibAndroidX.navigation}")
+    implementation("androidx.navigation:navigation-ui-ktx:${LibAndroidX.navigation}")
+
+    // AndroidX Lifecycle
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${LibAndroidX.lifecycle}")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${LibAndroidX.lifecycle}")
+    implementation("androidx.lifecycle:lifecycle-process:${LibAndroidX.lifecycle}")
+
+
+    // AndroidX preference
+    implementation("androidx.preference:preference-ktx:${LibAndroidX.preference}")
+
+    // Mdc
+    implementation("com.google.android.material:material:${versions.mdc}")
+
+    // OKHttp
+    implementation("com.squareup.okhttp3:okhttp:${versions.okhttp3}")
+    implementation("com.squareup.okhttp3:logging-interceptor:${versions.okhttp3}")
+    implementation("com.squareup.okhttp3:okhttp-urlconnection:${versions.okhttp3}")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:${versions.retrofit2}")
+    implementation("com.squareup.retrofit2:converter-moshi:${versions.retrofit2}")
+
+
+    // Moshi
+    implementation("com.squareup.moshi:moshi:${versions.moshi}")
+    implementation("com.squareup.moshi:moshi-kotlin:${versions.moshi}")
+    implementation("com.squareup.moshi:moshi-adapters:${versions.moshi}")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:${versions.moshi}")
+
+    // Glide
+    // kapt("com.github.bumptech.glide:compiler:${versions.glide}")
+    implementation("com.github.bumptech.glide:glide:${versions.glide}") {
+        exclude group: "com.android.support"
+    }
+
+    // Timber
+    implementation("com.jakewharton.timber:timber:${versions.timber}")
+
+    // ThreeTenabp
+    implementation("com.jakewharton.threetenabp:threetenabp:${versions.threetenabp}")
+
+    // Splitties
+    implementation("com.louiscad.splitties:splitties-fragmentargs:${versions.splitties}")
+    implementation("com.louiscad.splitties:splitties-toast:${versions.splitties}")
+    implementation("com.louiscad.splitties:splitties-material-colors:${versions.splitties}")
+    implementation("com.louiscad.splitties:splitties-lifecycle-coroutines:${versions.splitties}")
+    implementation("com.louiscad.splitties:splitties-preferences:${versions.splitties}")
+    implementation("com.louiscad.splitties:splitties-appctx:${versions.splitties}")
+    implementation("com.louiscad.splitties:splitties-snackbar:${versions.splitties}")
+
+
+    // dropbox store
+    implementation("com.dropbox.mobile.store:store4:${versions.dropbox_store}")
+
+
+    implementation("me.zhanghai.android.materialprogressbar:library:${versions.zhanghai_materialprogressbar}")
+}
+
