@@ -25,7 +25,7 @@ class DoLogin @Inject constructor(
 
     override suspend fun doWork(params: Params): KuCameraConfig = withContext(Dispatchers.IO) {
         val cfg = dataSource.login(ip = params.ip, pw = params.pw).getOrThrow()
-        camManager.updateConfig(config = cfg)
+        camManager.updateConfig(cfg)
         camManager.onLoggedIn(cameraId = cfg.cameraId, cameraIp = params.ip)
         KuCameraPreference.add(
             KuCamera(

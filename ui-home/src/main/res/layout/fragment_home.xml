@@ -10,10 +10,6 @@
             name="vm"
             type="myapp.ui.home.HomeViewModel" />
 
-        <variable
-            name="fragment"
-            type="myapp.ui.home.HomeFragment" />
-
         <import type="android.text.TextUtils" />
 
     </data>
@@ -69,7 +65,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:onClick="@{() -> fragment.onClickLoginButton()}"
                             android:paddingHorizontal="16dp">
 
                             <TextView
@@ -190,7 +185,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:onClick="@{() -> fragment.openWifiSetting()}"
                         android:paddingHorizontal="8dp">
 
                         <myapp.ui.widget.LoginNetworkLabel

@@ -1,6 +1,7 @@
 package myapp.ui.dialogs
 
 import androidx.fragment.app.FragmentManager
+import myapp.data.code.VideoQualityKind
 import myapp.data.entities.RecordFileFilter
 import myapp.ui.dialogs.cameraname.CameraNameEditDialogFragment
 import myapp.ui.dialogs.camerapassword.CameraPasswordEditDialogFragment
@@ -9,7 +10,6 @@ import myapp.ui.dialogs.loginmediachoose.LoginNetworkChooseDialogFragment
 import myapp.ui.dialogs.loginwifi.LoginWifiDialogFragment
 import myapp.ui.dialogs.networkmedia.NetworkMediaDialogFragment
 import myapp.ui.dialogs.record.RecordFileFiltersDialogFragment
-import myapp.ui.dialogs.streamquality.StreamQuality
 import myapp.ui.dialogs.streamquality.StreamQualityDialogFragment
 import myapp.ui.dialogs.wifi.CameraWifiEditDialogFragment
 import myapp.util.Action1
@@ -21,7 +21,7 @@ object CameraDialogs {
         onDismiss: Action1<String?>
     ) = LoginNetworkChooseDialogFragment.newInstance().apply {
         isCancelable = true
-        onDismissListener = onDismiss
+        onDismissListener = onDismiss ?: {}
     }.also {
         it.show(fm, null)
     }
@@ -31,7 +31,7 @@ object CameraDialogs {
         onDismiss: Action1<Boolean>? = null
     ) = LoginWifiDialogFragment.newInstance().apply {
         isCancelable = true
-        onDismissListener = onDismiss
+        onDismissListener = onDismiss ?: {}
     }.also {
         it.show(fm, null)
     }
@@ -43,7 +43,7 @@ object CameraDialogs {
         onDismiss: Action1<Boolean>? = null
     ) = LoginLteDialogFragment.newInstance(cameraIp = cameraIp).apply {
         isCancelable = true
-        onDismissListener = onDismiss
+        onDismissListener = onDismiss ?: {}
     }.also {
         it.show(fm, null)
     }
@@ -54,7 +54,7 @@ object CameraDialogs {
         onDismiss: Action1<RecordFileFilter?>
     ) = RecordFileFiltersDialogFragment.newInstance().apply {
         isCancelable = true
-        onDismissListener = onDismiss
+        onDismissListener = onDismiss ?: {}
     }.also {
         it.mArgRecordFileFilters = recordFileFilters
         it.show(fm, null)
@@ -63,25 +63,32 @@ object CameraDialogs {
 
     fun openStreamQuality(
         fm: FragmentManager,
+        videoQualityKind: VideoQualityKind,
         title: String,
-        streamQuality: StreamQuality,
-        onDismiss: Action1<StreamQuality?>
-    ) = StreamQualityDialogFragment.newInstance().apply {
+        fps: Int,
+        resolution: String,
+        availableResolutions: List<String>,
+        onDismiss: Action1<Boolean>? = null
+    ) = StreamQualityDialogFragment.newInstance(
+        videoQualityKind = videoQualityKind,
+        title = title,
+        fps = fps,
+        resolution = resolution,
+        availableResolutions = availableResolutions
+    ).apply {
         isCancelable = true
-        onDismissListener = onDismiss
+        onDismissListener = onDismiss ?: {}
     }.also {
-        it.mArgTitle = title
-        it.mArgStreamQuality = streamQuality
         it.show(fm, null)
     }
 
     fun openNetworkMedia(
         fm: FragmentManager,
         media: String,
-        onDismiss: Action1<String?>
+        onDismiss: Action1<String?>? = null
     ) = NetworkMediaDialogFragment.newInstance(media = media).apply {
         isCancelable = true
-        onDismissListener = onDismiss
+        onDismissListener = onDismiss ?: {}
     }.also {
         it.show(fm, null)
     }
@@ -90,10 +97,10 @@ object CameraDialogs {
     fun openCameraNameEdit(
         fm: FragmentManager,
         cameraName: String,
-        onDismiss: Action1<String?>
+        onDismiss: Action1<String?>? = null
     ) = CameraNameEditDialogFragment.newInstance(cameraName = cameraName).apply {
         isCancelable = true
-        onDismissListener = onDismiss
+        onDismissListener = onDismiss ?: {}
     }.also {
         it.show(fm, null)
     }
@@ -101,10 +108,10 @@ object CameraDialogs {
 
     fun openCameraPasswordEdit(
         fm: FragmentManager,
-        onDismiss: Action1<Boolean>
+        onDismiss: Action1<Boolean>? = null
     ) = CameraPasswordEditDialogFragment.newInstance().apply {
         isCancelable = true
-        onDismissListener = onDismiss
+        onDismissListener = onDismiss ?: {}
     }.also {
         it.show(fm, null)
     }
@@ -112,10 +119,10 @@ object CameraDialogs {
     fun openCameraWifiEdit(
         fm: FragmentManager,
         ssid: String,
-        onDismiss: Action1<String?>
+        onDismiss: Action1<String?>? = null
     ) = CameraWifiEditDialogFragment.newInstance(ssid = ssid).apply {
         isCancelable = true
-        onDismissListener = onDismiss
+        onDismissListener = onDismiss ?: {}
     }.also {
         it.show(fm, null)
     }

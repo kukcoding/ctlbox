@@ -8,11 +8,6 @@
         <variable
             name="vm"
             type="myapp.ui.settings.SettingsViewModel" />
-
-
-        <variable
-            name="fragment"
-            type="myapp.ui.settings.SettingsFragment" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -79,11 +74,11 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
+                android:id="@+id/layout_cameraNameEditBtn"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="left|center_vertical"
-                android:onClick="@{() -> fragment.openCameraNameEdit()}"
                 android:orientation="horizontal"
                 android:paddingStart="16dp">
 
@@ -102,7 +97,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="거실 카메라"
+                        android:text="@{vm.cameraNameLive}"
                         android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -122,11 +117,11 @@
                 android:background="@color/white_transparent_10" />
 
             <LinearLayout
+                android:id="@+id/layout_cameraPwEditBtn"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="left|center_vertical"
-                android:onClick="@{() -> fragment.openCameraPwEdit()}"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
 
@@ -168,11 +163,11 @@
 
 
             <LinearLayout
+                android:id="@+id/layout_streamQualityBtn"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="left|center_vertical"
-                android:onClick="@{() -> fragment.openStreamQuality()}"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
 
@@ -191,7 +186,7 @@
                     style="@style/SettingItemValueText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1920x1080 /  30 FPS" />
+                    android:text="@{vm.streamingQualityTextLive}" />
 
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -214,11 +209,11 @@
 
 
             <LinearLayout
+                android:id="@+id/layout_recordQualityBtn"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="left|center_vertical"
-                android:onClick="@{() -> fragment.openRecordQuality()}"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
 
@@ -237,7 +232,7 @@
                     style="@style/SettingItemValueText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1920x1080 /  30 FPS" />
+                    android:text="@{vm.recordingQualityTextLive}" />
 
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -258,11 +253,11 @@
                 android:background="@color/white_transparent_10" />
 
             <LinearLayout
+                android:id="@+id/layout_networkMediaSettingBtn"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="left|center_vertical"
-                android:onClick="@{() -> fragment.openNetworkMediaSetting()}"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
 
@@ -281,8 +276,7 @@
                     style="@style/SettingItemValueText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="LTE" />
-
+                    android:text="@{vm.enabledNetworkTextLive}" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="20dp"
@@ -302,11 +296,11 @@
                 android:background="@color/white_transparent_10" />
 
             <LinearLayout
+                android:id="@+id/layout_wifiSettingBtn"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="left|center_vertical"
-                android:onClick="@{() -> fragment.openCameraWifiEdit()}"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
 

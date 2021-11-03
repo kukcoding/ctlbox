@@ -65,9 +65,21 @@ interface CamApi {
      */
     @POST("http://{ip}/config/update-recording")
     @FormUrlEncoded
-    suspend fun updateRecordingResolution(
+    suspend fun updateRecordingVideoQuality(
         @Path(value = "ip") ip: String,
-        @Field("resolution") resolution: String // 3840x2160
+        @Field("resolution") resolution: String, // 3840x2160
+        @Field("fps") fps: Int
+    ): Response<Unit>
+
+    /**
+     * 스트리밍 해상도 설정 변경
+     */
+    @POST("http://{ip}/config/update-streaming")
+    @FormUrlEncoded
+    suspend fun updateStreamingVideoQuality(
+        @Path(value = "ip") ip: String,
+        @Field("resolution") resolution: String, // 3840x2160
+        @Field("fps") fps: Int
     ): Response<Unit>
 
 
@@ -93,7 +105,7 @@ interface CamApi {
     ): Response<Unit>
 
     /**
-     *
+     * 카메라 이름 변경
      */
     @POST("http://{ip}/config/update-camera-name")
     @FormUrlEncoded
