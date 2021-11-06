@@ -103,7 +103,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:visible="@{vm.isLoadingLive}"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <ProgressBar
                 style="?android:attr/progressBarStyle"
@@ -174,7 +174,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"

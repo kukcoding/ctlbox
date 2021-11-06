@@ -20,7 +20,6 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal sealed class HomeAction {
-    object UserInteracted : HomeAction()
     object Logout : HomeAction()
 }
 
@@ -29,7 +28,7 @@ internal data class HomeState(
     val camConnectivity: CamConnectivity = CamConnectivity.DISABLED,
     val loginState: CamLoginState = CamLoggedOut,
     val camConfig: KuCameraConfig? = null,
-    val lastUserInteractionTime: Long = 0,
+    val logoutRunning: Boolean = false,
 )
 
 
@@ -46,6 +45,7 @@ internal class HomeViewModel @Inject constructor(
     }
 
     val isLoggedInLive = liveFieldOf(HomeState::loginState).map { it is CamLoggedIn }
+    val isLogoutRunningLive = liveFieldOf(HomeState::logoutRunning)
 
     val camStateTextLive = isLoggedInLive.map { yes ->
         if (yes) {
@@ -102,7 +102,6 @@ internal class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             pendingActions.collect { action ->
                 when (action) {
-                    is HomeAction.UserInteracted -> setState { copy(lastUserInteractionTime = System.currentTimeMillis()) }
                     is HomeAction.Logout -> doLogout()
                 }
             }
@@ -126,10 +125,13 @@ internal class HomeViewModel @Inject constructor(
     }
 
     private suspend fun doLogout() {
+        setState { copy(logoutRunning = true) }
         try {
             logoutCamera.executeSync(Unit)
         } catch (err: Throwable) {
             Timber.d("err=" + err.message)
+        } finally {
+            setState { copy(logoutRunning = false) }
         }
     }
 

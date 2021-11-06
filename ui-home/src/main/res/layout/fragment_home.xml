@@ -60,10 +60,20 @@
                             android:textStyle="bold"
                             tools:text="거실 카메라" />
 
+                        <ProgressBar
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="32dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/txtview_dialog_title"
+                            app:layout_constraintTop_toTopOf="@+id/txtview_dialog_title"
+                            app:visible="@{vm.isLogoutRunningLive}" />
+
                         <FrameLayout
                             android:id="@+id/layout_loginBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            app:visible="@{!vm.isLogoutRunningLive}"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:paddingHorizontal="16dp">
 
@@ -73,6 +83,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="@{vm.loginButtonTextLive}"
+                                tools:text="Login"
                                 android:textColor="@color/selector_text1_and_primary"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
