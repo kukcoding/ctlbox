@@ -20,6 +20,8 @@ import myapp.extensions.trimOrEmpty
 import myapp.ui.dialogs.databinding.DialogCameraWifiEditBinding
 import myapp.util.Action1
 import myapp.util.AndroidUtils
+import myapp.validator.SsidValidator
+import myapp.validator.WifiPasswordValidator
 import splitties.fragmentargs.argOrNull
 import splitties.snackbar.snack
 
@@ -71,7 +73,6 @@ class CameraWifiEditDialogFragment : DialogFragment() {
     private fun setupEvents() {
         // 취소버튼 클릭
         mBind.txtviewCancelBtn.setOnClickListener {
-            mResultSsid = null
             dismiss()
         }
 
@@ -109,23 +110,45 @@ class CameraWifiEditDialogFragment : DialogFragment() {
             mBind.root.snack("SSID를 입력해주세요")
             return
         }
+
+        if (!SsidValidator.isValid(wifiSsid)) {
+            mBind.root.snack("SSID가 유효하지 않습니다")
+            return
+        }
+
+        if (wifiPw.length < 4 || wifiPw.length > 30) {
+            mBind.root.snack("SSID를 4~30 글자로 입력해주세요")
+            return
+        }
+
         if (wifiPw.isBlank()) {
             mBind.root.snack("비밀번호를 입력해주세요")
             return
         }
 
-        val clientIp = mViewModel.camManager.cameraIp
-        if (clientIp == null) {
+        if (wifiPw.length < 8 || wifiPw.length > 30) {
+            mBind.root.snack("비밀번호를 8~30 글자로 입력해주세요")
+            return
+        }
+
+        if (!WifiPasswordValidator.isValid(wifiPw)) {
+            mBind.root.snack("비밀번호가 유효하지 않습니다")
+            return
+        }
+
+        val cameraIp = mViewModel.camManager.cameraIp
+        if (cameraIp == null) {
             mBind.root.snack("카메라 연결을 확인해주세요")
             return
         }
 
         lifecycleScope.launch {
             try {
-                mViewModel.saveWifi(ip = clientIp, wifiSsid = wifiSsid, wifiPw = wifiPw)
+                mViewModel.saveWifi(ip = cameraIp, wifiSsid = wifiSsid, wifiPw = wifiPw)
                 mBind.root.snack("저장되었습니다")
+                mResultSsid = wifiSsid
                 delay(400)
-                dismissWithSaved(wifiSsid)
+                dismiss()
             } catch (e: Throwable) {
                 if (e is AppException) {
                     mBind.root.snack(e.displayMessage())
@@ -137,10 +160,6 @@ class CameraWifiEditDialogFragment : DialogFragment() {
         }
     }
 
-    private fun dismissWithSaved(wifiSsid: String) {
-        mResultSsid = wifiSsid
-        dismiss()
-    }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)

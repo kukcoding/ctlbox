@@ -72,12 +72,14 @@ class NetworkMediaDialogFragment : DialogFragment() {
         // 완료버튼 클릭
         mBind.btDone.setOnClickListener {
             val state = mViewModel.currentState()
-            trySave(media = state.media)
+            lifecycleScope.launch {
+                trySave(media = state.media)
+            }
         }
 
         // 닫기 버튼 클릭
         mBind.layoutCloseBtn.setOnClickListener {
-            dismissWithDataChanged(null)
+            dismiss()
         }
     }
 
@@ -98,35 +100,29 @@ class NetworkMediaDialogFragment : DialogFragment() {
         return if (preferWidth < 0) preferWidth else min(preferWidth, screenWidth * 0.85f)
     }
 
-    private fun trySave(media: String) {
-
-        val clientIp = mViewModel.camManager.cameraIp
-        if (clientIp == null) {
+    private suspend fun trySave(media: String) {
+        val cameraIp = mViewModel.camManager.cameraIp
+        if (cameraIp == null) {
             mBind.root.snack("카메라 연결을 확인해주세요")
             return
         }
 
-        lifecycleScope.launch {
-            try {
-                mViewModel.saveNetworkMedia(ip = clientIp, media = media)
-                mBind.root.snack("저장되었습니다")
-                delay(400)
-                dismissWithDataChanged(media)
-            } catch (e: Throwable) {
-                if (e is AppException) {
-                    mBind.root.snack(e.displayMessage())
-                } else {
-                    mBind.root.snack("에러 발생: ${e.message}")
-                }
-                e.printStackTrace()
+        try {
+            mViewModel.saveNetworkMedia(ip = cameraIp, media = media)
+            mResultNetworkMedia = media
+            mBind.root.snack("저장되었습니다")
+            delay(400)
+            dismiss()
+        } catch (e: Throwable) {
+            if (e is AppException) {
+                mBind.root.snack(e.displayMessage())
+            } else {
+                mBind.root.snack("에러 발생: ${e.message}")
             }
+            e.printStackTrace()
         }
     }
 
-    private fun dismissWithDataChanged(value: String?) {
-        mResultNetworkMedia = value
-        dismiss()
-    }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)

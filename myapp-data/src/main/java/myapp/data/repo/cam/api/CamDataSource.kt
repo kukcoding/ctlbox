@@ -177,12 +177,12 @@ class CamDataSource @Inject constructor(
     /**
      * 카메라 비번 변경
      */
-    suspend fun updatePassword(newPasswd: String): Result<Unit> {
+    suspend fun updatePassword(pw: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
             return Success(Unit)
         }
 
-        return callApi { camApi.updatePassword(ip = cameraIp(), pw = newPasswd) }
+        return callApi { camApi.updatePassword(ip = cameraIp(), pw = pw) }
     }
 
     /**

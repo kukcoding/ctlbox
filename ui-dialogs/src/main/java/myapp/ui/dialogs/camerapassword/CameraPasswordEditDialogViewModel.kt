@@ -5,6 +5,8 @@ import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import myapp.ReduxViewModel
+import myapp.data.cam.CamManager
+import myapp.domain.interactors.SaveCameraPassword
 import myapp.util.Logger
 import myapp.util.ObservableLoadingCounter
 import javax.inject.Inject
@@ -18,21 +20,19 @@ internal data class CameraPasswordEditDialogState(
 internal class CameraPasswordEditDialogViewModel @Inject constructor(
     @ApplicationContext context: Context,
     private val logger: Logger,
-    // private val bibleCardMessageSave: BibleCardMessageSave,
+    val camManager: CamManager,
+    private val saveCameraPassword: SaveCameraPassword,
 ) : ReduxViewModel<CameraPasswordEditDialogState>(CameraPasswordEditDialogState()) {
     private val loadingState = ObservableLoadingCounter()
 
     // for data binding
     val isLoadingLive = loadingState.observable.asLiveData()
 
-    /**
-     * 카드 메시지 저장
-     */
-    suspend fun saveBibleCardMessage(cardId: Long, cardMessage: CharSequence?): String {
+
+    suspend fun doSaveCameraPw(ip: String, pw: String) {
         loadingState.addLoader()
         return try {
-            // bibleCardMessageSave.executeSync(cardId = cardId, cardMessage = cardMessage)
-            ""
+            saveCameraPassword.executeSync(ip = ip, pw = pw)
         } finally {
             loadingState.removeLoader()
         }

@@ -45,6 +45,7 @@ object Cam {
         return url(ip = ip, path = "/")
     }
 
+    // TODO 제거 예정
     suspend fun checkConnectable(ip: String, timeoutSeconds: Long = 10): Boolean {
         val deferred = CompletableDeferred<Boolean>()
         val client = OkHttpClient.Builder()

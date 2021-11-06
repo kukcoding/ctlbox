@@ -110,7 +110,7 @@ class LoginWifiDialogFragment : DialogFragment() {
                 mViewModel.tryLogin(pw = pw)
                 mBind.root.snack("로그인되었습니다")
                 mResultLoggedIn = true
-                delay(700)
+                delay(400)
                 dismiss()
             } catch (e: Throwable) {
                 if (e is AppException) {
