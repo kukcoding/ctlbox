@@ -9,7 +9,8 @@ import myapp.ui.dialogs.loginlte.LoginLteDialogFragment
 import myapp.ui.dialogs.loginmediachoose.LoginNetworkChooseDialogFragment
 import myapp.ui.dialogs.loginwifi.LoginWifiDialogFragment
 import myapp.ui.dialogs.networkmedia.NetworkMediaDialogFragment
-import myapp.ui.dialogs.record.RecordFileFiltersDialogFragment
+import myapp.ui.dialogs.recordfiledownload.RecordFileDownloadDialogFragment
+import myapp.ui.dialogs.recordfilefilter.RecordFileFiltersDialogFragment
 import myapp.ui.dialogs.streamquality.StreamQualityDialogFragment
 import myapp.ui.dialogs.wifi.CameraWifiEditDialogFragment
 import myapp.util.Action1
@@ -126,4 +127,31 @@ object CameraDialogs {
     }.also {
         it.show(fm, null)
     }
+
+    fun openRecordFileDownload(
+        fm: FragmentManager,
+        fileName: String,
+        autoCloseDelay: Long,
+        onDismiss: Action1<String?>? = null
+    ) = RecordFileDownloadDialogFragment.newInstance(
+        fileId = fileName,
+        autoCloseDelay = autoCloseDelay
+    ).apply {
+        isCancelable = true
+        onDismissListener = onDismiss ?: {}
+    }.also {
+        it.show(fm, null)
+    }
+
+
+    fun openRecordFileDownload(
+        fm: FragmentManager,
+        fileId: String,
+        onDismiss: Action1<String?>? = null
+    ) = openRecordFileDownload(
+        fm = fm,
+        fileName = fileId,
+        autoCloseDelay = 10_000L,
+        onDismiss = onDismiss
+    )
 }

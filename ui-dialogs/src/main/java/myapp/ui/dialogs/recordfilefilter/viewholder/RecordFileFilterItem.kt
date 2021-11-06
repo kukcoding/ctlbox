@@ -1,4 +1,4 @@
-package myapp.ui.dialogs.record.viewholder
+package myapp.ui.dialogs.recordfilefilter.viewholder
 
 
 import android.graphics.Color

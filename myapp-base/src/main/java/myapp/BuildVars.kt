@@ -31,6 +31,11 @@ object Cam {
         return Uri.parse(url(ip, path))
     }
 
+
+    fun recordFileUrl(ip: String, fileId: String): String {
+        return url(ip = ip, path = "/recording/download?fileName=${fileId}")
+    }
+
     fun thumbnailUrl(ip: String, fileId: String, timestamp: Long): String {
         return url(ip = ip, "/recording/thumb?fileName=${fileId}&_t=${timestamp}")
     }

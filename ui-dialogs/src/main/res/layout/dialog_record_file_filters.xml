@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="myapp.ui.dialogs.record.RecordFileFiltersDialogViewModel" />
+            type="myapp.ui.dialogs.recordfilefilter.RecordFileFiltersDialogViewModel" />
     </data>
 
     <LinearLayout

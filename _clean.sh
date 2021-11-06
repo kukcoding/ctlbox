@@ -4,3 +4,6 @@ set -e
 # ./gradlew :app:assembleProdDebug
 ./gradlew :app:clean
 
+find . -type -d -name build -exec rm -rf {} \;
+
+

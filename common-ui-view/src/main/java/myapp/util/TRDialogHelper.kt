@@ -43,12 +43,22 @@ object TRDialogHelper {
         builder.setPositiveButton(android.R.string.ok) { dialogInterface, _ -> callback(dialogInterface) }
     }
 
-    fun alert(context: Context, title: CharSequence?, message: CharSequence?, callback: Action1<DialogInterface>): AlertDialog {
+    fun alert(
+        context: Context,
+        title: CharSequence?,
+        message: CharSequence?,
+        callback: Action1<DialogInterface>
+    ): AlertDialog {
         return builder(context, title, message)
             .also { alertButtons(it, callback) }.show()
     }
 
-    fun alert(context: Context, @StringRes titleId: Int, @StringRes messageId: Int, callback: Action1<DialogInterface>): AlertDialog {
+    fun alert(
+        context: Context,
+        @StringRes titleId: Int,
+        @StringRes messageId: Int,
+        callback: Action1<DialogInterface>
+    ): AlertDialog {
         return builder(context, titleId, messageId)
             .also { alertButtons(it, callback) }.show()
     }
@@ -68,12 +78,21 @@ object TRDialogHelper {
         builder.setNeutralButton(android.R.string.cancel) { dialogInterface, _ -> callback(dialogInterface, false) }
     }
 
-    fun confirmOk(context: Context, @StringRes messageId: Int, callback: Action2<DialogInterface, Boolean>): AlertDialog {
+    fun confirmOk(
+        context: Context,
+        @StringRes messageId: Int,
+        callback: Action2<DialogInterface, Boolean>
+    ): AlertDialog {
         return builder(context, messageId)
             .also { confirmOkButtons(it, callback) }.show()
     }
 
-    fun confirmOk(context: Context, @StringRes titleId: Int, @StringRes messageId: Int, callback: Action2<DialogInterface, Boolean>): AlertDialog {
+    fun confirmOk(
+        context: Context,
+        @StringRes titleId: Int,
+        @StringRes messageId: Int,
+        callback: Action2<DialogInterface, Boolean>
+    ): AlertDialog {
         return builder(context, titleId, messageId)
             .also { confirmOkButtons(it, callback) }.show()
     }
@@ -83,7 +102,12 @@ object TRDialogHelper {
             .also { confirmOkButtons(it, callback) }.show()
     }
 
-    fun confirmOk(context: Context, title: CharSequence?, message: CharSequence?, callback: Action2<DialogInterface, Boolean>): AlertDialog {
+    fun confirmOk(
+        context: Context,
+        title: CharSequence?,
+        message: CharSequence?,
+        callback: Action2<DialogInterface, Boolean>
+    ): AlertDialog {
         return builder(context, title, message)
             .also { confirmOkButtons(it, callback) }.show()
     }
@@ -94,12 +118,21 @@ object TRDialogHelper {
         builder.setNeutralButton(android.R.string.cancel) { dialogInterface, _ -> callback(dialogInterface, false) }
     }
 
-    fun confirmYes(context: Context, @StringRes messageId: Int, callback: Action2<DialogInterface, Boolean>): AlertDialog {
+    fun confirmYes(
+        context: Context,
+        @StringRes messageId: Int,
+        callback: Action2<DialogInterface, Boolean>
+    ): AlertDialog {
         return builder(context, messageId)
             .also { confirmYesButtons(it, callback) }.show()
     }
 
-    fun confirmYes(context: Context, @StringRes titleId: Int, @StringRes messageId: Int, callback: Action2<DialogInterface, Boolean>): AlertDialog {
+    fun confirmYes(
+        context: Context,
+        @StringRes titleId: Int,
+        @StringRes messageId: Int,
+        callback: Action2<DialogInterface, Boolean>
+    ): AlertDialog {
         return builder(context, titleId, messageId)
             .also { confirmYesButtons(it, callback) }.show()
     }
@@ -110,7 +143,12 @@ object TRDialogHelper {
             .also { confirmYesButtons(it, callback) }.show()
     }
 
-    fun confirmYes(context: Context, title: CharSequence?, message: CharSequence?, callback: Action2<DialogInterface, Boolean>): AlertDialog {
+    fun confirmYes(
+        context: Context,
+        title: CharSequence?,
+        message: CharSequence?,
+        callback: Action2<DialogInterface, Boolean>
+    ): AlertDialog {
         return builder(context, title, message)
             .also { confirmYesButtons(it, callback) }.show()
     }

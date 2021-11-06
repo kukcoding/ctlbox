@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/myapp-base" />
             <option value="$PROJECT_DIR$/myapp-data" />
             <option value="$PROJECT_DIR$/myapp-domain" />
+            <option value="$PROJECT_DIR$/myapp-permissions" />
             <option value="$PROJECT_DIR$/permission-manager" />
             <option value="$PROJECT_DIR$/recyclerview-group" />
             <option value="$PROJECT_DIR$/ui-dialogs" />

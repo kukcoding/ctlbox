@@ -1,4 +1,4 @@
-package myapp.ui.dialogs.record
+package myapp.ui.dialogs.recordfilefilter
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kr.ohlab.android.recyclerviewgroup.ItemBase
 import myapp.ReduxViewModel
 import myapp.data.entities.RecordFileFilter
-import myapp.ui.dialogs.record.viewholder.RecordFileFilterItem
+import myapp.ui.dialogs.recordfilefilter.viewholder.RecordFileFilterItem
 import myapp.util.generateNumericIdProvider
 import javax.inject.Inject
 

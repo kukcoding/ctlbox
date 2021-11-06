@@ -1,4 +1,4 @@
-package myapp.ui.dialogs.record
+package myapp.ui.dialogs.recordfilefilter
 
 
 import android.content.Context
@@ -18,7 +18,7 @@ import kr.ohlab.android.recyclerviewgroup.TRListAdapter
 import kr.ohlab.android.recyclerviewgroup.support.buildListAdapter
 import myapp.data.entities.RecordFileFilter
 import myapp.ui.dialogs.databinding.DialogRecordFileFiltersBinding
-import myapp.ui.dialogs.record.viewholder.RecordFileFilterItem
+import myapp.ui.dialogs.recordfilefilter.viewholder.RecordFileFilterItem
 import myapp.util.Action1
 import myapp.util.AndroidUtils
 import myapp.util.AndroidUtils.dpf

@@ -22,6 +22,10 @@ data class KuRecordFile(
     val filterKey: String
         get() = "${dateTime.year}${dateTime.monthValue.twoDigit()}${dateTime.dayOfMonth.twoDigit()}${dateTime.hour.twoDigit()}"
 
+    @IgnoredOnParcel
+    val galleryFileName: String
+        get() = "${dateTime.year}년${dateTime.monthValue.twoDigit()}월${dateTime.dayOfMonth.twoDigit()}일_${dateTime.hour.twoDigit()}시${dateTime.minute.twoDigit()}분_${width}x${height}.mp4"
+
     companion object {
         private val SEPARATOR_REGEX = "[_x.]".toRegex()
 

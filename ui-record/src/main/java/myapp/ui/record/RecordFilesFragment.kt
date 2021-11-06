@@ -6,17 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kr.ohlab.android.permission.TRPermissionResult
 import kr.ohlab.android.recyclerviewgroup.DefaultHolderTracker
 import kr.ohlab.android.recyclerviewgroup.TRListAdapter
 import kr.ohlab.android.recyclerviewgroup.support.buildListAdapter
 import myapp.Cam
+import myapp.data.entities.KuRecordFile
 import myapp.extensions.alert
+import myapp.extensions.confirmOk
+import myapp.permissions.PermissionConfig
+import myapp.permissions.PermissionUtils
 import myapp.ui.dialogs.CameraDialogs
 import myapp.ui.player.FilePlayerActivity
 import myapp.ui.record.databinding.FragmentRecordFilesBinding
@@ -251,7 +257,7 @@ class RecordFilesFragment : Fragment() {
                         context = requireContext(),
 //                    uri = Uri.parse("https://ohlab.kr/p/kuk/sample/stevejobs.mp4")
                         // uri = Uri.parse("http://192.168.0.100/recording/download?fileName=19700101_103208_1920x1080_15_1500_30000_7434536.mp4")
-                        uri = Cam.uri(ip = cameraIp, path = "/recording/download?fileName=${recordFile.fileId}")
+                        uri = Cam.recordFileUrl(ip = cameraIp, fileId = recordFile.fileId).toUri()
                     )
                 )
             }
@@ -259,8 +265,43 @@ class RecordFilesFragment : Fragment() {
     }
 
     private fun onHolderClickRecordFileCheck(view: View, item: RecordFileItem) {
-        val recordFile = item.recordFile
-        mBind.root.snack("지원예정")
+        lifecycleScope.launch {
+            openRecordFileDownload(recordFile = item.recordFile)
+        }
+
+    }
+
+    private suspend fun askPermission(permission: PermissionConfig): Boolean {
+        // 권한 요청하기
+        val result = permission.request(this)
+        if (result is TRPermissionResult.PermissionGranted) {
+            return true
+        }
+
+        // 권한을 다시보지 않기로 거부한 경우 설정화면으로 가겠냐고 물어보기
+        if (result is TRPermissionResult.PermissionDeniedPermanently) {
+            confirmOk(permission.gotoSettingMsgResId) {
+                if (it) {
+                    PermissionUtils.openAppSettingActivity(this)
+                }
+            }
+        }
+        return false
+    }
+
+    private suspend fun openRecordFileDownload(recordFile: KuRecordFile) {
+        val cfg = mViewModel.camManager.config ?: return
+        val ip = mViewModel.camManager.cameraIp ?: return
+        if (!askPermission(PermissionConfig.WRITE_EXTERNAL_STORAGE)) {
+            return
+        }
+
+        CameraDialogs.openRecordFileDownload(
+            fm = childFragmentManager,
+            fileId = recordFile.fileId,
+        ) {
+            Timber.d("download dialog closed")
+        }
     }
 
     // 편집모드 여부

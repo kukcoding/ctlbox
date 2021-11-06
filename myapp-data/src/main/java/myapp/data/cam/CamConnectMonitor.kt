@@ -11,24 +11,10 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import myapp.SingletonHolder
 import myapp.data.code.CamConnectivity
+import myapp.flowInterval
 import myapp.util.NetworkUtils
 import splitties.init.appCtx
 import timber.log.Timber
-
-
-fun flowInterval(
-    initialDelayMillis: Long = 0L,
-    delayMillis: Long
-) = flow {
-    if (initialDelayMillis > 0) {
-        delay(initialDelayMillis)
-    }
-    emit(System.currentTimeMillis())
-    while (true) {
-        delay(delayMillis)
-        emit(System.currentTimeMillis())
-    }
-}.cancellable().buffer()
 
 
 class CamConnectMonitor(private val context: Context) : DefaultLifecycleObserver {

@@ -32,6 +32,8 @@ dependencies {
     implementation(project(":common-ui-databinding"))
     implementation(project(":ui-dialogs"))
     implementation(project(":ui-player"))
+    implementation(project(":permission-manager"))
+    implementation(project(":myapp-permissions"))
 
 
     // Kotlin Coroutine

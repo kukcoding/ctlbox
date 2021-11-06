@@ -83,319 +83,307 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#141313"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <View
-                    android:id="@+id/view_topArea"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:alpha="0.05"
-                    android:background="#C1C1C4"
-                    app:layout_constraintBottom_toTopOf="@id/guideline_y60"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/view_cameraArea"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="#C1C1C4"
-                    app:layout_constraintBottom_toBottomOf="@id/view_topArea"
-                    app:layout_constraintDimensionRatio="H,1280:720"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/view_topArea" />
-
-
-                <LinearLayout
-                    android:id="@+id/layout_connectionStatusBar"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|left"
-                    android:orientation="horizontal"
-                    android:paddingVertical="4dp"
-                    android:paddingStart="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:paddingBottom="32dp"
+                    >
 
                     <LinearLayout
+                        android:id="@+id/layout_connectionStatusBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|left"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp"
+                        android:paddingStart="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="left|center_vertical"
+                            android:minHeight="32dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtview_camIp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.8"
+                                android:text="@{vm.camIpTextLive}"
+                                android:textColor="?attr/colorOnSurface6"
+                                android:textSize="11sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/bt_rtspPlayButton"
+                                tools:text="192.168.114.23" />
+
+                            <TextView
+                                android:id="@+id/txtview_camState"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.8"
+                                android:text="@{vm.camStateTextLive}"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="카메라에 연결되었습니다" />
+
+                        </LinearLayout>
+
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <!--
+                        <ImageView
+                            android:id="@+id/imgview_battery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerInside"
+                            android:visibility="invisible"
+                            app:srcCompat="@drawable/ic_battery_60" />
+
+                        <TextView
+                            android:id="@+id/txtview_batteryPercent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="62%"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="12dp"
+                            android:visibility="invisible" />
+                            -->
+                        <FrameLayout
+                            android:id="@+id/layout_networkBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:paddingHorizontal="8dp">
+
+                            <myapp.ui.widget.LoginNetworkLabel
+                                android:id="@+id/loginNetworkLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                app:title="LTE" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view_cameraArea"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="#C1C1C4"
+                        app:layout_constraintDimensionRatio="H,1280:720"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/layout_connectionStatusBar" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/view_cameraArea"
+                        app:layout_constraintEnd_toEndOf="@+id/view_cameraArea"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/view_cameraArea"
+                        app:srcCompat="@drawable/ic_baseline_linked_camera_24"
+                        app:tint="#ADADB1" />
+
+                    <ImageView
+                        android:id="@+id/imgview_cameraThumbnail"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="@id/view_cameraArea"
+                        app:layout_constraintEnd_toEndOf="@id/view_cameraArea"
+                        app:layout_constraintStart_toStartOf="@id/view_cameraArea"
+                        app:layout_constraintTop_toTopOf="@id/view_cameraArea"
+                        tools:src="@drawable/sample_campic" />
+
+                    <FrameLayout
+                        android:id="@+id/layout_playerContainer"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="#10000000"
+                        app:layout_constraintBottom_toBottomOf="@id/view_cameraArea"
+                        app:layout_constraintEnd_toEndOf="@id/view_cameraArea"
+                        app:layout_constraintStart_toStartOf="@id/view_cameraArea"
+                        app:layout_constraintTop_toTopOf="@id/view_cameraArea" />
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/layout_statusText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp"
+                        app:alignItems="center"
+                        app:flexDirection="row"
+                        app:justifyContent="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view_cameraArea"
+                        app:visible="@{vm.isLoggedInLive}">
+
+                        <FrameLayout
+                            android:id="@+id/layout_wifiLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bt_status_outline_white"
+                            app:visible="@{vm.isWifiAvailableLive}">
+
+                            <TextView
+                                android:id="@+id/txtview_wifiLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="4dp"
+                                android:text="WIFI"
+                                android:textColor="?attr/colorOnSurface4"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/layout_lteLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:background="@drawable/bt_status_outline_white"
+                            app:visible="@{vm.isLteAvailableLive}">
+
+                            <TextView
+                                android:id="@+id/txtview_lteLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="4dp"
+                                android:text="LTE"
+                                android:textColor="?attr/colorOnSurface4"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:background="@drawable/bt_status_outline_white">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="4dp"
+                                android:text="@{vm.mjpgResolutionTextLive}"
+                                android:textColor="?attr/colorOnSurface4"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                tools:text="1280x720" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:background="@drawable/bt_status_outline_white">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="4dp"
+                                android:text="MJPG"
+                                android:textColor="?attr/colorOnSurface4"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+                    </com.google.android.flexbox.FlexboxLayout>
+
+
+                    <TextView
+                        android:id="@+id/txtview_camId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="left|center_vertical"
-                        android:minHeight="32dp"
-                        android:orientation="vertical">
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="24dp"
+                        android:alpha="0.8"
+                        android:text="@{vm.camIdTextLive}"
+                        android:textColor="?attr/colorOnSurface6"
+                        android:textSize="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/layout_statusText"
+                        tools:text="abcdefgasdfasdfsdaf" />
 
-                        <TextView
-                            android:id="@+id/txtview_camIp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.8"
-                            android:text="@{vm.camIpTextLive}"
-                            android:textColor="?attr/colorOnSurface6"
-                            android:textSize="11sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/bt_rtspPlayButton"
-                            tools:text="192.168.114.23" />
-                        <TextView
-                            android:id="@+id/txtview_camState"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.8"
-                            android:text="@{vm.camStateTextLive}"
-                            android:textColor="?attr/colorOnSurface"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            tools:text="카메라에 연결되었습니다" />
+                    <myapp.ui.widget.BigPlayButton
+                        android:id="@+id/bt_rtspPlayButton"
+                        android:layout_width="0dp"
+                        android:layout_height="72dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtview_camId"
+                        app:subtitle="@{vm.rtspResolutionTextLive}"
+                        app:title="실시간 재생 (RTSP)" />
 
+
+                    <LinearLayout
+                        android:id="@+id/layout_actionButtons"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="@+id/bt_rtspPlayButton"
+                        app:layout_constraintStart_toStartOf="@+id/bt_rtspPlayButton"
+                        app:layout_constraintTop_toBottomOf="@id/bt_rtspPlayButton"
+                        app:layout_constraintVertical_bias="0.0">
+
+                        <myapp.ui.widget.HomeActionButton
+                            android:id="@+id/bt_recordList"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            app:icon="@drawable/ic_baseline_list_alt_24"
+                            app:title="녹화 파일" />
+
+                        <myapp.ui.widget.HomeActionButton
+                            android:id="@+id/bt_setting"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_weight="1"
+                            app:icon="@drawable/ic_baseline_settings_24"
+                            app:title="카메라 설정" />
                     </LinearLayout>
 
 
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1" />
-
-                    <!--
-                    <ImageView
-                        android:id="@+id/imgview_battery"
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline_x50"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:scaleType="centerInside"
-                        android:visibility="invisible"
-                        app:srcCompat="@drawable/ic_battery_60" />
-
-                    <TextView
-                        android:id="@+id/txtview_batteryPercent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="62%"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textSize="12dp"
-                        android:visibility="invisible" />
-                        -->
-                    <FrameLayout
-                        android:id="@+id/layout_networkBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:paddingHorizontal="8dp">
-
-                        <myapp.ui.widget.LoginNetworkLabel
-                            android:id="@+id/loginNetworkLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            app:title="LTE" />
-                    </FrameLayout>
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/view_cameraArea"
-                    app:layout_constraintEnd_toEndOf="@+id/view_cameraArea"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/view_cameraArea"
-                    app:srcCompat="@drawable/ic_baseline_linked_camera_24"
-                    app:tint="#ADADB1" />
-
-                <ImageView
-                    android:id="@+id/imgview_cameraThumbnail"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="@id/view_cameraArea"
-                    app:layout_constraintEnd_toEndOf="@id/view_cameraArea"
-                    app:layout_constraintStart_toStartOf="@id/view_cameraArea"
-                    app:layout_constraintTop_toTopOf="@id/view_cameraArea"
-                    tools:src="@drawable/sample_campic" />
-
-                <FrameLayout
-                    android:id="@+id/layout_playerContainer"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="#10000000"
-                    app:layout_constraintBottom_toBottomOf="@id/view_cameraArea"
-                    app:layout_constraintEnd_toEndOf="@id/view_cameraArea"
-                    app:layout_constraintStart_toStartOf="@id/view_cameraArea"
-                    app:layout_constraintTop_toTopOf="@id/view_cameraArea" />
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/layout_statusText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    app:alignItems="center"
-                    app:flexDirection="row"
-                    app:visible="@{vm.isLoggedInLive}"
-                    app:justifyContent="center"
-                    app:layout_constraintBottom_toBottomOf="@id/view_topArea"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <FrameLayout
-                        android:id="@+id/layout_wifiLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bt_status_outline_white"
-                        app:visible="@{vm.isWifiAvailableLive}">
-
-                        <TextView
-                            android:id="@+id/txtview_wifiLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:text="WIFI"
-                            android:textColor="?attr/colorOnSurface4"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:id="@+id/layout_lteLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:background="@drawable/bt_status_outline_white"
-                        app:visible="@{vm.isLteAvailableLive}">
-
-                        <TextView
-                            android:id="@+id/txtview_lteLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:text="LTE"
-                            android:textColor="?attr/colorOnSurface4"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:background="@drawable/bt_status_outline_white">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:text="@{vm.mjpgResolutionTextLive}"
-                            android:textColor="?attr/colorOnSurface4"
-                            android:textSize="11sp"
-                            android:textStyle="bold"
-                            tools:text="1280x720" />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:background="@drawable/bt_status_outline_white">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:text="MJPG"
-                            android:textColor="?attr/colorOnSurface4"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-                </com.google.android.flexbox.FlexboxLayout>
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
 
 
-                <TextView
-                    android:id="@+id/txtview_camId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="24dp"
-                    android:alpha="0.8"
-                    android:text="@{vm.camIdTextLive}"
-                    android:textColor="?attr/colorOnSurface6"
-                    android:textSize="12dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_statusText"
-                    tools:text="abcdefgasdfasdfsdaf" />
-
-                <myapp.ui.widget.BigPlayButton
-                    android:id="@+id/bt_rtspPlayButton"
-                    android:layout_width="0dp"
-                    android:layout_height="72dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="24dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view_topArea"
-                    app:subtitle="@{vm.rtspResolutionTextLive}"
-                    app:title="실시간 재생 (RTSP)" />
-
-
-                <LinearLayout
-                    android:id="@+id/layout_actionButtons"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/bt_rtspPlayButton"
-                    app:layout_constraintStart_toStartOf="@+id/bt_rtspPlayButton"
-                    app:layout_constraintTop_toBottomOf="@id/bt_rtspPlayButton"
-                    app:layout_constraintVertical_bias="0.0">
-
-                    <myapp.ui.widget.HomeActionButton
-                        android:id="@+id/bt_recordList"
-                        android:layout_width="0dp"
-                        android:layout_height="56dp"
-                        android:layout_weight="1"
-                        app:icon="@drawable/ic_baseline_list_alt_24"
-                        app:title="녹화 파일" />
-
-                    <myapp.ui.widget.HomeActionButton
-                        android:id="@+id/bt_setting"
-                        android:layout_width="0dp"
-                        android:layout_height="56dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_weight="1"
-                        app:icon="@drawable/ic_baseline_settings_24"
-                        app:title="카메라 설정" />
-                </LinearLayout>
-
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_x50"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_y60"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.5" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

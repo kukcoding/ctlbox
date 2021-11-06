@@ -99,6 +99,7 @@
     <string name="msg_zipping">압축중…</string>
     <string name="msg_encrypting">Encrypting…</string>
     <string name="msg_temp_file_deleting">임시 파일 제거중…</string>
+    <string name="msg_file_copying">파일 복사중…</string>
     <string name="msg_saving">저장중…</string>
     <string name="msg_processing">처리중…</string>
     <string name="msg_login_running">로그인…</string>
