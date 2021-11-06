@@ -5,9 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import androidx.lifecycle.asLiveData
 import dagger.hilt.android.AndroidEntryPoint
+import myapp.data.cam.CamManager
 import myapp.ui.common.databinding.contentView
 import myapp.ui.settings.databinding.ActivitySettingsBinding
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
@@ -19,6 +22,9 @@ class SettingsActivity : AppCompatActivity() {
                 // it.putExtra(EXTRA_SECTION_TYPE, sectionType)
             }
     }
+
+    @Inject
+    lateinit var camManager: CamManager
 
     // private val mArgSectionType by extraNotNull<Bible.SectionType>(EXTRA_SECTION_TYPE)
     private val mBind: ActivitySettingsBinding by contentView(R.layout.activity_settings)
@@ -39,4 +45,14 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun customInit() {}
     private fun setupEvents() {}
+
+
+    override fun onResume() {
+        super.onResume()
+        camManager.disconnectedMessage.flow.asLiveData().observe(this, { disconnected ->
+            if (disconnected) {
+                camManager.disconnectedMessage.show(this)
+            }
+        })
+    }
 }

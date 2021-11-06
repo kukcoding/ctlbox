@@ -85,7 +85,7 @@ class SettingsFragment : Fragment() {
 
         // 재부팅 팝업
         mBind.layoutRebootBtn.setOnClickListener {
-            confirmReboot()
+            openReboot()
         }
 
     }
@@ -144,27 +144,54 @@ class SettingsFragment : Fragment() {
         CameraDialogs.openCameraPasswordEdit(fm = childFragmentManager)
     }
 
-    private fun confirmReboot() {
-        val lastCameraIp = mViewModel.camManager.cameraIp
+    private fun openReboot() {
+        val lastCameraIp = mViewModel.camManager.cameraIp ?: return
+
+        // 재부팅하는 동안 연결끊김 메시지 비활성화
+        mViewModel.camManager.disconnectedMessage.addDisableRequest()
+
         CameraDialogs.openReboot(fm = childFragmentManager) { rebooted ->
             if (rebooted) {
-                // 재부팅후에 로그인 팝업을 띄운다
-                lifecycleScope.launch {
-                    delay(500)
-                    if (isActive) {
-                        openLogin(lastCameraIp = lastCameraIp)
+                openLogin(lastCameraIp = lastCameraIp)
+            } else {
+                mViewModel.camManager.disconnectedMessage.removeDisableRequest()
+            }
+        }
+    }
+
+
+    private fun openLogin(lastCameraIp: String) {
+        lifecycleScope.launch {
+            CameraDialogs.openLoginNetworkChoose(fm = childFragmentManager) { net ->
+                when (net) {
+                    "wifi" -> {
+                        CameraDialogs.openLoginWifi(fm = childFragmentManager) {
+                            removeDisconnectMessageDisableRequest(500)
+                        }
+                    }
+                    "lte" -> {
+                        CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = lastCameraIp) {
+                            removeDisconnectMessageDisableRequest(500)
+                        }
+                    }
+                    else -> {
+                        // 이런 경우는 없지만
+                        removeDisconnectMessageDisableRequest()
                     }
                 }
             }
         }
     }
 
-    private fun openLogin(lastCameraIp: String?) {
-        CameraDialogs.openLoginNetworkChoose(fm = childFragmentManager) { net ->
-            if (net == "wifi") {
-                CameraDialogs.openLoginWifi(fm = childFragmentManager)
-            } else if (net == "lte") {
-                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = lastCameraIp)
+    private fun removeDisconnectMessageDisableRequest(sleepTime: Long = 0L) {
+        lifecycleScope.launch {
+            if (sleepTime == 0L) {
+                mViewModel.camManager.disconnectedMessage.removeDisableRequest()
+            } else {
+                delay(sleepTime)
+                if (isActive) {
+                    mViewModel.camManager.disconnectedMessage.removeDisableRequest()
+                }
             }
         }
     }

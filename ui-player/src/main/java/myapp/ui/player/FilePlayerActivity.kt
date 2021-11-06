@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import androidx.lifecycle.asLiveData
 import dagger.hilt.android.AndroidEntryPoint
 import myapp.extensions.extraNotNull
 import myapp.ui.common.databinding.contentView
@@ -51,4 +52,14 @@ class FilePlayerActivity : AppCompatActivity() {
 
     private fun customInit() {}
     private fun setupEvents() {}
+
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel.camManager.disconnectedMessage.flow.asLiveData().observe(this, { disconnected ->
+            if (disconnected) {
+                mViewModel.camManager.disconnectedMessage.show(this)
+            }
+        })
+    }
 }

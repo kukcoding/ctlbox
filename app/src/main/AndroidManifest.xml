@@ -40,8 +40,8 @@
             android:name="com.google.ctlbox.LaunchActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="user"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyTheme.Launch"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
             <intent-filter>
@@ -71,7 +71,7 @@
         <activity
             android:name="myapp.ui.settings.SettingsActivity"
             android:configChanges="keyboard|keyboardHidden"
-            android:screenOrientation="user"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyTheme.Settings"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
@@ -79,6 +79,13 @@
             android:configChanges="keyboard|keyboardHidden"
             android:screenOrientation="user"
             android:theme="@style/Theme.MyTheme.RecordFiles"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
+        <activity
+            android:name=".DisconnectedMessageActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:screenOrientation="user"
+            android:theme="@style/Theme.MyTheme.DisconnectedMessage"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
     </application>

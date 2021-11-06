@@ -19,6 +19,7 @@ import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import myapp.extensions.dp
@@ -505,6 +506,16 @@ class LivePlayerActivity : AppCompatActivity(), MediaPlayerEventListener {
             it.putExtra(EXTRA_URI, uri)
         }
 
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel.camManager.disconnectedMessage.flow.asLiveData().observe(this, { disconnected ->
+            if (disconnected) {
+                mViewModel.camManager.disconnectedMessage.show(this)
+            }
+        })
     }
 }
 

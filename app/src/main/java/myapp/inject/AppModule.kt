@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import myapp.ActivityLauncher
 import myapp.data.apicommon.ApiClientDeviceInfo
 import myapp.data.cam.CamManager
 import myapp.util.AndroidUtils
@@ -56,7 +57,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideCamManager(
-        @ApplicationContext context: Context
-    ) = CamManager(context)
+        @ApplicationContext context: Context,
+        activityLauncher: ActivityLauncher,
+    ) = CamManager(context, activityLauncher)
+
 
 }

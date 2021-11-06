@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import kr.ohlab.android.recyclerviewgroup.ItemBase
 import myapp.ReduxViewModel
 import myapp.api.UiError
+import myapp.data.cam.CamManager
 import myapp.ui.SnackbarManager
 import myapp.util.Logger
 import myapp.util.ObservableLoadingCounter
@@ -40,6 +41,7 @@ internal data class FilePlayerState(
 internal class FilePlayerViewModel @AssistedInject constructor(
     private val snackbarManager: SnackbarManager,
     private val logger: Logger,
+    val camManager: CamManager,
     @Assisted val videoUri: Uri,
 ) : ReduxViewModel<FilePlayerState>(FilePlayerState()) {
     private val loadingState = ObservableLoadingCounter()

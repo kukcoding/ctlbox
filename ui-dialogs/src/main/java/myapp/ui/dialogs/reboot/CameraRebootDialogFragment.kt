@@ -55,6 +55,7 @@ class CameraRebootDialogFragment : DialogFragment() {
     }
 
     private fun customInit() {
+
     }
 
     private fun setupEvents() {

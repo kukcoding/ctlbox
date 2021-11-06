@@ -6,12 +6,14 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
+import myapp.ActivityLauncher
 import myapp.BuildConstantsImpl
 import myapp.appinitializers.AppInitializer
 import myapp.appinitializers.ThreeTenBpInitializer
 import myapp.appinitializers.TimberInitializer
 import myapp.settings.BuildConstants
 import myapp.sys.AppLifecycleObserverImpl
+import myapp.ui.ActivityLauncherImpl
 import myapp.util.Logger
 import myapp.util.MyLogger
 import javax.inject.Singleton
@@ -31,13 +33,9 @@ abstract class AppModuleBinds {
 //    @Binds
 //    abstract fun provideKeepScreenOnManager(bind: KeepScreenOnManagerImpl): KeepScreenOnManager
 
-//    @Singleton
-//    @Binds
-//    abstract fun provideAdManager(bind: AdManagerImpl): AdManager
-//
-//    @Singleton
-//    @Binds
-//    abstract fun provideActivityLauncher(bind: ActivityLauncherImpl): ActivityLauncher
+    @Singleton
+    @Binds
+    abstract fun provideActivityLauncher(bind: ActivityLauncherImpl): ActivityLauncher
 
     @Singleton
     @Binds

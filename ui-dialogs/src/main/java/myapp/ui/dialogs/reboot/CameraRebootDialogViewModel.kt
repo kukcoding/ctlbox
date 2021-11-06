@@ -52,6 +52,12 @@ internal class CameraRebootDialogViewModel @Inject constructor(
     private val loadingState = ObservableLoadingCounter()
     private val pendingActions = Channel<RebootAction>(Channel.BUFFERED)
 
+    init {
+        // 뷰모델 시작시 disconnect 메시지 비활성화
+        // 뷰모델 onCleared()에서 disconnect 메시지 활성화
+        camManager.disconnectedMessage.addDisableRequest()
+    }
+
     // for data binding
     val isLoadingLive = loadingState.observable.asLiveData()
 
@@ -115,6 +121,11 @@ internal class CameraRebootDialogViewModel @Inject constructor(
             remainSec -= 500
         }
         setState { copy(step = RebootStep.FinishWait) }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        camManager.disconnectedMessage.removeDisableRequest()
     }
 }
 

@@ -129,17 +129,7 @@
         <item name="android:windowFullscreen">false</item>
     </style>
 
-
-    <style name="Theme.MyTheme.Song">
-        <item name="colorPrimary">@color/color_deep_purple_500</item>
-        <item name="colorPrimaryVariant">@color/color_deep_purple_900</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
+    <style name="Theme.MyTheme.DisconnectedMessage" parent="Theme.MyTheme">
     </style>
-
-
 
 </resources>

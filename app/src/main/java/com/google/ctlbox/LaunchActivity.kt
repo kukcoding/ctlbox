@@ -1,5 +1,7 @@
 package com.google.ctlbox
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +12,11 @@ import myapp.util.AndroidUtils
 
 @AndroidEntryPoint
 class LaunchActivity : AppCompatActivity() {
+    companion object {
+        fun createIntent(context: Context) = Intent(context, LaunchActivity::class.java)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launch)
