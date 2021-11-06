@@ -76,7 +76,10 @@ class LoginWifiDialogFragment : DialogFragment() {
 
         // 로그인 버튼 클릭
         mBind.txtviewSaveBtn.setOnClickListener {
-            tryLogin(pw = mBind.edtxtPw.trimOrEmpty())
+            AndroidUtils.hideKeyboard(mBind.edtxtPw)
+            lifecycleScope.launch {
+                tryLogin(pw = mBind.edtxtPw.trimOrEmpty())
+            }
         }
 
     }
@@ -96,7 +99,7 @@ class LoginWifiDialogFragment : DialogFragment() {
         window.setLayout(preferWindowWidth(requireContext()), ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    private fun tryLogin(pw: String) {
+    private suspend fun tryLogin(pw: String) {
         if (pw.isBlank()) {
             mBind.root.snack("비밀번호를 입력해주세요")
             return

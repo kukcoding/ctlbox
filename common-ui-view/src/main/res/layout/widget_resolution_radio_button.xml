@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingVertical="16dp"
+    android:paddingVertical="12dp"
     >
 
     <androidx.appcompat.widget.AppCompatImageView

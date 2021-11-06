@@ -85,7 +85,10 @@ class LoginLteDialogFragment : DialogFragment() {
 
         // 로그인 버튼 클릭
         mBind.txtviewSaveBtn.setOnClickListener {
-            tryLogin(ip = mBind.edtxtIp.trimOrEmpty(), pw = mBind.edtxtPw.trimOrEmpty())
+            AndroidUtils.hideKeyboard(mBind.edtxtIp, mBind.edtxtPw)
+            lifecycleScope.launch {
+                tryLogin(ip = mBind.edtxtIp.trimOrEmpty(), pw = mBind.edtxtPw.trimOrEmpty())
+            }
         }
 
     }
@@ -106,7 +109,8 @@ class LoginLteDialogFragment : DialogFragment() {
     }
 
 
-    private fun tryLogin(ip: String, pw: String) {
+    private suspend fun tryLogin(ip: String, pw: String) {
+
         if (ip.isBlank()) {
             mBind.root.snack("카메라의 IP 주소를 입력해주세요")
             return
@@ -122,21 +126,19 @@ class LoginLteDialogFragment : DialogFragment() {
             return
         }
 
-        lifecycleScope.launch {
-            try {
-                mViewModel.tryLogin(ip = ip, pw = pw)
-                mBind.root.snack("로그인되었습니다")
-                mResultLoggedIn = true
-                delay(700)
-                dismiss()
-            } catch (e: Throwable) {
-                if (e is AppException) {
-                    mBind.root.snack(e.displayMessage())
-                } else {
-                    mBind.root.snack("로그인 실패: ${e.message}")
-                }
-                e.printStackTrace()
+        try {
+            mViewModel.tryLogin(ip = ip, pw = pw)
+            mBind.root.snack("로그인되었습니다")
+            mResultLoggedIn = true
+            delay(700)
+            dismiss()
+        } catch (e: Throwable) {
+            if (e is AppException) {
+                mBind.root.snack(e.displayMessage())
+            } else {
+                mBind.root.snack("로그인 실패: ${e.message}")
             }
+            e.printStackTrace()
         }
     }
 

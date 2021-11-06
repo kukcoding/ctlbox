@@ -2,13 +2,10 @@ package myapp.ui.dialogs.reboot
 
 import android.content.Context
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import myapp.BuildVars
 import myapp.ReduxViewModel
 import myapp.data.cam.CamManager
@@ -19,9 +16,6 @@ import myapp.util.ObservableLoadingCounter
 import myapp.util.tupleOf
 import javax.inject.Inject
 
-internal sealed class RebootAction {
-    data class SetSsid(val ssid: String?) : RebootAction()
-}
 
 internal sealed class RebootStep {
     object None : RebootStep()
@@ -50,7 +44,6 @@ internal class CameraRebootDialogViewModel @Inject constructor(
     private val rebootCamera: RebootCamera
 ) : ReduxViewModel<RebootDialogState>(RebootDialogState()) {
     private val loadingState = ObservableLoadingCounter()
-    private val pendingActions = Channel<RebootAction>(Channel.BUFFERED)
 
     init {
         // 뷰모델 시작시 disconnect 메시지 비활성화
@@ -90,18 +83,6 @@ internal class CameraRebootDialogViewModel @Inject constructor(
         }
     }.distinctUntilChanged().asLiveData()
 
-
-    init {
-        // 액션 처리
-        viewModelScope.launch {
-            pendingActions.consumeAsFlow().collect { action ->
-                when (action) {
-                    is RebootAction.SetSsid -> {
-                    }
-                }
-            }
-        }
-    }
 
     suspend fun reboot(ip: String) {
         loadingState.addLoader()

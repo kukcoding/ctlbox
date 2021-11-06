@@ -1,19 +1,11 @@
 package myapp.ui.dialogs.recordfiledownload
 
 
-import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.media.MediaScannerConnection
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +23,6 @@ import myapp.util.Action1
 import myapp.util.AndroidUtils
 import myapp.util.AndroidUtils.dpf
 import splitties.fragmentargs.arg
-import splitties.init.appCtx
-import java.io.File
 import kotlin.math.min
 
 
@@ -170,40 +160,5 @@ class RecordFileDownloadDialogFragment : DialogFragment() {
         super.onDismiss(dialog)
         onDismissListener?.invoke(mResultDownloadedFile)
     }
-
-    @SuppressLint("ObsoleteSdkInt")
-    fun refreshVideoGallery(file: File) {
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
-                MediaScannerConnection.scanFile(appCtx, arrayOf(file.absolutePath), arrayOf("video/mp4"), null)
-                val resolver = appCtx.contentResolver
-                val audioCollection = MediaStore.Video.Media.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL_PRIMARY
-                )
-                // Publish a new song.
-                val newSongDetails = ContentValues().apply {
-                    put(MediaStore.Video.Media.DISPLAY_NAME, file.name)
-                }
-                val myFavoriteSongUri = resolver
-                    .insert(audioCollection, newSongDetails)
-            }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT -> {
-                val mediaScanIntent = Intent(
-                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE
-                )
-                mediaScanIntent.data = Uri.fromFile(file)
-                appCtx.sendBroadcast(mediaScanIntent)
-            }
-            else -> {
-                appCtx.sendBroadcast(
-                    Intent(
-                        Intent.ACTION_MEDIA_MOUNTED,
-                        Uri.parse("file://" + Environment.getExternalStorageDirectory())
-                    )
-                )
-            }
-        }
-    }
-
 }
 
