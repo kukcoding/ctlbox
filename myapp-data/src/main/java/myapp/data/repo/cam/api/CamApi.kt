@@ -113,4 +113,17 @@ interface CamApi {
         @Path(value = "ip") ip: String,
         @Field("cameraName") cameraName: String
     ): Response<Unit>
+
+
+    /**
+     * WIFI SSID
+     * TODO 임시로 만들었다. 실제 펌웨어 IP로 업데이트 해야 함
+     */
+    @POST("http://{ip}/config/update-wifi")
+    @FormUrlEncoded
+    suspend fun updateWifi(
+        @Path(value = "ip") ip: String,
+        @Field("ssid") ssid: String,
+        @Field("pw") pw: String
+    ): Response<Unit>
 }

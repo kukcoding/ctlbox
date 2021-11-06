@@ -1,6 +1,8 @@
 package myapp.data.entities.network
 
 import androidx.annotation.Keep
+import myapp.data.entities.MjpgQuality
+import myapp.data.entities.VideoQuality
 
 class CamConfigPayload {
     @Keep

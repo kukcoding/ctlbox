@@ -67,6 +67,10 @@ internal class SettingsViewModel @Inject constructor(
         cfg?.enabledNetworkMedia?.uppercase() ?: "-"
     }.asLiveData()
 
+    val wifiSsidLive = camManager.observeConfig().map { cfg ->
+        cfg?.wifiSsid ?: "-"
+    }.asLiveData()
+
     init {
         // 스낵바 에러 처리
         snackbarManager.launchInScope(viewModelScope) { uiError, visible ->

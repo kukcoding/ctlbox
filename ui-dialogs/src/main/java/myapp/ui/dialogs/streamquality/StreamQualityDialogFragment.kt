@@ -137,7 +137,7 @@ class StreamQualityDialogFragment : DialogFragment() {
             try {
                 mViewModel.saveVideoQuality(ip = clientIp, resolution = resolution, fps = fps)
                 mBind.root.snack("저장되었습니다")
-                delay(500)
+                delay(400)
                 dismissWithDataChanged(true)
             } catch (e: Throwable) {
                 if (e is AppException) {

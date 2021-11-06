@@ -21,7 +21,11 @@ private fun createFakeConfig(): KuCameraConfig {
         availableNetworkMedia = "wifi,lte",
         recording = VideoQuality(resolution = "1920x1080", fps = 25, kbps = 6400),
         streaming = VideoQuality(resolution = "1280x720", fps = 15, kbps = 3200),
-        mjpg = MjpgQuality(resolution = "1280x720", fps = 10)
+        mjpg = MjpgQuality(resolution = "1280x720", fps = 10),
+        wifiSsid = "mpx-cam-demo",
+        wifiPw = "1111",
+        recordStartTimestamp = null,
+        recordDurationMinute = 0L,
     )
 }
 
@@ -180,5 +184,16 @@ class CamDataSource @Inject constructor(
         }
 
         return callApi { camApi.updateCameraName(ip = cameraIp(), cameraName = cameraName) }
+    }
+
+    /**
+     *
+     */
+    suspend fun updateWifi(wifiSsid: String, wifiPw: String): Result<Unit> {
+        if (BuildVars.fakeCamera) {
+            return Success(Unit)
+        }
+
+        return callApi { camApi.updateWifi(ip = cameraIp(), ssid = wifiSsid, pw = wifiPw) }
     }
 }

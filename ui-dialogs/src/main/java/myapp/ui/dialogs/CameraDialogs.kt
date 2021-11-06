@@ -119,9 +119,10 @@ object CameraDialogs {
 
     fun openCameraWifiEdit(
         fm: FragmentManager,
-        ssid: String,
+        wifiSsid: String?,
+        wifiPw: String?,
         onDismiss: Action1<String?>? = null
-    ) = CameraWifiEditDialogFragment.newInstance(ssid = ssid).apply {
+    ) = CameraWifiEditDialogFragment.newInstance(wifiSsid = wifiSsid, wifiPw = wifiPw).apply {
         isCancelable = true
         onDismissListener = onDismiss ?: {}
     }.also {

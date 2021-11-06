@@ -27,6 +27,10 @@ class CamConfigToKuCameraConfigMapper @Inject constructor(
         ),
         enabledNetworkMedia = from.network.enabled.joinToString(","),
         availableNetworkMedia = from.network.available.joinToString(","),
-        mjpg = MjpgQuality(resolution = from.preview.resolution, fps = from.preview.fps)
+        mjpg = MjpgQuality(resolution = from.preview.resolution, fps = from.preview.fps),
+        wifiSsid = null,
+        wifiPw = null,
+        recordStartTimestamp = null,
+        recordDurationMinute = 0L,
     )
 }

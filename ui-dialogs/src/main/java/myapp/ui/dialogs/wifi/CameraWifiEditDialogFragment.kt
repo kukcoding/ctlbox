@@ -13,18 +13,22 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import myapp.error.AppException
 import myapp.extensions.trimOrEmpty
 import myapp.ui.dialogs.databinding.DialogCameraWifiEditBinding
 import myapp.util.Action1
 import myapp.util.AndroidUtils
-import splitties.fragmentargs.arg
+import splitties.fragmentargs.argOrNull
+import splitties.snackbar.snack
 
 @AndroidEntryPoint
 class CameraWifiEditDialogFragment : DialogFragment() {
     companion object {
-        fun newInstance(ssid: String) = CameraWifiEditDialogFragment().apply {
-            mArgSsid = ssid
+        fun newInstance(wifiSsid: String?, wifiPw: String?) = CameraWifiEditDialogFragment().apply {
+            mArgWifiSsid = wifiSsid
+            mArgWifiPw = wifiPw
         }
     }
 
@@ -34,8 +38,9 @@ class CameraWifiEditDialogFragment : DialogFragment() {
      * Argument: 다이얼로그 dismiss 콜백
      */
     var onDismissListener: Action1<String?>? = null
-    private var mArgSsid: String by arg()
-    private var mResultCameraName: String? = null
+    private var mArgWifiSsid: String? by argOrNull()
+    private var mArgWifiPw: String? by argOrNull()
+    private var mResultSsid: String? = null
 
     private lateinit var mBind: DialogCameraWifiEditBinding
 
@@ -53,18 +58,20 @@ class CameraWifiEditDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (savedInstanceState == null) {
+            mViewModel.updateArgs(wifiSsid = mArgWifiSsid, wifiPw = mArgWifiPw)
+        }
         customInit()
         setupEvents()
     }
 
     private fun customInit() {
-        mBind.editTextSsid.setText(mArgSsid)
     }
 
     private fun setupEvents() {
         // 취소버튼 클릭
         mBind.txtviewCancelBtn.setOnClickListener {
-            mResultCameraName = null
+            mResultSsid = null
             dismiss()
         }
 
@@ -79,7 +86,7 @@ class CameraWifiEditDialogFragment : DialogFragment() {
 
         // 완료버튼 클릭
         mBind.txtviewSaveBtn.setOnClickListener {
-            doSave(mBind.editTextSsid.trimOrEmpty())
+            trySave(mBind.editTextSsid.trimOrEmpty(), mBind.editTextSsid.trimOrEmpty())
         }
     }
 
@@ -97,25 +104,47 @@ class CameraWifiEditDialogFragment : DialogFragment() {
         window.setLayout(preferWindowWidth(requireContext()), ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    private fun doSave(cameraName: String?) {
+    private fun trySave(wifiSsid: String, wifiPw: String) {
+        if (wifiSsid.isBlank()) {
+            mBind.root.snack("SSID를 입력해주세요")
+            return
+        }
+        if (wifiPw.isBlank()) {
+            mBind.root.snack("비밀번호를 입력해주세요")
+            return
+        }
+
+        val clientIp = mViewModel.camManager.cameraIp
+        if (clientIp == null) {
+            mBind.root.snack("카메라 연결을 확인해주세요")
+            return
+        }
+
         lifecycleScope.launch {
-//            try {
-//                val card = mViewModel.saveBibleCardMessage(cameraName = cameraName)
-//                dismissWithSavedCard(cameraName = card)
-//            } catch (e: Throwable) {
-//                mBind.root.snack(trimNull(e.message) ?: "에러가 발생했습니다")
-//            }
+            try {
+                mViewModel.saveWifi(ip = clientIp, wifiSsid = wifiSsid, wifiPw = wifiPw)
+                mBind.root.snack("저장되었습니다")
+                delay(400)
+                dismissWithSaved(wifiSsid)
+            } catch (e: Throwable) {
+                if (e is AppException) {
+                    mBind.root.snack(e.displayMessage())
+                } else {
+                    mBind.root.snack("에러 발생: ${e.message}")
+                }
+                e.printStackTrace()
+            }
         }
     }
 
-    private fun dismissWithSavedCard(cameraName: String?) {
-        mResultCameraName = cameraName
+    private fun dismissWithSaved(wifiSsid: String) {
+        mResultSsid = wifiSsid
         dismiss()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        onDismissListener?.invoke(mResultCameraName)
+        onDismissListener?.invoke(mResultSsid)
     }
 
 }

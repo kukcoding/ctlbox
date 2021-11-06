@@ -92,7 +92,7 @@ class MjpgPlayerFragment : Fragment() {
                     mBind.mjpgView.setImageDrawable(null)
                     mBind.mjpgView.isInvisible = true
                     mBind.overlayError.isGone = true
-                    delay(500)
+                    delay(400)
                     continue
                 }
                 val diff = System.currentTimeMillis() - lastFetchedTime

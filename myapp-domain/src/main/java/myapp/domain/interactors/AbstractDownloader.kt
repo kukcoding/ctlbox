@@ -55,7 +55,7 @@ abstract class AbstractDownloader {
 
         while (mDownloading && !mForceStop) {
             val lastLen = mDownloadedLength
-            delay(500)
+            delay(400)
             val downloadBytesInTick = mDownloadedLength - lastLen
             if (downloadBytesInTick >= 0) {
                 mCurrentSpeed = (downloadBytesInTick / 0.5f).toInt()

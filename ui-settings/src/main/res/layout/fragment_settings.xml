@@ -319,7 +319,7 @@
                     style="@style/SettingItemValueText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="IPCAM" />
+                    android:text="@{vm.wifiSsidLive}" />
 
 
                 <androidx.appcompat.widget.AppCompatImageView

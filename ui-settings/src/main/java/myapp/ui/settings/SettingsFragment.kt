@@ -120,9 +120,11 @@ class SettingsFragment : Fragment() {
     }
 
     private fun openCameraWifiEdit() {
+        val cfg = mViewModel.camManager.config ?: return
         CameraDialogs.openCameraWifiEdit(
             fm = childFragmentManager,
-            ssid = "IPCAM",
+            wifiSsid = cfg.wifiSsid,
+            wifiPw = cfg.wifiPw,
         )
     }
 
