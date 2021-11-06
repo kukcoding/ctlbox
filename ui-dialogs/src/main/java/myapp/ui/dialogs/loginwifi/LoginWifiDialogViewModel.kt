@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import myapp.BuildVars
 import myapp.ReduxViewModel
 import myapp.data.cam.CamManager
+import myapp.data.cam.WifiStatusTracker
 import myapp.domain.interactors.DoLogin
 import myapp.util.Logger
 import myapp.util.ObservableLoadingCounter
@@ -27,6 +28,8 @@ internal class LoginWifiDialogViewModel @Inject constructor(
     private val camManager: CamManager
 ) : ReduxViewModel<LoginWifiDialogState>(LoginWifiDialogState()) {
     private val loadingState = ObservableLoadingCounter()
+
+    val wifiStateFlow = WifiStatusTracker.getInstance(context).flow
 
     // for data binding
     val isLoadingLive = loadingState.observable.asLiveData()

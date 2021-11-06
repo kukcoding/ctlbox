@@ -2,15 +2,18 @@ package myapp.ui.dialogs.loginwifi
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -82,11 +85,28 @@ class LoginWifiDialogFragment : DialogFragment() {
             }
         }
 
+        mViewModel.wifiStateFlow.asLiveData().observe(viewLifecycleOwner, { enabled ->
+            mBind.imgviewWifi.isSelected = enabled
+        })
+
+        // 와이파이 아이콘 클릭시 와이파이 설정화면으로 이동
+        mBind.layoutWifiBtn.setOnClickListener {
+            openWifiSetting()
+        }
+    }
+
+    /**
+     * 와이파이 설정 화면으로 이동
+     */
+    private fun openWifiSetting() {
+        val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
     }
 
 
     private fun preferWindowWidth(ctx: Context): Int {
-        val preferWidth = AndroidUtils.dpf(360)
+        val preferWidth = AndroidUtils.dpf(300)
         val screenWidth = AndroidUtils.screenSmallSide(ctx)
         return minOf(preferWidth, screenWidth * 0.95f).toInt()
     }
@@ -108,8 +128,8 @@ class LoginWifiDialogFragment : DialogFragment() {
         lifecycleScope.launch {
             try {
                 mViewModel.tryLogin(pw = pw)
-                mBind.root.snack("로그인되었습니다")
                 mResultLoggedIn = true
+                mBind.root.snack("로그인되었습니다")
                 delay(400)
                 dismiss()
             } catch (e: Throwable) {

@@ -146,8 +146,7 @@ object NetworkUtils {
 
 
     /**
-     * 인터넷 사용 여부 체크
-     * 나중에 위에 있는 함수로 사용하자
+     * WIFI 상태 체크
      */
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     fun isWifiEnabled(context: Context): Boolean {

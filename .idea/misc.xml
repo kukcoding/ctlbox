@@ -116,11 +116,71 @@
         <entry key="..\:/p/kuk/ctlbox/ui-splash/src/main/res/layout/fragment_splash.xml" value="0.22" />
         <entry key="..\:/p/kuk/ctlbox/ui-splash/src/main/res/layout/splash_view.xml" value="0.2" />
         <entry key="..\:/p/kuk/ctlbox4/app/src/main/res/layout/activity_disconnected_message.xml" value="0.33" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/bg_song_play_duration.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/bible_bookmark_edit_dark_bg.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/bookmark_button.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/bt_homescreen.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/check_box_selector.xml" value="0.228125" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_baseline_linked_camera_24.xml" value="0.20677083333333332" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_book.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_brightness_1_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_brightness_2_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_brightness_high_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_brightness_medium_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_file_download_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_filter_5_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_format_align_right_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_format_bold_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_format_list_numbered_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_headphones.xml" value="0.228125" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_leftmenu_bible.xml" value="0.20729166666666668" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_main_wifi_connected.xml" value="0.20729166666666668" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_main_wifi_off.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_main_wifi_other.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_menu_overflow.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_monitor_camera.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_outline_font_download_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_outline_help_outline_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_outline_lock_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_photo_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_photo_filter_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_play_circle_outline_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_player_navmenu.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_player_ratio.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_radio_button_checked_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_radio_button_unchecked_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_reorder_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_round_dark_mode_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_round_drag_handle_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_round_format_list_bulleted_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_round_keyboard_arrow_down_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_round_keyboard_arrow_up_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_round_push_pin_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_round_settings_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_round_sort_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_round_sort_by_alpha_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_round_star_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_round_star_border_24.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_search_24px.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_send_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_share_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_star.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_text_format_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_touch_app_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/ic_wb_sunny_black_24dp.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/photo_card_circle_button.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/photo_maker_circle_button.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/photo_maker_font_selection_border.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/photo_maker_menu_background.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/photo_maker_menu_background2.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/photo_maker_reset_btn_bg.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/photo_maker_reset_btn_bg_light.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/round_label_grey.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/selector_fps_button.xml" value="0.228125" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/song_search_index_bg.xml" value="0.228125" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/song_toolbar.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/wifi_connect_warn.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/wifi_onoff.xml" value="0.228125" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-view/src/main/res/layout/common_resolution_radio_button.xml" value="0.21557971014492755" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-view/src/main/res/layout/widget_big_play_button.xml" value="0.21557971014492755" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-view/src/main/res/layout/widget_resolution_radio_button.xml" value="0.21557971014492755" />
@@ -130,7 +190,7 @@
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_camera_reboot.xml" value="0.5" />
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_camera_wifi_edit.xml" value="0.19114583333333332" />
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_login_network_choose.xml" value="0.22" />
-        <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_login_wifi.xml" value="0.2536231884057971" />
+        <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_login_wifi.xml" value="0.33" />
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_network_media.xml" value="0.1" />
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_record_file_download.xml" value="0.33" />
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_record_file_filters.xml" value="0.20199275362318841" />
