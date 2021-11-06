@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import myapp.BuildVars
 import myapp.error.AppException
 import myapp.ui.dialogs.databinding.DialogCameraRebootBinding
 import myapp.util.Action1
@@ -55,7 +56,7 @@ class CameraRebootDialogFragment : DialogFragment() {
     }
 
     private fun customInit() {
-
+        mBind.txtviewMsg3.text = "재부팅 시간은 보통 ${BuildVars.rebootDurationSec}초 정도이지만,\n장치 상태에 따라 조금 더 걸릴 수 있습니다"
     }
 
     private fun setupEvents() {

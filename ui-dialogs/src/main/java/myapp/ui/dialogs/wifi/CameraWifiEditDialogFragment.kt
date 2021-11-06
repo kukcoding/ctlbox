@@ -15,13 +15,14 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import myapp.BuildVars
 import myapp.error.AppException
 import myapp.extensions.trimOrEmpty
 import myapp.ui.dialogs.databinding.DialogCameraWifiEditBinding
 import myapp.util.Action1
 import myapp.util.AndroidUtils
-import myapp.validator.SsidValidator
 import myapp.validator.WifiPasswordValidator
+import myapp.validator.WifiSsidValidator
 import splitties.fragmentargs.argOrNull
 import splitties.snackbar.snack
 
@@ -111,7 +112,7 @@ class CameraWifiEditDialogFragment : DialogFragment() {
             return
         }
 
-        if (!SsidValidator.isValid(wifiSsid)) {
+        if (!WifiSsidValidator.isValid(wifiSsid)) {
             mBind.root.snack("SSID가 유효하지 않습니다")
             return
         }
@@ -126,8 +127,14 @@ class CameraWifiEditDialogFragment : DialogFragment() {
             return
         }
 
-        if (wifiPw.length < 8 || wifiPw.length > 30) {
-            mBind.root.snack("비밀번호를 8~30 글자로 입력해주세요")
+        if (wifiPw.length < BuildVars.wifiPwMinLength || wifiPw.length > BuildVars.wifiPwMaxLength) {
+            mBind.root.snack(
+                String.format(
+                    "비밀번호를 %d~%d 글자로 입력해주세요",
+                    BuildVars.wifiPwMinLength,
+                    BuildVars.wifiPwMaxLength
+                )
+            )
             return
         }
 

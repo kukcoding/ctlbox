@@ -32,7 +32,7 @@ internal data class RebootDialogState(
 private fun rebootProgress(startTime: Long): Float {
     val diff = System.currentTimeMillis() - startTime
     if (diff <= 0) return 0f
-    val delta = diff / (BuildVars.cameraRebootDurationSeconds * 1000f)
+    val delta = diff / (BuildVars.rebootDurationSec * 1000f)
     return minOf(delta, 1f)
 }
 
@@ -76,7 +76,7 @@ internal class CameraRebootDialogViewModel @Inject constructor(
     ).flatMapLatest { (step, startTime) ->
         if (step is RebootStep.RebootingStarted && startTime > 0) {
             flowInterval(0, 1000).map {
-                String.format("%d초", (System.currentTimeMillis() - startTime) / 1000)
+                String.format("%d초 / %d초", (System.currentTimeMillis() - startTime) / 1000, BuildVars.rebootDurationSec)
             }
         } else {
             flowOf("")
@@ -96,7 +96,7 @@ internal class CameraRebootDialogViewModel @Inject constructor(
             copy(step = RebootStep.RebootingStarted, rebootStartTime = System.currentTimeMillis())
         }
 
-        var remainSec = BuildVars.cameraRebootDurationSeconds * 1000
+        var remainSec = BuildVars.rebootDurationSec * 1000
         while (remainSec > 0 ) {
             delay(500)
             remainSec -= 500

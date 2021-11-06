@@ -11,11 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
-import androidx.core.view.iterator
 import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -246,43 +243,57 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun openWifiSetting() {
+    private fun openWifiSetting() {
         val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }
 
 
-    fun onClickLoginButton() {
+    private fun onClickLoginButton() {
         val ctx = context ?: return
         if (mViewModel.isLoggedInLive.value == true) {
             mViewModel.submitAction(HomeAction.Logout)
             return
         }
 
-        val popup = PopupMenu(ContextThemeWrapper(context, R.style.LoginPopupMenu), mBind.txtviewLoginBtn)
-        popup.inflate(R.menu.popup_login_media)
+        openLoginNetworkChoose()
 
-        //val initial = mViewModel.currentState().playerAutoStopTime
-        popup.menu.iterator().forEach { menuItem ->
-            // 이렇게 하면 안되네
-            // menuItem.isChecked = playerAutoStopActionIdToCode[menuItem.itemId] == initial
-//            if (playerAutoStopActionIdToCode[menuItem.itemId] == initial) {
-//                menuItem.isChecked = true
+//        val popup = PopupMenu(ContextThemeWrapper(context, R.style.LoginPopupMenu), mBind.txtviewLoginBtn)
+//        popup.inflate(R.menu.popup_login_media)
+//
+//        //val initial = mViewModel.currentState().playerAutoStopTime
+//        // popup.menu.iterator().forEach { }
+//
+//        popup.setOnMenuItemClickListener { menuItem ->
+//            if (menuItem.itemId == R.id.popup_wifi) {
+//                CameraDialogs.openLoginWifi(fm = childFragmentManager)
+//            } else {
+//                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = null)
 //            }
-        }
-
-        popup.setOnMenuItemClickListener { menuItem ->
-            if (menuItem.itemId == R.id.popup_wifi) {
-                CameraDialogs.openLoginWifi(fm = childFragmentManager)
-            } else {
-                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = null)
-            }
-            true
-        }
-        popup.show()
+//            true
+//        }
+//        popup.show()
     }
 
+    private fun openLoginNetworkChoose() {
+        CameraDialogs.openLoginNetworkChoose(fm = childFragmentManager) { net ->
+            if (net == "wifi") {
+                CameraDialogs.openLoginWifi(fm = childFragmentManager) { loggedIn ->
+                    if (loggedIn) {
+                        closeDrawer()
+                    }
+                }
+
+            } else if (net == "lte") {
+                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = null ) { loggedIn ->
+                    if (loggedIn) {
+                        closeDrawer()
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * 백키 핸들러 - 오른쪽 메뉴가 열려있으면 닫히도록

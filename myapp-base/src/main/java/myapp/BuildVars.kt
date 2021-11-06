@@ -10,7 +10,38 @@ object BuildVars {
     const val cameraAccessPointIp = "192.168.157.100"
     const val fakeCamera = true
     const val fakeCameraId = "fakeab0012abde"
-    const val cameraRebootDurationSeconds = 20
+
+    /**
+     * 카메라 재부팅 시간
+     */
+    const val rebootDurationSec = 20
+
+
+    /**
+     * WIFI SSID 길이
+     */
+    const val wifiSsidMinLength = 4
+    const val wifiSsidMaxLength = 30
+
+
+    /**
+     * WIFI PW 길이
+     */
+    const val wifiPwMinLength = 8
+    const val wifiPwMaxLength = 30
+
+
+    /**
+     * 카메라 PW 길이
+     */
+    const val cameraPwMinLength = 4
+    const val cameraPwMaxLength = 30
+
+    /**
+     * 카메라 이름
+     */
+    const val cameraNameMinLength = 2
+    const val cameraNameMaxLength = 30
 }
 
 

@@ -72,7 +72,7 @@ class LoginNetworkChooseDialogFragment : DialogFragment() {
     }
 
     private fun preferWindowWidth(ctx: Context): Float {
-        val preferWidth = dpf(260)
+        val preferWidth = dpf(220)
         val screenWidth = AndroidUtils.screenSmallSide(ctx)
 
 

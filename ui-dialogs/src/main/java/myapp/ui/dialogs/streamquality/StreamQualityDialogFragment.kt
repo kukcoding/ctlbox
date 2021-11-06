@@ -119,7 +119,7 @@ class StreamQualityDialogFragment : DialogFragment() {
 
         // 닫기 버튼 클릭
         mBind.layoutCloseBtn.setOnClickListener {
-            dismissWithDataChanged(false)
+            dismiss()
         }
     }
 
@@ -137,9 +137,10 @@ class StreamQualityDialogFragment : DialogFragment() {
 
         try {
             mViewModel.saveVideoQuality(ip = cameraIp, resolution = resolution, fps = fps)
+            mResultChanged = true
             mBind.root.snack("저장되었습니다")
             delay(400)
-            dismissWithDataChanged(true)
+            dismiss()
         } catch (e: Throwable) {
             if (e is AppException) {
                 mBind.root.snack(e.displayMessage())
@@ -168,10 +169,6 @@ class StreamQualityDialogFragment : DialogFragment() {
         return if (preferWidth < 0) preferWidth else min(preferWidth, screenWidth * 0.85f)
     }
 
-    private fun dismissWithDataChanged(changed: Boolean) {
-        mResultChanged = changed
-        dismiss()
-    }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)

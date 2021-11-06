@@ -1,5 +1,6 @@
 package myapp.data.repo.cam.api
 
+import kotlinx.coroutines.delay
 import myapp.BuildVars
 import myapp.data.apicommon.callApi
 import myapp.data.apicommon.execApi
@@ -47,6 +48,7 @@ class CamDataSource @Inject constructor(
 
     suspend fun login(ip: String, pw: String): Result<KuCameraConfig> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             ApiPreference.accessToken.value = "1234"
             ApiPreference.cameraIp.value = ip
             ApiPreference.cameraId.value = BuildVars.fakeCameraId
@@ -69,6 +71,7 @@ class CamDataSource @Inject constructor(
      */
     suspend fun health(ip: String): Result<String> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             return Success(BuildVars.fakeCameraId)
         }
 
@@ -85,6 +88,7 @@ class CamDataSource @Inject constructor(
      */
     suspend fun config(): Result<KuCameraConfig> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             return Success(createFakeConfig())
         }
         return callApi {
@@ -97,6 +101,7 @@ class CamDataSource @Inject constructor(
      */
     suspend fun recordFiles(): Result<List<KuRecordFile>> {
         if (BuildVars.fakeCamera) {
+            delay(1500)
             // ${yymmdd}_${hhmmss}_${width}x${height}_${fps}_${kbps}_${duration_msec}_${file_size}.mp4
             return Success(
                 listOf(
@@ -127,6 +132,7 @@ class CamDataSource @Inject constructor(
      */
     suspend fun deleteFile(fileId: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             return Success(Unit)
         }
 
@@ -139,6 +145,7 @@ class CamDataSource @Inject constructor(
      */
     suspend fun updateRecordingVideoQuality(resolution: String, fps: Int): Result<Unit> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             return Success(Unit)
         }
 
@@ -150,6 +157,7 @@ class CamDataSource @Inject constructor(
      */
     suspend fun updateStreamingVideoQuality(resolution: String, fps: Int): Result<Unit> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             return Success(Unit)
         }
 
@@ -161,6 +169,7 @@ class CamDataSource @Inject constructor(
      */
     suspend fun updateNetworkConfig(wifi: Boolean, lte: Boolean): Result<Unit> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             return Success(Unit)
         }
 
@@ -178,6 +187,7 @@ class CamDataSource @Inject constructor(
      */
     suspend fun updatePassword(pw: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             return Success(Unit)
         }
 
@@ -189,6 +199,7 @@ class CamDataSource @Inject constructor(
      */
     suspend fun updateCameraName(cameraName: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             return Success(Unit)
         }
 
@@ -200,6 +211,7 @@ class CamDataSource @Inject constructor(
      */
     suspend fun updateWifi(wifiSsid: String, wifiPw: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             return Success(Unit)
         }
 
@@ -214,6 +226,7 @@ class CamDataSource @Inject constructor(
 
     suspend fun logout(): Result<Unit> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             clearToken()
             return Success(Unit)
         }
@@ -228,6 +241,7 @@ class CamDataSource @Inject constructor(
      */
     suspend fun reboot(): Result<Unit> {
         if (BuildVars.fakeCamera) {
+            delay(1000)
             clearToken()
             return Success(Unit)
         }

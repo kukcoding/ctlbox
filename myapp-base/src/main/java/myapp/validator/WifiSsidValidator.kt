@@ -1,11 +1,13 @@
 package myapp.validator
 
+import myapp.BuildVars
 
-object SsidValidator {
+
+object WifiSsidValidator {
     private const val availCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_ "
 
     fun isValid(ssid: String): Boolean {
-        if (ssid.length < 4 || ssid.length > 30) {
+        if (ssid.length < BuildVars.wifiSsidMinLength || ssid.length > BuildVars.wifiSsidMaxLength) {
             return false
         }
         for (ch in ssid) {

@@ -133,13 +133,26 @@
         <item name="android:textColor">#fff</item>
     </style>
 
+    <style name="SettingDivider" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/white_transparent_10</item>
+        <item name="android:layout_marginHorizontal">16dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+    <style name="SettingSectionText" >
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_marginStart">16dp</item>
+    </style>
+
     <style name="SettingItemLabelText" >
-        <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorOnSurface6</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="SettingItemValueText">
-        <item name="android:textColor">?attr/colorOnSurface3</item>
+        <item name="android:textColor">?attr/colorOnSurface2</item>
         <item name="android:textSize">14sp</item>
     </style>
 

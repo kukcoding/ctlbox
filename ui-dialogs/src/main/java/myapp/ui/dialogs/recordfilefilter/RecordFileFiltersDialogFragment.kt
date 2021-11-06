@@ -82,7 +82,7 @@ class RecordFileFiltersDialogFragment : DialogFragment() {
 
         // 닫기 버튼 클릭
         mBind.layoutCloseBtn.setOnClickListener {
-            dismissWithDataChanged(null)
+            dismiss()
         }
     }
 
@@ -111,7 +111,8 @@ class RecordFileFiltersDialogFragment : DialogFragment() {
     // 뷰홀더 - RecordFileFilter 클릭
     private fun onHolderClickRecordFileFilter(view: View, item: RecordFileFilterItem) {
         // mViewModel.submitAction(RecordFileFiltersAction.SelectFilter(filter = item.filter))
-        dismissWithDataChanged(item.filter)
+        mResultFilterKey = item.filter
+        dismiss()
     }
 
 
@@ -131,11 +132,6 @@ class RecordFileFiltersDialogFragment : DialogFragment() {
 
 
         return if (preferWidth < 0) preferWidth else min(preferWidth, screenWidth * 0.85f)
-    }
-
-    private fun dismissWithDataChanged(filter: RecordFileFilter?) {
-        mResultFilterKey = filter
-        dismiss()
     }
 
     override fun onDismiss(dialog: DialogInterface) {

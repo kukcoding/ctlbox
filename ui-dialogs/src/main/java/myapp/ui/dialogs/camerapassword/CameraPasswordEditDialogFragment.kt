@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import myapp.BuildVars
 import myapp.error.AppException
 import myapp.extensions.trimOrEmpty
 import myapp.ui.dialogs.databinding.DialogCameraPasswordEditBinding
@@ -101,8 +102,14 @@ class CameraPasswordEditDialogFragment : DialogFragment() {
             mBind.root.snack("비밀번호를 입력해주세요")
             return
         }
-        if (pw1.length < 4 || pw1.length > 30) {
-            mBind.root.snack("비밀번호를 4~30 글자로 입력해주세요")
+        if (pw1.length < BuildVars.cameraPwMinLength || pw1.length > BuildVars.cameraPwMaxLength) {
+            mBind.root.snack(
+                String.format(
+                    "비밀번호를 %d~%d 글자로 입력해주세요",
+                    BuildVars.cameraPwMinLength,
+                    BuildVars.cameraPwMaxLength
+                )
+            )
             return
         }
 

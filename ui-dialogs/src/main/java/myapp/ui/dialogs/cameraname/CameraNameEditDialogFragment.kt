@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import myapp.BuildVars
 import myapp.error.AppException
 import myapp.extensions.trimOrEmpty
 import myapp.ui.dialogs.databinding.DialogCameraNameEditBinding
@@ -124,8 +125,14 @@ class CameraNameEditDialogFragment : DialogFragment() {
             return
         }
 
-        if (cameraName.length < 2 || cameraName.length > 30) {
-            mBind.root.snack("카메라 이름을 2~30 글자로 입력해주세요")
+        if (cameraName.length < BuildVars.cameraNameMinLength || cameraName.length > BuildVars.cameraNameMaxLength) {
+            mBind.root.snack(
+                String.format(
+                    "카메라 이름을 %d~%d 글자로 입력해주세요",
+                    BuildVars.cameraNameMinLength,
+                    BuildVars.cameraNameMaxLength
+                )
+            )
             return
         }
 
