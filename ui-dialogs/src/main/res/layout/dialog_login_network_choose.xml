@@ -31,7 +31,7 @@
             android:layout_marginTop="24dp"
             android:minWidth="200dp"
             android:paddingVertical="16dp"
-            android:text="WIFI로 로그인"
+            android:text="WIFI로 연결"
             android:textColor="@color/selector_secondary_and_white"
             android:textSize="18sp" />
 
@@ -44,7 +44,7 @@
             android:layout_marginTop="16dp"
             android:minWidth="200dp"
             android:paddingVertical="16dp"
-            android:text="LTE로 로그인"
+            android:text="LTE로 연결"
             android:textColor="@color/selector_secondary_and_white"
             android:textSize="18sp" />
 

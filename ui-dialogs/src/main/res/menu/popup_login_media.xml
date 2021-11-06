@@ -3,10 +3,10 @@
     <group android:checkableBehavior="none">
         <item
             android:id="@+id/popup_wifi"
-            android:title="WIFI로 로그인" />
+            android:title="WIFI로 연결" />
         <item
             android:id="@+id/popup_lte"
-            android:title="LTE로 로그인" />
+            android:title="LTE로 연결" />
 
     </group>
 </menu>

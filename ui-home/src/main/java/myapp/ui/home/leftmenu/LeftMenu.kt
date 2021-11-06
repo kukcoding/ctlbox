@@ -12,5 +12,5 @@ enum class LeftMenu(
     @StringRes val labelResId: Int
 ) {
     // FONT_MANAGE(R.drawable.ic_outline_font_download_24, Color.parseColor("#FFD2A6"), R.string.menu_font_manage),
-    JEBO(R.drawable.ic_outline_help_outline_24, Color.parseColor("#FFD2A6"), R.string.menu_jebo)
+    DUMMY(R.drawable.ic_outline_help_outline_24, Color.parseColor("#FFD2A6"), R.string.menu_jebo)
 }

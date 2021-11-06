@@ -19,22 +19,22 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgview_camera"
                 android:layout_width="32dp"
                 android:layout_height="0dp"
-                android:padding="4dp"
                 android:layout_marginStart="8dp"
+                android:padding="4dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_monitor_camera"
-                app:tint="#fff" />
+                app:tint="@color/selector_text1_and_secondary" />
 
             <TextView
                 android:id="@+id/txtview_title"
@@ -68,17 +68,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtview_title"
                 tools:text="0234ABDF" />
 
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_disconnect"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="연결끊기"
+                android:textColor="@color/selector_secondary_and_white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgview_deleteBtn"
                 android:layout_width="48dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="0dp"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:padding="14dp"
                 android:scaleType="centerCrop"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="H,1:1"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/bt_disconnect"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_delete_black_24dp"
                 app:tint="#fff" />

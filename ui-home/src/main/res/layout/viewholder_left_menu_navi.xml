@@ -38,11 +38,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imgview_logo">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_main_wifi_connected" />
+                app:srcCompat="@drawable/ic_main_wifi_connected"
+                app:tint="@color/selector_text6_and_primary" />
         </FrameLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -75,9 +76,9 @@
             android:id="@+id/txtview_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="6dp"
             android:text="CAMERAS"
-            android:textColor="#4E71DC"
+            android:textColor="?attr/colorOnSurface6"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/imgview_logo"

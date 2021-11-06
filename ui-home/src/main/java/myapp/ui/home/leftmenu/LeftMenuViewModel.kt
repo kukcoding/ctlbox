@@ -1,7 +1,6 @@
 package myapp.ui.home.leftmenu
 
 import android.content.Context
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
@@ -12,6 +11,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kr.ohlab.android.recyclerviewgroup.ItemBase
 import myapp.ReduxViewModel
+import myapp.data.cam.CamManager
 import myapp.data.preferences.AppPreference
 import myapp.data.preferences.KuCameraPreference
 import myapp.ui.home.leftmenu.viewholder.LeftMenuCameraItem
@@ -23,21 +23,20 @@ import myapp.util.tupleOf
 import javax.inject.Inject
 
 internal sealed class LeftMenuAction {
-
-    // 기존 광고를 제거하고, 새로운 광고를 로드한다
-    object ClearAndRefreshFullscreenAd : LeftMenuAction()
+    object DisconnectCurrentCam : LeftMenuAction()
 }
 
 internal data class LeftMenuViewState(
     val naviItem: LeftMenuNaviItem = LeftMenuNaviItem(),
     val cameraItems: List<LeftMenuCameraItem> = emptyList(),
     val menuItems: List<LeftMenuItem> = emptyList(),
+    val cameraId: String? = null
 )
 
 @HiltViewModel
 internal class LeftMenuViewModel @Inject constructor(
     @ApplicationContext context: Context,
-//    private val observeLocalBibles: ObserveLocalBibles,
+    val camManager: CamManager,
     private val logger: Logger
 ) : ReduxViewModel<LeftMenuViewState>(LeftMenuViewState()) {
 
@@ -77,38 +76,21 @@ internal class LeftMenuViewModel @Inject constructor(
             }
         }
 
+        viewModelScope.launch {
+            camManager.observeConfig().map { it?.cameraId }.distinctUntilChanged().collect {
+                setState { copy(cameraId = it) }
+            }
+        }
         // 액션 처리
         viewModelScope.launch {
             pendingActions.consumeAsFlow().collect { action ->
                 when (action) {
-                    is LeftMenuAction.ClearAndRefreshFullscreenAd -> clearAndRefreshFullscreenAd()
+                    is LeftMenuAction.DisconnectCurrentCam -> {
+                        camManager.onDisconnect()
+                    }
                 }
             }
         }
-    }
-
-    fun setupWithLifecycle(lifecycleScope: LifecycleCoroutineScope) {
-//        lifecycleScope.launch {
-//            setState {
-//                // val menuItems = LeftMenu.values().map { LeftMenuItem(menu = it, showDivider = true) }
-//
-//                copy(
-//                    // menuItems = menuItems,
-//                    cameraItems = listOf(
-//                        KuCamera(
-//                            cameraId = "12AB11CA",
-//                            cameraName = "거실 카메라",
-//                            lastConnectTimestamp = System.currentTimeMillis()
-//                        ),
-//                        KuCamera(
-//                            cameraId = "AB00F0CA",
-//                            cameraName = "안방 카메라",
-//                            lastConnectTimestamp = System.currentTimeMillis()
-//                        )
-//                    ).map { LeftMenuCameraItem(it) }
-//                )
-//            }
-//        }
     }
 
     fun submitAction(action: LeftMenuAction) {
@@ -119,10 +101,5 @@ internal class LeftMenuViewModel @Inject constructor(
         }
     }
 
-    private fun clearAndRefreshFullscreenAd() {
-//        viewModelScope.launch {
-//            adManager.refreshFullscreenAd()
-//        }
-    }
 }
 

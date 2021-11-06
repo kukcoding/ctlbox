@@ -11,13 +11,17 @@ import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.distinctUntilChanged
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kr.ohlab.android.recyclerviewgroup.DefaultHolderTracker
 import kr.ohlab.android.recyclerviewgroup.TRListAdapter
 import kr.ohlab.android.recyclerviewgroup.support.buildListAdapter
 import myapp.data.preferences.AppPreference
 import myapp.data.preferences.KuCameraPreference
+import myapp.extensions.confirmOk
 import myapp.extensions.resources.resColor
 import myapp.settings.BuildConstants
 import myapp.ui.dialogs.CameraDialogs
@@ -92,6 +96,10 @@ class LeftMenuFragment : Fragment() {
             }
         })
 
+        mBind.txtviewAddCameraBtn.setOnClickListener {
+            openLoginNetworkChoose(lastCameraIp = null)
+        }
+
         AppPreference.isAdmin.valueFlow().distinctUntilChanged().asLiveData().observe(viewLifecycleOwner, { admin ->
             if (admin) {
                 mBind.txtviewAppVersion.setTextColor(resColor(R.color.color_orange_500))
@@ -100,7 +108,10 @@ class LeftMenuFragment : Fragment() {
             }
         })
 
-        mViewModel.setupWithLifecycle(viewLifecycleOwner.lifecycleScope)
+        mViewModel.liveFieldOf(LeftMenuViewState::cameraId).distinctUntilChanged()
+            .observe(viewLifecycleOwner, { cameraId ->
+                mAdapter?.notifyDataSetChanged()
+            })
     }
 
     private fun setupRecyclerView() {
@@ -129,6 +140,16 @@ class LeftMenuFragment : Fragment() {
             registerOnBindBefore(LeftMenuCameraItem::class) { item ->
                 item.onHolderClick = ::onHolderClickCamera
                 item.onDeleteClick = ::onHolderClickCameraDelete
+                item.onDisconnectClick = ::onHolderClickCameraDisconnect
+            }
+        }
+
+
+        mAdapter!!.holderTracker = object : DefaultHolderTracker() {
+            override fun holderSelected(item: Any): Boolean {
+                val cameraId = (item as? LeftMenuCameraItem)?.camera?.cameraId ?: return false
+                val state = mViewModel.currentState()
+                return cameraId == state.cameraId
             }
         }
     }
@@ -139,7 +160,7 @@ class LeftMenuFragment : Fragment() {
      */
     private fun onHolderClickMenu(view: View, item: LeftMenuItem) {
         when (item.menu) {
-            LeftMenu.JEBO -> {
+            LeftMenu.DUMMY -> {
 //                if (!NetworkUtils.hasInternet(requireContext())) {
 //                    alert("네트워크 연결을 확인해주세요")
 //                    return
@@ -156,8 +177,17 @@ class LeftMenuFragment : Fragment() {
      * 뷰홀더 클릭 - 카메라
      */
     private fun onHolderClickCamera(view: View, item: LeftMenuCameraItem) {
-        // activityLauncher.startEtc(this)
+        val cameraId = mViewModel.camManager.cameraId
+        if (cameraId != null && cameraId == item.camera.cameraId) {
+            mBind.root.snack("이미 선택된 카메라입니다")
+            return
+        }
+
         val camera = item.camera
+        openLoginNetworkChoose(lastCameraIp = camera.lastIp)
+    }
+
+    private fun openLoginNetworkChoose(lastCameraIp: String?) {
         CameraDialogs.openLoginNetworkChoose(fm = childFragmentManager) { net ->
             if (net == "wifi") {
                 CameraDialogs.openLoginWifi(fm = childFragmentManager) { loggedIn ->
@@ -167,7 +197,7 @@ class LeftMenuFragment : Fragment() {
                 }
 
             } else if (net == "lte") {
-                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = camera.lastIp) { loggedIn ->
+                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = lastCameraIp) { loggedIn ->
                     if (loggedIn) {
                         closeDrawer()
                     }
@@ -185,7 +215,25 @@ class LeftMenuFragment : Fragment() {
      * 뷰홀더 클릭 - 카메라 삭제
      */
     private fun onHolderClickCameraDelete(view: View, item: LeftMenuCameraItem) {
-        KuCameraPreference.remove(item.camera.cameraId)
+
+        confirmOk("선택된 카메라를 삭제하시겠습니까?", item.camera.cameraName ?: item.camera.cameraId) { ok ->
+            if (ok) {
+                val rootView = item.viewHolder?.binding?.root ?: return@confirmOk
+                YoYo.with(Techniques.FadeOutLeft)
+                    .duration(300)
+                    .onEnd {
+                        KuCameraPreference.remove(item.camera.cameraId)
+                    }.playOn(rootView)
+            }
+        }
+    }
+
+
+    /**
+     * 뷰홀더 클릭 - 카메라 연결 해제
+     */
+    private fun onHolderClickCameraDisconnect(view: View, item: LeftMenuCameraItem) {
+        mViewModel.submitAction(LeftMenuAction.DisconnectCurrentCam)
     }
 
     /**
