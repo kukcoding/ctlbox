@@ -116,7 +116,7 @@ interface CamApi {
 
 
     /**
-     * WIFI SSID
+     * WIFI 설정 변경
      * TODO 임시로 만들었다. 실제 펌웨어 IP로 업데이트 해야 함
      */
     @POST("http://{ip}/config/update-wifi")
@@ -125,5 +125,15 @@ interface CamApi {
         @Path(value = "ip") ip: String,
         @Field("ssid") ssid: String,
         @Field("pw") pw: String
+    ): Response<Unit>
+
+    /**
+     * 재부팅
+     * TODO 임시로 만들었다. 실제 펌웨어 IP로 업데이트 해야 함
+     */
+    @POST("http://{ip}/reboot")
+    @FormUrlEncoded
+    suspend fun reboot(
+        @Path(value = "ip") ip: String,
     ): Response<Unit>
 }

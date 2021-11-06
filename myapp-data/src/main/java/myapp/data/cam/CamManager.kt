@@ -87,7 +87,7 @@ class CamManager constructor(
         this.loginStateFlow.tryEmit(CamLoggedIn(cameraId = cameraId, cameraIp = cameraIp))
     }
 
-    fun onDisconnect() {
+    fun onLogout() {
         this.configFlow.tryEmit(null)
         this.loginStateFlow.tryEmit(CamLoggedOut)
     }

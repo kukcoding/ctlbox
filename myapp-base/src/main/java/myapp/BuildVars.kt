@@ -10,6 +10,7 @@ object BuildVars {
     const val cameraAccessPointIp = "192.168.157.100"
     const val fakeCamera = true
     const val fakeCameraId = "fakeab0012abde"
+    const val cameraRebootDurationSeconds = 20
 }
 
 

@@ -9,6 +9,7 @@ import myapp.ui.dialogs.loginlte.LoginLteDialogFragment
 import myapp.ui.dialogs.loginmediachoose.LoginNetworkChooseDialogFragment
 import myapp.ui.dialogs.loginwifi.LoginWifiDialogFragment
 import myapp.ui.dialogs.networkmedia.NetworkMediaDialogFragment
+import myapp.ui.dialogs.reboot.CameraRebootDialogFragment
 import myapp.ui.dialogs.recordfiledownload.RecordFileDownloadDialogFragment
 import myapp.ui.dialogs.recordfilefilter.RecordFileFiltersDialogFragment
 import myapp.ui.dialogs.streamquality.StreamQualityDialogFragment
@@ -155,4 +156,16 @@ object CameraDialogs {
         autoCloseDelay = 10_000L,
         onDismiss = onDismiss
     )
+
+
+
+    fun openReboot(
+        fm: FragmentManager,
+        onDismiss: Action1<Boolean>
+    ) = CameraRebootDialogFragment.newInstance().apply {
+        isCancelable = true
+        onDismissListener = onDismiss
+    }.also {
+        it.show(fm, null)
+    }
 }

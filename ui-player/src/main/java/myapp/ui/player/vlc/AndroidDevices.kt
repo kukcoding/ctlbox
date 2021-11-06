@@ -95,7 +95,7 @@ object AndroidDevices {
         get() {
             if (!AndroidUtil.isMarshMallowOrLater)
                 for (manufacturer in noMediaStyleManufacturers)
-                    if (Build.MANUFACTURER.toLowerCase(Locale.getDefault()).contains(manufacturer))
+                    if (Build.MANUFACTURER.lowercase(Locale.getDefault()).contains(manufacturer))
                         return true
             return false
         }
@@ -168,12 +168,12 @@ object AndroidDevices {
 
     fun isDex(ctx: Context): Boolean {
         if (!AndroidUtil.isNougatOrLater) return false
-        try {
+        return try {
             val config = ctx.resources.configuration
             val configClass = config.javaClass
-            return configClass.getField("SEM_DESKTOP_MODE_ENABLED").getInt(configClass) == configClass.getField("semDesktopModeEnabled").getInt(config)
+            configClass.getField("SEM_DESKTOP_MODE_ENABLED").getInt(configClass) == configClass.getField("semDesktopModeEnabled").getInt(config)
         } catch (ignored: Exception) {
-            return false
+            false
         }
     }
 

@@ -19,6 +19,6 @@ class LogoutCamera @Inject constructor(
             dataSource.logout()
         } catch (ignore: Throwable) {
         }
-        camManager.onDisconnect()
+        camManager.onLogout()
     }
 }

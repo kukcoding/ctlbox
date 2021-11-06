@@ -153,6 +153,7 @@ class HomeFragment : Fragment() {
             }
         }
 
+
         mViewModel.isLteEnabledLive.observe(viewLifecycleOwner, { enabled ->
             if (enabled == true) {
                 mBind.txtviewLteLabel.alpha = 1f;
@@ -281,7 +282,6 @@ class HomeFragment : Fragment() {
         }
         popup.show()
     }
-
 
 
     /**

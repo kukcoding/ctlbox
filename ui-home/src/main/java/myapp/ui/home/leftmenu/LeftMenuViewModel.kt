@@ -86,7 +86,7 @@ internal class LeftMenuViewModel @Inject constructor(
             pendingActions.consumeAsFlow().collect { action ->
                 when (action) {
                     is LeftMenuAction.DisconnectCurrentCam -> {
-                        camManager.onDisconnect()
+                        camManager.onLogout()
                     }
                 }
             }

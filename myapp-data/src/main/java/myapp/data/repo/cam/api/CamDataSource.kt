@@ -80,21 +80,10 @@ class CamDataSource @Inject constructor(
     }
 
 
-    suspend fun logout(): Result<Unit> {
-        if (BuildVars.fakeCamera) {
-            ApiPreference.accessToken.value = ""
-            ApiPreference.cameraIp.value = ""
-            ApiPreference.cameraId.value = ""
-            return Success(Unit)
-        }
 
-        val result = execApi { camApi.logout(ip = cameraIp()) }
-        ApiPreference.accessToken.value = ""
-        ApiPreference.cameraIp.value = ""
-        ApiPreference.cameraId.value = ""
-        return result
-    }
-
+    /**
+     * 카메라 설정 정보 조회
+     */
     suspend fun config(): Result<KuCameraConfig> {
         if (BuildVars.fakeCamera) {
             return Success(createFakeConfig())
@@ -104,6 +93,9 @@ class CamDataSource @Inject constructor(
         }.map(camConfigToKuCameraConfigMapper::map)
     }
 
+    /**
+     * 녹화 파일 목록 조회
+     */
     suspend fun recordFiles(): Result<List<KuRecordFile>> {
         if (BuildVars.fakeCamera) {
             // ${yymmdd}_${hhmmss}_${width}x${height}_${fps}_${kbps}_${duration_msec}_${file_size}.mp4
@@ -131,7 +123,9 @@ class CamDataSource @Inject constructor(
         }
     }
 
-
+    /**
+     * 녹화 파일 삭제
+     */
     suspend fun deleteFile(fileId: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
             return Success(Unit)
@@ -140,6 +134,10 @@ class CamDataSource @Inject constructor(
         return callApi { camApi.deleteFile(ip = cameraIp(), fileId = fileId) }
     }
 
+
+    /**
+     * 녹화 품질 설정 업데이트
+     */
     suspend fun updateRecordingVideoQuality(resolution: String, fps: Int): Result<Unit> {
         if (BuildVars.fakeCamera) {
             return Success(Unit)
@@ -148,6 +146,9 @@ class CamDataSource @Inject constructor(
         return callApi { camApi.updateRecordingVideoQuality(ip = cameraIp(), resolution = resolution, fps = fps) }
     }
 
+    /**
+     * 스트리밍 품질 설정 업데이트
+     */
     suspend fun updateStreamingVideoQuality(resolution: String, fps: Int): Result<Unit> {
         if (BuildVars.fakeCamera) {
             return Success(Unit)
@@ -156,6 +157,9 @@ class CamDataSource @Inject constructor(
         return callApi { camApi.updateStreamingVideoQuality(ip = cameraIp(), resolution = resolution, fps = fps) }
     }
 
+    /**
+     * 카메라 네트워크 변경
+     */
     suspend fun updateNetworkConfig(wifi: Boolean, lte: Boolean): Result<Unit> {
         if (BuildVars.fakeCamera) {
             return Success(Unit)
@@ -170,6 +174,9 @@ class CamDataSource @Inject constructor(
         return callApi { camApi.updateNetworkConfig(ip = cameraIp(), enabled = enabled) }
     }
 
+    /**
+     * 카메라 비번 변경
+     */
     suspend fun updatePassword(newPasswd: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
             return Success(Unit)
@@ -178,6 +185,9 @@ class CamDataSource @Inject constructor(
         return callApi { camApi.updatePassword(ip = cameraIp(), pw = newPasswd) }
     }
 
+    /**
+     * 카메라 이름 변경
+     */
     suspend fun updateCameraName(cameraName: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
             return Success(Unit)
@@ -187,7 +197,7 @@ class CamDataSource @Inject constructor(
     }
 
     /**
-     *
+     * 와이파이 업데이트
      */
     suspend fun updateWifi(wifiSsid: String, wifiPw: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
@@ -195,5 +205,36 @@ class CamDataSource @Inject constructor(
         }
 
         return callApi { camApi.updateWifi(ip = cameraIp(), ssid = wifiSsid, pw = wifiPw) }
+    }
+
+
+    suspend fun logout(): Result<Unit> {
+        if (BuildVars.fakeCamera) {
+            ApiPreference.accessToken.value = ""
+            ApiPreference.cameraIp.value = ""
+            ApiPreference.cameraId.value = ""
+            return Success(Unit)
+        }
+
+        val result = execApi { camApi.logout(ip = cameraIp()) }
+        ApiPreference.accessToken.value = ""
+        ApiPreference.cameraIp.value = ""
+        ApiPreference.cameraId.value = ""
+        return result
+    }
+
+
+    /**
+     * 재부팅
+     */
+    suspend fun reboot(): Result<Unit> {
+        if (BuildVars.fakeCamera) {
+            ApiPreference.accessToken.value = ""
+            ApiPreference.cameraIp.value = ""
+            ApiPreference.cameraId.value = ""
+            return Success(Unit)
+        }
+
+        return callApi { camApi.reboot(ip = cameraIp()) }
     }
 }

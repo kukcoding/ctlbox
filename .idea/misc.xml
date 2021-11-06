@@ -124,6 +124,8 @@
         <entry key="..\:/p/kuk/ctlbox4/common-ui-view/src/main/res/layout/widget_big_play_button.xml" value="0.21557971014492755" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-view/src/main/res/layout/widget_resolution_radio_button.xml" value="0.21557971014492755" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-view/src/main/res/layout/widget_resolution_radio_buttons.xml" value="0.21557971014492755" />
+        <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_camera_password_edit.xml" value="0.2536231884057971" />
+        <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_camera_reboot.xml" value="0.22" />
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_camera_wifi_edit.xml" value="0.19114583333333332" />
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_login_network_choose.xml" value="0.1" />
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_network_media.xml" value="0.1" />
@@ -131,10 +133,11 @@
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_record_file_filters.xml" value="0.20199275362318841" />
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/layout/dialog_stream_quality.xml" value="0.22" />
         <entry key="..\:/p/kuk/ctlbox4/ui-dialogs/src/main/res/menu/popup_login_media.xml" value="0.19114583333333332" />
-        <entry key="..\:/p/kuk/ctlbox4/ui-home/src/main/res/layout/fragment_home.xml" value="0.17552083333333332" />
+        <entry key="..\:/p/kuk/ctlbox4/ui-home/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/p/kuk/ctlbox4/ui-home/src/main/res/layout/fragment_left_menu.xml" value="0.19114583333333332" />
         <entry key="..\:/p/kuk/ctlbox4/ui-home/src/main/res/layout/viewholder_left_menu_camera.xml" value="0.33" />
         <entry key="..\:/p/kuk/ctlbox4/ui-home/src/main/res/layout/viewholder_left_menu_navi.xml" value="0.19114583333333332" />
+        <entry key="..\:/p/kuk/ctlbox4/ui-player/src/main/res/layout/player_hud.xml" value="0.2536231884057971" />
         <entry key="..\:/p/kuk/ctlbox4/ui-settings/src/main/res/layout/fragment_settings.xml" value="0.22" />
         <entry key="..\:/work/ctlbox-v3/ui-dialogs/src/main/res/layout/dialog_login_wifi.xml" value="0.2046875" />
         <entry key="..\:/work/ctlbox-v3/ui-dialogs/src/main/res/layout/dialog_network_media.xml" value="0.22447916666666667" />
