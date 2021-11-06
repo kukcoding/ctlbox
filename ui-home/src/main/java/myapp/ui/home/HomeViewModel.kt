@@ -15,7 +15,6 @@ import myapp.data.cam.CamLoginState
 import myapp.data.cam.CamManager
 import myapp.data.code.CamConnectivity
 import myapp.data.entities.KuCameraConfig
-import myapp.domain.interactors.LoadConfig
 import myapp.domain.interactors.LogoutCamera
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,12 +36,10 @@ internal data class HomeState(
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
     @ApplicationContext context: Context,
-    private val loadConfig: LoadConfig,
     private val logoutCamera: LogoutCamera,
     val camManager: CamManager
 ) : ReduxViewModel<HomeState>(HomeState()) {
     private val pendingActions = MutableSharedFlow<HomeAction>()
-
 
     val enabledNetworkMediaTextLive = liveFieldOf(HomeState::camConfig).map {
         it?.enabledNetworkMedia?.uppercase()
@@ -125,14 +122,6 @@ internal class HomeViewModel @Inject constructor(
     fun submitAction(action: HomeAction) {
         viewModelScope.launch {
             pendingActions.emit(action)
-        }
-    }
-
-    private suspend fun doLoadConfig() {
-        try {
-            loadConfig.executeSync(Unit)
-        } catch (err: Throwable) {
-            Timber.d("err=" + err.message)
         }
     }
 
