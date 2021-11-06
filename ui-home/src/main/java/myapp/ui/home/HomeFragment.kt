@@ -9,7 +9,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -20,15 +19,14 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import myapp.BuildVars
 import myapp.Cam
 import myapp.data.cam.CamLoggedIn
 import myapp.data.cam.CamLoggedOut
 import myapp.extensions.resources.resColor
+import myapp.extensions.resources.resStr
 import myapp.extensions.resources.styledColor
+import myapp.ui.TwiceBackPressedCallback
 import myapp.ui.dialogs.CameraDialogs
 import myapp.ui.home.databinding.FragmentHomeBinding
 import myapp.ui.home.leftmenu.LeftMenuFragment
@@ -41,11 +39,6 @@ import splitties.snackbar.snack
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-
-    companion object {
-        // 백키 눌렀을때 한번 더 눌러야 종료되도록
-        private const val DELAY_FINISH_TIMEOUT_MILLIS = 2 * 1000
-    }
 
     private val mViewModel: HomeViewModel by viewModels()
     private lateinit var mBind: FragmentHomeBinding
@@ -286,7 +279,7 @@ class HomeFragment : Fragment() {
                 }
 
             } else if (net == "lte") {
-                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = null ) { loggedIn ->
+                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = null) { loggedIn ->
                     if (loggedIn) {
                         closeDrawer()
                     }
@@ -307,28 +300,11 @@ class HomeFragment : Fragment() {
     /**
      * 백키 핸들러 - 백키를 두번 눌러야 종료되도록
      */
-    private val twiceBackPressedCallback = object : OnBackPressedCallback(true) {
-        private var mLastBackKeyPressedTime = 0L
-        private var autoCancelJob: Job? = null
-        private var toast: Toast? = null
-        override fun handleOnBackPressed() {
-            val now = System.currentTimeMillis()
-            if (now - mLastBackKeyPressedTime > DELAY_FINISH_TIMEOUT_MILLIS) {
-                mLastBackKeyPressedTime = now
-                toast?.cancel()
-                toast = Toast.makeText(requireContext(), R.string.msg_one_more_back_button, Toast.LENGTH_SHORT).apply {
-                    show()
-                }
-
-                autoCancelJob?.cancel()
-                autoCancelJob = lifecycleScope.launch {
-                    delay(DELAY_FINISH_TIMEOUT_MILLIS.toLong())
-                    isEnabled = true
-                }
-                isEnabled = false
-                return
-            }
-        }
+    private val twiceBackPressedCallback by lazy {
+        TwiceBackPressedCallback(
+            context = requireContext(),
+            lifecycleScope = lifecycleScope,
+            message = resStr(R.string.msg_one_more_back_button),
+        )
     }
-
 }
