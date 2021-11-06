@@ -117,7 +117,6 @@ interface CamApi {
 
     /**
      * WIFI 설정 변경
-     * TODO 임시로 만들었다. 실제 펌웨어 IP로 업데이트 해야 함
      */
     @POST("http://{ip}/config/update-wifi")
     @FormUrlEncoded
@@ -128,12 +127,12 @@ interface CamApi {
     ): Response<Unit>
 
     /**
-     * 재부팅
-     * TODO 임시로 만들었다. 실제 펌웨어 IP로 업데이트 해야 함
+     * execute 재부팅
      */
-    @POST("http://{ip}/reboot")
+    @POST("http://{ip}/exec")
     @FormUrlEncoded
-    suspend fun reboot(
+    suspend fun exec(
         @Path(value = "ip") ip: String,
+        @Field("cmd") cmd: String
     ): Response<Unit>
 }

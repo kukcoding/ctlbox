@@ -80,7 +80,6 @@ class CamDataSource @Inject constructor(
     }
 
 
-
     /**
      * 카메라 설정 정보 조회
      */
@@ -207,34 +206,34 @@ class CamDataSource @Inject constructor(
         return callApi { camApi.updateWifi(ip = cameraIp(), ssid = wifiSsid, pw = wifiPw) }
     }
 
+    private fun clearToken() {
+        ApiPreference.accessToken.value = ""
+        ApiPreference.cameraIp.value = ""
+        ApiPreference.cameraId.value = ""
+    }
 
     suspend fun logout(): Result<Unit> {
         if (BuildVars.fakeCamera) {
-            ApiPreference.accessToken.value = ""
-            ApiPreference.cameraIp.value = ""
-            ApiPreference.cameraId.value = ""
+            clearToken()
             return Success(Unit)
         }
 
         val result = execApi { camApi.logout(ip = cameraIp()) }
-        ApiPreference.accessToken.value = ""
-        ApiPreference.cameraIp.value = ""
-        ApiPreference.cameraId.value = ""
+        clearToken()
         return result
     }
-
 
     /**
      * 재부팅
      */
     suspend fun reboot(): Result<Unit> {
         if (BuildVars.fakeCamera) {
-            ApiPreference.accessToken.value = ""
-            ApiPreference.cameraIp.value = ""
-            ApiPreference.cameraId.value = ""
+            clearToken()
             return Success(Unit)
         }
 
-        return callApi { camApi.reboot(ip = cameraIp()) }
+        val result = execApi { camApi.exec(ip = cameraIp(), cmd = "reboot") }
+        clearToken()
+        return result
     }
 }
