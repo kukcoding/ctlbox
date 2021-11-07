@@ -12,9 +12,11 @@ import myapp.ui.dialogs.networkmedia.NetworkMediaDialogFragment
 import myapp.ui.dialogs.reboot.CameraRebootDialogFragment
 import myapp.ui.dialogs.recordfiledownload.RecordFileDownloadDialogFragment
 import myapp.ui.dialogs.recordfilefilter.RecordFileFiltersDialogFragment
+import myapp.ui.dialogs.recordingschedule.RecordingScheduleDialogFragment
 import myapp.ui.dialogs.streamquality.StreamQualityDialogFragment
 import myapp.ui.dialogs.wifi.CameraWifiEditDialogFragment
 import myapp.util.Action1
+import org.threeten.bp.Instant
 
 object CameraDialogs {
 
@@ -158,13 +160,29 @@ object CameraDialogs {
     )
 
 
-
     fun openReboot(
         fm: FragmentManager,
         onDismiss: Action1<Boolean>
     ) = CameraRebootDialogFragment.newInstance().apply {
         isCancelable = true
         onDismissListener = onDismiss
+    }.also {
+        it.show(fm, null)
+    }
+
+    fun openRecordingSchedule(
+        fm: FragmentManager,
+        disabled: Boolean,
+        startTime: Instant,
+        durationMinute: Long,
+        onDismiss: Action1<Boolean>?
+    ) = RecordingScheduleDialogFragment.newInstance(
+        disabled = disabled,
+        startTime = startTime,
+        durationMinute = durationMinute
+    ).apply {
+        isCancelable = true
+        onDismissListener = onDismiss ?: {}
     }.also {
         it.show(fm, null)
     }

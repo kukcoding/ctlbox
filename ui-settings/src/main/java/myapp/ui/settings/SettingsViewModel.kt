@@ -13,15 +13,18 @@ import kr.ohlab.android.recyclerviewgroup.ItemBase
 import myapp.ReduxViewModel
 import myapp.api.UiError
 import myapp.data.cam.CamManager
+import myapp.data.cam.RecordingState
+import myapp.data.cam.RecordingTracker
 import myapp.ui.SnackbarManager
 import myapp.util.Logger
 import myapp.util.ObservableLoadingCounter
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
 import javax.inject.Inject
 
 
 internal sealed class SettingsAction {
     object Refresh : SettingsAction()
-    object ToggleEditing : SettingsAction()
 }
 
 
@@ -32,10 +35,33 @@ internal data class SettingsState(
     val cameraIp: String? = null
 )
 
+
+private fun formatRecordDate(startTime: Instant, durationMinute: Long): String {
+    val from = startTime.atZone(ZoneId.systemDefault())
+    val txt1 =
+        "${from.year}년 ${from.monthValue}월 ${from.dayOfMonth}일 ${from.hour}시 ${from.minute}분 ${from.second}초"
+
+    if (durationMinute <= 0) {
+        return "${txt1}부터"
+    }
+
+    val to = from.plusMinutes(durationMinute)
+    val txt2 = when {
+        from.year != to.year -> "${to.year}년 ${to.monthValue}월 ${to.dayOfMonth}일 ${to.hour}시 ${to.minute}분 ${to.second}초"
+        from.monthValue != to.monthValue -> "${to.monthValue}월 ${to.dayOfMonth}일 ${to.hour}시 ${to.minute}분 ${to.second}초"
+        from.dayOfMonth != to.dayOfMonth -> "${to.dayOfMonth}일 ${to.hour}시 ${to.minute}분 ${to.second}초"
+        from.hour != to.hour -> "${to.hour}시 ${to.minute}분 ${to.second}초"
+        else -> "${to.minute}분 ${to.second}초"
+    }
+
+    return "${txt1}부터 ${txt2}까지"
+}
+
 @HiltViewModel
 internal class SettingsViewModel @Inject constructor(
     val camManager: CamManager,
     private val snackbarManager: SnackbarManager,
+    val recordingTracker: RecordingTracker,
     private val logger: Logger
 ) : ReduxViewModel<SettingsState>(SettingsState()) {
     private val loadingState = ObservableLoadingCounter()
@@ -58,6 +84,19 @@ internal class SettingsViewModel @Inject constructor(
             "-"
         }
     }.asLiveData()
+
+    val isRecordingLive = recordingTracker.isRecordingFlow.asLiveData()
+    val recordingStateTextLive = recordingTracker.stateFlow.map { state ->
+        when (state) {
+            is RecordingState.Disabled -> "중지됨"
+            is RecordingState.FiniteRecording -> "녹화중"
+            is RecordingState.InfiniteRecording -> "녹화중"
+            is RecordingState.RecordingScheduled -> "녹화 예약됨"
+            is RecordingState.RecordingExpired -> "녹화 종료"
+        }
+    }.asLiveData()
+
+    val recordingScheduleVisibleLive = recordingTracker.stateFlow.map { it !is RecordingState.Disabled }.asLiveData()
 
     val cameraNameLive = camManager.observeConfig().map { cfg ->
         cfg?.cameraName ?: "-"
@@ -100,7 +139,6 @@ internal class SettingsViewModel @Inject constructor(
             pendingActions.consumeAsFlow().collect { action ->
                 when (action) {
                     is SettingsAction.Refresh -> refresh(force = true)
-                    is SettingsAction.ToggleEditing -> setState { copy(isEditing = !isEditing) }
                 }
             }
         }

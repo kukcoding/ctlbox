@@ -9,13 +9,9 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
-import androidx.core.view.iterator
 import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -23,15 +19,14 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import myapp.BuildVars
 import myapp.Cam
 import myapp.data.cam.CamLoggedIn
 import myapp.data.cam.CamLoggedOut
 import myapp.extensions.resources.resColor
+import myapp.extensions.resources.resStr
 import myapp.extensions.resources.styledColor
+import myapp.ui.TwiceBackPressedCallback
 import myapp.ui.dialogs.CameraDialogs
 import myapp.ui.home.databinding.FragmentHomeBinding
 import myapp.ui.home.leftmenu.LeftMenuFragment
@@ -39,16 +34,12 @@ import myapp.ui.player.LivePlayerActivity
 import myapp.ui.record.RecordFilesActivity
 import myapp.ui.settings.SettingsActivity
 import myapp.util.AndroidUtils
+import org.threeten.bp.Instant
 import splitties.snackbar.snack
 
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-
-    companion object {
-        // 백키 눌렀을때 한번 더 눌러야 종료되도록
-        private const val DELAY_FINISH_TIMEOUT_MILLIS = 2 * 1000
-    }
 
     private val mViewModel: HomeViewModel by viewModels()
     private lateinit var mBind: FragmentHomeBinding
@@ -98,9 +89,7 @@ class HomeFragment : Fragment() {
 
     private fun setupEvents() {
 
-        mBind.toolbar.setNavigationOnClickListener {
-            toggleLeftMenu()
-        }
+        mBind.toolbar.setNavigationOnClickListener { toggleLeftMenu() }
 
         mBind.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
@@ -118,12 +107,8 @@ class HomeFragment : Fragment() {
             }
         })
 
-        mBind.layoutLoginBtn.setOnClickListener {
-            onClickLoginButton()
-        }
-        mBind.layoutNetworkBtn.setOnClickListener {
-            openWifiSetting()
-        }
+        mBind.layoutLoginBtn.setOnClickListener { onClickLoginButton() }
+        mBind.layoutNetworkBtn.setOnClickListener { openWifiSetting() }
 
         // RTSP 플레이 버튼 클릭
         mBind.btRtspPlayButton.setOnClickListener {
@@ -174,24 +159,39 @@ class HomeFragment : Fragment() {
             }
         })
 
+        mViewModel.isRecordingLive.observe(viewLifecycleOwner, { recording ->
+            if (recording) {
+                mBind.txtviewRecordingLabel.setTextColor(resColor(R.color.color_green_500))
+            } else {
+                mBind.txtviewRecordingLabel.setTextColor(styledColor(R.attr.colorOnSurface3))
+            }
+        })
+
 
         mViewModel.liveFieldOf(HomeState::loginState).observe(viewLifecycleOwner, { state ->
             when (state) {
-                is CamLoggedOut -> {
-                    mBind.layoutNetworkBtn.isVisible = false
-                }
+                is CamLoggedOut -> mBind.layoutNetworkBtn.isVisible = false
                 is CamLoggedIn -> {
                     if (state.cameraIp == BuildVars.cameraAccessPointIp) {
-                        // mBind.imgviewWifi.setImageResource(R.drawable.ic_main_wifi_connected)
                         mBind.loginNetworkLabel.title = "WIFI"
                     } else {
-                        // mBind.imgviewWifi.setImageResource(R.drawable.ic_baseline_cloud_24)
                         mBind.loginNetworkLabel.title = "LTE"
                     }
                     mBind.layoutNetworkBtn.isVisible = true
                 }
             }
         })
+
+        mBind.txtviewRecordingLabel.setOnClickListener {
+            openRecordingSchedule()
+        }
+
+        mBind.txtviewWifiLabel.setOnClickListener {
+            openNetworkMediaSetting()
+        }
+        mBind.txtviewLteLabel.setOnClickListener {
+            openNetworkMediaSetting()
+        }
     }
 
     fun closeDrawer() {
@@ -246,43 +246,57 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun openWifiSetting() {
+    private fun openWifiSetting() {
         val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }
 
 
-    fun onClickLoginButton() {
+    private fun onClickLoginButton() {
         val ctx = context ?: return
         if (mViewModel.isLoggedInLive.value == true) {
             mViewModel.submitAction(HomeAction.Logout)
             return
         }
 
-        val popup = PopupMenu(ContextThemeWrapper(context, R.style.LoginPopupMenu), mBind.txtviewLoginBtn)
-        popup.inflate(R.menu.popup_login_media)
+        openLoginNetworkChoose()
 
-        //val initial = mViewModel.currentState().playerAutoStopTime
-        popup.menu.iterator().forEach { menuItem ->
-            // 이렇게 하면 안되네
-            // menuItem.isChecked = playerAutoStopActionIdToCode[menuItem.itemId] == initial
-//            if (playerAutoStopActionIdToCode[menuItem.itemId] == initial) {
-//                menuItem.isChecked = true
+//        val popup = PopupMenu(ContextThemeWrapper(context, R.style.LoginPopupMenu), mBind.txtviewLoginBtn)
+//        popup.inflate(R.menu.popup_login_media)
+//
+//        //val initial = mViewModel.currentState().playerAutoStopTime
+//        // popup.menu.iterator().forEach { }
+//
+//        popup.setOnMenuItemClickListener { menuItem ->
+//            if (menuItem.itemId == R.id.popup_wifi) {
+//                CameraDialogs.openLoginWifi(fm = childFragmentManager)
+//            } else {
+//                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = null)
 //            }
-        }
-
-        popup.setOnMenuItemClickListener { menuItem ->
-            if (menuItem.itemId == R.id.popup_wifi) {
-                CameraDialogs.openLoginWifi(fm = childFragmentManager)
-            } else {
-                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = null)
-            }
-            true
-        }
-        popup.show()
+//            true
+//        }
+//        popup.show()
     }
 
+    private fun openLoginNetworkChoose() {
+        CameraDialogs.openLoginNetworkChoose(fm = childFragmentManager) { net ->
+            if (net == "wifi") {
+                CameraDialogs.openLoginWifi(fm = childFragmentManager) { loggedIn ->
+                    if (loggedIn) {
+                        closeDrawer()
+                    }
+                }
+
+            } else if (net == "lte") {
+                CameraDialogs.openLoginLte(fm = childFragmentManager, cameraIp = null) { loggedIn ->
+                    if (loggedIn) {
+                        closeDrawer()
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * 백키 핸들러 - 오른쪽 메뉴가 열려있으면 닫히도록
@@ -296,28 +310,35 @@ class HomeFragment : Fragment() {
     /**
      * 백키 핸들러 - 백키를 두번 눌러야 종료되도록
      */
-    private val twiceBackPressedCallback = object : OnBackPressedCallback(true) {
-        private var mLastBackKeyPressedTime = 0L
-        private var autoCancelJob: Job? = null
-        private var toast: Toast? = null
-        override fun handleOnBackPressed() {
-            val now = System.currentTimeMillis()
-            if (now - mLastBackKeyPressedTime > DELAY_FINISH_TIMEOUT_MILLIS) {
-                mLastBackKeyPressedTime = now
-                toast?.cancel()
-                toast = Toast.makeText(requireContext(), R.string.msg_one_more_back_button, Toast.LENGTH_SHORT).apply {
-                    show()
-                }
-
-                autoCancelJob?.cancel()
-                autoCancelJob = lifecycleScope.launch {
-                    delay(DELAY_FINISH_TIMEOUT_MILLIS.toLong())
-                    isEnabled = true
-                }
-                isEnabled = false
-                return
-            }
-        }
+    private val twiceBackPressedCallback by lazy {
+        TwiceBackPressedCallback(
+            context = requireContext(),
+            lifecycleScope = lifecycleScope,
+            message = resStr(R.string.msg_one_more_back_button),
+        )
     }
 
+    /**
+     * 네트워크 설정
+     */
+    private fun openNetworkMediaSetting() {
+        val cfg = mViewModel.camManager.config ?: return
+        CameraDialogs.openNetworkMedia(
+            fm = childFragmentManager,
+            media = cfg.enabledNetworkMedia,
+        )
+    }
+
+    /**
+     * 녹화 설정 다이얼로그
+     */
+    private fun openRecordingSchedule() {
+        val schedule = mViewModel.camManager.config?.recordingSchedule ?: return
+        CameraDialogs.openRecordingSchedule(
+            fm = childFragmentManager,
+            disabled = schedule.disabled,
+            startTime = schedule.startTimestamp ?: Instant.now(),
+            durationMinute = schedule.durationMinute
+        ) {}
+    }
 }

@@ -1,9 +1,6 @@
 package myapp.data.repo.cam.api
 
-import myapp.data.entities.network.CamConfigPayload
-import myapp.data.entities.network.CamHealthPayload
-import myapp.data.entities.network.CamLoginPayload
-import myapp.data.entities.network.CamRecordFilesPayload
+import myapp.data.entities.network.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -71,6 +68,27 @@ interface CamApi {
         @Field("fps") fps: Int
     ): Response<Unit>
 
+
+    /**
+     * 녹화 OFF
+     */
+    @POST("http://{ip}/config/update-recording-off")
+    suspend fun updateRecordingOff(
+        @Path(value = "ip") ip: String,
+    ): Response<CamRecordingSchedulePayload.Response>
+
+
+    /**
+     * 녹화 스케줄
+     */
+    @POST("http://{ip}/config/update-recording-schedule")
+    @FormUrlEncoded
+    suspend fun updateRecordingSchedule(
+        @Path(value = "ip") ip: String,
+        @Field("startAt") startTimeInSeconds: Long, // epochTime in seconds
+        @Field("durationInMinutes") durationInMinutes: Long  // duration in minutes
+    ): Response<CamRecordingSchedulePayload.Response>
+
     /**
      * 스트리밍 해상도 설정 변경
      */
@@ -117,7 +135,6 @@ interface CamApi {
 
     /**
      * WIFI 설정 변경
-     * TODO 임시로 만들었다. 실제 펌웨어 IP로 업데이트 해야 함
      */
     @POST("http://{ip}/config/update-wifi")
     @FormUrlEncoded
@@ -128,12 +145,12 @@ interface CamApi {
     ): Response<Unit>
 
     /**
-     * 재부팅
-     * TODO 임시로 만들었다. 실제 펌웨어 IP로 업데이트 해야 함
+     * execute 재부팅
      */
-    @POST("http://{ip}/reboot")
+    @POST("http://{ip}/exec")
     @FormUrlEncoded
-    suspend fun reboot(
+    suspend fun exec(
         @Path(value = "ip") ip: String,
+        @Field("cmd") cmd: String
     ): Response<Unit>
 }

@@ -63,9 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             android:gravity="center"
-            android:lineHeight="22sp"
             android:paddingHorizontal="16sp"
-            android:text="재부팅 시간은 보통 20초 정도이지만,\n장치 상태에 따라 조금 더 시간이 걸릴 수 있습니다"
+            android:text="재부팅 시간은 보통 20초 정도이지만,\n장치 상태에 따라 조금 더 걸릴 수 있습니다"
             android:textColor="?attr/colorOnSurface4"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +103,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:visible="@{vm.isLoadingLive}"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <ProgressBar
                 style="?android:attr/progressBarStyle"
@@ -175,23 +174,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="재부팅 완료"
-                android:textColor="?attr/colorOnSurface1"
+                android:textColor="#F0F0F0"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:text="다시 로그인해주세요"
-                android:textColor="#FFF"
-                android:textSize="14sp" />
+                android:textColor="#AAA"
+                android:textSize="12sp" />
 
 
             <com.google.android.material.button.MaterialButton
@@ -200,14 +199,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginBottom="16dp"
                 android:text="닫기"
                 android:textColor="?attr/colorSecondary"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtview_msg3" />
 

@@ -1,18 +1,5 @@
 package myapp.data.entities
 
-import org.threeten.bp.Instant
-
-data class VideoQuality(
-    val resolution: String, //  1920x1080
-    val fps: Int, // 15
-    val kbps: Int, // bitrate
-)
-
-data class MjpgQuality(
-    val resolution: String, //  1920x1080
-    val fps: Int, // 15
-)
-
 data class KuCameraConfig(
     val cameraId: String,
     val cameraName: String?,
@@ -25,6 +12,5 @@ data class KuCameraConfig(
     val mjpg: MjpgQuality,
     val wifiSsid: String?,
     val wifiPw: String?,
-    val recordStartTimestamp: Instant?,
-    val recordDurationMinute: Long // -1 상시녹화,
+    val recordingSchedule: KuRecordingSchedule
 )

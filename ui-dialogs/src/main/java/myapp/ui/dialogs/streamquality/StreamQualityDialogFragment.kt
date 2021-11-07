@@ -112,20 +112,21 @@ class StreamQualityDialogFragment : DialogFragment() {
 
         // 완료버튼 클릭
         mBind.btDone.setOnClickListener {
-            trySave()
+            lifecycleScope.launch {
+                trySave()
+            }
         }
 
         // 닫기 버튼 클릭
         mBind.layoutCloseBtn.setOnClickListener {
-            dismissWithDataChanged(false)
+            dismiss()
         }
     }
 
 
-    private fun trySave() {
-
-        val clientIp = mViewModel.camManager.cameraIp
-        if (clientIp == null) {
+    private suspend fun trySave() {
+        val cameraIp = mViewModel.camManager.cameraIp
+        if (cameraIp == null) {
             mBind.root.snack("카메라 연결을 확인해주세요")
             return
         }
@@ -133,21 +134,22 @@ class StreamQualityDialogFragment : DialogFragment() {
         val state = mViewModel.currentState()
         val resolution = state.resolution
         val fps = state.fps
-        lifecycleScope.launch {
-            try {
-                mViewModel.saveVideoQuality(ip = clientIp, resolution = resolution, fps = fps)
-                mBind.root.snack("저장되었습니다")
-                delay(400)
-                dismissWithDataChanged(true)
-            } catch (e: Throwable) {
-                if (e is AppException) {
-                    mBind.root.snack(e.displayMessage())
-                } else {
-                    mBind.root.snack("에러 발생: ${e.message}")
-                }
-                e.printStackTrace()
+
+        try {
+            mViewModel.saveVideoQuality(ip = cameraIp, resolution = resolution, fps = fps)
+            mResultChanged = true
+            mBind.root.snack("저장되었습니다")
+            delay(400)
+            dismiss()
+        } catch (e: Throwable) {
+            if (e is AppException) {
+                mBind.root.snack(e.displayMessage())
+            } else {
+                mBind.root.snack("에러 발생: ${e.message}")
             }
+            e.printStackTrace()
         }
+
     }
 
 
@@ -167,10 +169,6 @@ class StreamQualityDialogFragment : DialogFragment() {
         return if (preferWidth < 0) preferWidth else min(preferWidth, screenWidth * 0.85f)
     }
 
-    private fun dismissWithDataChanged(changed: Boolean) {
-        mResultChanged = changed
-        dismiss()
-    }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)

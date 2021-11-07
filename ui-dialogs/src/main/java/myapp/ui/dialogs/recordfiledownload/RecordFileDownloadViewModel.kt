@@ -22,6 +22,7 @@ import myapp.flowInterval
 import myapp.ui.dialogs.R
 import myapp.util.tupleOf
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 internal data class DownloadSpeed(
     val elapsedTime: Long,
@@ -50,6 +51,9 @@ internal data class RecordFileDownloadViewState(
     val canceled: Boolean = false
 )
 
+private fun secondText(from: Long, to: Long): String {
+    return ((to - from) / 1000f).roundToInt().toString()
+}
 
 @HiltViewModel
 internal class RecordFileDownloadViewModel @Inject constructor(
@@ -68,7 +72,7 @@ internal class RecordFileDownloadViewModel @Inject constructor(
             ""
         } else {
             // 1920x1080 / 30fps (40.5초)
-            val duration = String.format("%.1f", recordFile.durationMilli / 1000f)
+            val duration = String.format("%d", recordFile.durationMilli / 1000)
             "${recordFile.width}x${recordFile.height} / ${recordFile.fps}fps (${duration}초)"
         }
     }
@@ -97,8 +101,8 @@ internal class RecordFileDownloadViewModel @Inject constructor(
     ).map { (startTime, finishTime, _) ->
         when {
             startTime == null -> ""
-            finishTime == null -> String.format("%.1f초", (System.currentTimeMillis() - startTime) / 1000f)
-            else -> String.format("%.1f초", (finishTime - startTime) / 1000f)
+            finishTime == null -> secondText(startTime, System.currentTimeMillis())
+            else -> secondText(startTime, finishTime)
         }
     }.distinctUntilChanged().asLiveData()
 

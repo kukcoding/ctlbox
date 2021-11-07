@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import myapp.BuildVars
 import myapp.error.AppException
 import myapp.ui.dialogs.databinding.DialogCameraRebootBinding
 import myapp.util.Action1
@@ -55,17 +56,17 @@ class CameraRebootDialogFragment : DialogFragment() {
     }
 
     private fun customInit() {
-
+        mBind.txtviewMsg3.text = "재부팅 시간은 보통 ${BuildVars.rebootDurationSec}초 정도이지만,\n장치 상태에 따라 조금 더 걸릴 수 있습니다"
     }
 
     private fun setupEvents() {
         // 닫기 버튼 클릭
         mBind.btClose.setOnClickListener {
-            dismissWithRebooted(false)
+            dismiss()
         }
 
 
-        // 재부팅 버튼 클릭
+        // 재부팅 시작 버튼 클릭
         mBind.btStartReboot.setOnClickListener {
             lifecycleScope.launch {
                 tryReboot()
@@ -73,6 +74,7 @@ class CameraRebootDialogFragment : DialogFragment() {
         }
 
 
+        // 상태에 따라 UI 조정
         mViewModel.liveFieldOf(RebootDialogState::step).observe(viewLifecycleOwner, { step ->
             when (step) {
                 is RebootStep.None -> {
@@ -100,19 +102,20 @@ class CameraRebootDialogFragment : DialogFragment() {
             }
         })
 
+        // 재부팅 시간 갱신
         mViewModel.rebootTimeTextLive.observe(viewLifecycleOwner, {
             mBind.txtviewRebootTime.text = it
         })
 
+        // 재부팅 진행상태바 갱신
         mViewModel.rebootProgressLive.observe(viewLifecycleOwner, {
             mBind.progressBarReboot.setProgress(it, false)
         })
 
 
+        // 재부팅 완료 버튼 클릭
         mBind.btRebootingDone.setOnClickListener {
-            dismissWithRebooted(true)
-        }
-        mBind.btClose.setOnClickListener {
+            mResultRebooted = true
             dismiss()
         }
     }
@@ -150,10 +153,6 @@ class CameraRebootDialogFragment : DialogFragment() {
         }
     }
 
-    private fun dismissWithRebooted(rebooted: Boolean) {
-        mResultRebooted = rebooted
-        dismiss()
-    }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)

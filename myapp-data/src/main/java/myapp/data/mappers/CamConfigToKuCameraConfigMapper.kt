@@ -1,9 +1,11 @@
 package myapp.data.mappers
 
 import myapp.data.entities.KuCameraConfig
+import myapp.data.entities.KuRecordingSchedule
 import myapp.data.entities.MjpgQuality
 import myapp.data.entities.VideoQuality
 import myapp.data.entities.network.CamConfigPayload
+import org.threeten.bp.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,7 +32,11 @@ class CamConfigToKuCameraConfigMapper @Inject constructor(
         mjpg = MjpgQuality(resolution = from.preview.resolution, fps = from.preview.fps),
         wifiSsid = null,
         wifiPw = null,
-        recordStartTimestamp = null,
-        recordDurationMinute = 0L,
+        // TODO
+        recordingSchedule = KuRecordingSchedule(
+            disabled = false,
+            startTimestamp = Instant.now(),
+            durationMinute = -1,
+        )
     )
 }

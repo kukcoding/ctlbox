@@ -51,8 +51,6 @@ dependencies {
     implementation("androidx.core:core-ktx:${LibAndroidX.core_ktx}")
     implementation("androidx.activity:activity-ktx:${LibAndroidX.activity_ktx}")
     implementation("androidx.fragment:fragment-ktx:${LibAndroidX.fragment_ktx}")
-    implementation("androidx.navigation:navigation-fragment-ktx:${LibAndroidX.navigation}")
-    implementation("androidx.navigation:navigation-ui-ktx:${LibAndroidX.navigation}")
 
     // AndroidX Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${LibAndroidX.lifecycle}")
@@ -78,4 +76,7 @@ dependencies {
     implementation("com.daimajia.androidanimations:library:${versions.daimajia_androidanimations}")
     implementation("ru.ldralighieri.corbind:corbind:${versions.corbind}")
     implementation("me.zhanghai.android.materialprogressbar:library:${versions.zhanghai_materialprogressbar}")
+    implementation('com.afollestad.material-dialogs:core:3.3.0')
+    implementation('com.afollestad.material-dialogs:datetime:3.3.0')
+
 }

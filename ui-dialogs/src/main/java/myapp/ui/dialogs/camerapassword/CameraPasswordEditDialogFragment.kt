@@ -8,16 +8,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import myapp.BuildVars
+import myapp.error.AppException
+import myapp.extensions.trimOrEmpty
 import myapp.ui.dialogs.databinding.DialogCameraPasswordEditBinding
 import myapp.util.Action1
 import myapp.util.AndroidUtils
+import myapp.validator.CameraPasswordValidator
+import splitties.snackbar.snack
 
 @AndroidEntryPoint
 class CameraPasswordEditDialogFragment : DialogFragment() {
@@ -61,30 +65,16 @@ class CameraPasswordEditDialogFragment : DialogFragment() {
     private fun setupEvents() {
         // 취소버튼 클릭
         mBind.txtviewCancelBtn.setOnClickListener {
-            mResultPwChanged = false
             dismiss()
         }
 
-//        mBind.editText.setOnEditorActionListener { _, actionId, _ ->
-//            if (EditorInfo.IME_ACTION_DONE == actionId) {
-//                AndroidUtils.hideKeyboard(mBind.editText)
-//                true
-//            } else {
-//                false
-//            }
-//        }
-
         // 완료버튼 클릭
         mBind.txtviewSaveBtn.setOnClickListener {
-            // doSave(mBind.editText.trimOrEmpty())
+            AndroidUtils.hideKeyboard(mBind.editTextPw, mBind.editTextPw2)
+            lifecycleScope.launch {
+                trySave(pw1 = mBind.editTextPw.trimOrEmpty(), pw2 = mBind.editTextPw2.trimOrEmpty())
+            }
         }
-    }
-
-    private fun EditText.multilineDone() {
-        imeOptions = EditorInfo.IME_ACTION_DONE
-        inputType = EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
-        maxLines = Integer.MAX_VALUE
-        setHorizontallyScrolling(false)
     }
 
     private fun preferWindowWidth(ctx: Context): Int {
@@ -101,20 +91,52 @@ class CameraPasswordEditDialogFragment : DialogFragment() {
         window.setLayout(preferWindowWidth(requireContext()), ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    private fun doSave(cameraName: String?) {
-        lifecycleScope.launch {
-//            try {
-//                val card = mViewModel.saveBibleCardMessage(cameraName = cameraName)
-//                dismissWithSavedCard(cameraName = card)
-//            } catch (e: Throwable) {
-//                mBind.root.snack(trimNull(e.message) ?: "에러가 발생했습니다")
-//            }
+    private suspend fun trySave(pw1: String, pw2: String) {
+        val cameraIp = mViewModel.camManager.cameraIp
+        if (cameraIp == null) {
+            mBind.root.snack("카메라 연결을 확인해주세요")
+            return
         }
-    }
 
-    private fun dismissWithSavedCard(changed: Boolean) {
-        mResultPwChanged = changed
-        dismiss()
+        if (pw1.isBlank() || pw2.isBlank()) {
+            mBind.root.snack("비밀번호를 입력해주세요")
+            return
+        }
+        if (pw1.length < BuildVars.cameraPwMinLength || pw1.length > BuildVars.cameraPwMaxLength) {
+            mBind.root.snack(
+                String.format(
+                    "비밀번호를 %d~%d 글자로 입력해주세요",
+                    BuildVars.cameraPwMinLength,
+                    BuildVars.cameraPwMaxLength
+                )
+            )
+            return
+        }
+
+        if (!CameraPasswordValidator.isValid(pw1)) {
+            mBind.root.snack("비밀번호가 유효하지 않습니다")
+            return
+        }
+
+        if (pw1 != pw2) {
+            mBind.root.snack("입력하신 두 비밀번호가 일치하지 않습니다")
+            return
+        }
+
+        try {
+            mViewModel.doSaveCameraPw(ip = cameraIp, pw = pw1)
+            mBind.root.snack("저장되었습니다")
+            mResultPwChanged = true
+            delay(400)
+            dismiss()
+        } catch (e: Throwable) {
+            if (e is AppException) {
+                mBind.root.snack(e.displayMessage())
+            } else {
+                mBind.root.snack("에러 발생: ${e.message}")
+            }
+            e.printStackTrace()
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {

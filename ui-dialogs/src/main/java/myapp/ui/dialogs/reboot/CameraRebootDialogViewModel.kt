@@ -2,13 +2,10 @@ package myapp.ui.dialogs.reboot
 
 import android.content.Context
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import myapp.BuildVars
 import myapp.ReduxViewModel
 import myapp.data.cam.CamManager
@@ -19,9 +16,6 @@ import myapp.util.ObservableLoadingCounter
 import myapp.util.tupleOf
 import javax.inject.Inject
 
-internal sealed class RebootAction {
-    data class SetSsid(val ssid: String?) : RebootAction()
-}
 
 internal sealed class RebootStep {
     object None : RebootStep()
@@ -38,7 +32,7 @@ internal data class RebootDialogState(
 private fun rebootProgress(startTime: Long): Float {
     val diff = System.currentTimeMillis() - startTime
     if (diff <= 0) return 0f
-    val delta = diff / (BuildVars.cameraRebootDurationSeconds * 1000f)
+    val delta = diff / (BuildVars.rebootDurationSec * 1000f)
     return minOf(delta, 1f)
 }
 
@@ -50,7 +44,6 @@ internal class CameraRebootDialogViewModel @Inject constructor(
     private val rebootCamera: RebootCamera
 ) : ReduxViewModel<RebootDialogState>(RebootDialogState()) {
     private val loadingState = ObservableLoadingCounter()
-    private val pendingActions = Channel<RebootAction>(Channel.BUFFERED)
 
     init {
         // 뷰모델 시작시 disconnect 메시지 비활성화
@@ -83,25 +76,13 @@ internal class CameraRebootDialogViewModel @Inject constructor(
     ).flatMapLatest { (step, startTime) ->
         if (step is RebootStep.RebootingStarted && startTime > 0) {
             flowInterval(0, 1000).map {
-                String.format("%d초", (System.currentTimeMillis() - startTime) / 1000)
+                String.format("%d초 / %d초", (System.currentTimeMillis() - startTime) / 1000, BuildVars.rebootDurationSec)
             }
         } else {
             flowOf("")
         }
     }.distinctUntilChanged().asLiveData()
 
-
-    init {
-        // 액션 처리
-        viewModelScope.launch {
-            pendingActions.consumeAsFlow().collect { action ->
-                when (action) {
-                    is RebootAction.SetSsid -> {
-                    }
-                }
-            }
-        }
-    }
 
     suspend fun reboot(ip: String) {
         loadingState.addLoader()
@@ -115,7 +96,7 @@ internal class CameraRebootDialogViewModel @Inject constructor(
             copy(step = RebootStep.RebootingStarted, rebootStartTime = System.currentTimeMillis())
         }
 
-        var remainSec = BuildVars.cameraRebootDurationSeconds * 1000
+        var remainSec = BuildVars.rebootDurationSec * 1000
         while (remainSec > 0 ) {
             delay(500)
             remainSec -= 500

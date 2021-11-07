@@ -3,8 +3,8 @@
     <color name="system_ui_scrim_light">#2EFFFFFF</color> <!-- 18% white -->
     <color name="system_ui_scrim_dark">#99000000</color> <!-- 60% black -->
 
-    <color name="base_color_primary">#3071CA</color>
-    <color name="base_color_primary_variant">#004799</color>
+    <color name="base_color_primary">#40B0FD</color>
+    <color name="base_color_primary_variant">#0081ca</color>
 
     <color name="base_color_secondary">#3CD8B0</color>
     <color name="base_color_secondary_variant">#00a681</color>
@@ -24,7 +24,7 @@
     <color name="base_color_surface7">#A3A7A9</color>
     <color name="base_color_surface8">#B9BCBD</color>
     <color name="base_color_surface9">#CFD0D1</color>
-    <color name="base_color_error">@color/color_pink_700</color>
+    <color name="base_color_error">@color/color_orange_300</color>
 
     <!-- Primary 색상위의 글자 색상 -->
     <color name="base_color_on_primary">#ffffff</color>

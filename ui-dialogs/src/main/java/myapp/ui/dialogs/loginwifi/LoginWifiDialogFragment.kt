@@ -2,15 +2,18 @@ package myapp.ui.dialogs.loginwifi
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -76,14 +79,34 @@ class LoginWifiDialogFragment : DialogFragment() {
 
         // 로그인 버튼 클릭
         mBind.txtviewSaveBtn.setOnClickListener {
-            tryLogin(pw = mBind.edtxtPw.trimOrEmpty())
+            AndroidUtils.hideKeyboard(mBind.edtxtPw)
+            lifecycleScope.launch {
+                tryLogin(pw = mBind.edtxtPw.trimOrEmpty())
+            }
         }
 
+        mViewModel.wifiStateFlow.asLiveData().observe(viewLifecycleOwner, { enabled ->
+            mBind.imgviewWifi.isSelected = enabled
+        })
+
+        // 와이파이 아이콘 클릭시 와이파이 설정화면으로 이동
+        mBind.layoutWifiBtn.setOnClickListener {
+            openWifiSetting()
+        }
+    }
+
+    /**
+     * 와이파이 설정 화면으로 이동
+     */
+    private fun openWifiSetting() {
+        val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
     }
 
 
     private fun preferWindowWidth(ctx: Context): Int {
-        val preferWidth = AndroidUtils.dpf(360)
+        val preferWidth = AndroidUtils.dpf(300)
         val screenWidth = AndroidUtils.screenSmallSide(ctx)
         return minOf(preferWidth, screenWidth * 0.95f).toInt()
     }
@@ -96,7 +119,7 @@ class LoginWifiDialogFragment : DialogFragment() {
         window.setLayout(preferWindowWidth(requireContext()), ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    private fun tryLogin(pw: String) {
+    private suspend fun tryLogin(pw: String) {
         if (pw.isBlank()) {
             mBind.root.snack("비밀번호를 입력해주세요")
             return
@@ -105,9 +128,9 @@ class LoginWifiDialogFragment : DialogFragment() {
         lifecycleScope.launch {
             try {
                 mViewModel.tryLogin(pw = pw)
-                mBind.root.snack("로그인되었습니다")
                 mResultLoggedIn = true
-                delay(700)
+                mBind.root.snack("로그인되었습니다")
+                delay(400)
                 dismiss()
             } catch (e: Throwable) {
                 if (e is AppException) {

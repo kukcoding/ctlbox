@@ -105,8 +105,8 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:text="@{vm.fileName2Live}"
-                    android:textColor="?attr/colorOnSurface4"
-                    android:textSize="16sp"
+                    android:textColor="?attr/colorOnSurface2"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -169,7 +169,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtview_fileSize"
-                    tools:text="20KB / sec" />
+                    tools:text="20KB / 초" />
 
                 <TextView
                     android:id="@+id/txtview_errorMsg"

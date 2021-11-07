@@ -1,27 +1,24 @@
 package myapp.ui.home
 
 import android.content.Context
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import myapp.ReduxViewModel
-import myapp.data.cam.CamLoggedIn
-import myapp.data.cam.CamLoggedOut
-import myapp.data.cam.CamLoginState
-import myapp.data.cam.CamManager
+import myapp.data.cam.*
 import myapp.data.code.CamConnectivity
 import myapp.data.entities.KuCameraConfig
-import myapp.domain.interactors.LoadConfig
 import myapp.domain.interactors.LogoutCamera
 import timber.log.Timber
 import javax.inject.Inject
 
 internal sealed class HomeAction {
-    object UserInteracted : HomeAction()
     object Logout : HomeAction()
 }
 
@@ -30,25 +27,25 @@ internal data class HomeState(
     val camConnectivity: CamConnectivity = CamConnectivity.DISABLED,
     val loginState: CamLoginState = CamLoggedOut,
     val camConfig: KuCameraConfig? = null,
-    val lastUserInteractionTime: Long = 0,
+    val logoutRunning: Boolean = false,
 )
 
 
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
     @ApplicationContext context: Context,
-    private val loadConfig: LoadConfig,
     private val logoutCamera: LogoutCamera,
-    val camManager: CamManager
+    val camManager: CamManager,
+    val recordingTracker: RecordingTracker,
 ) : ReduxViewModel<HomeState>(HomeState()) {
     private val pendingActions = MutableSharedFlow<HomeAction>()
-
 
     val enabledNetworkMediaTextLive = liveFieldOf(HomeState::camConfig).map {
         it?.enabledNetworkMedia?.uppercase()
     }
 
     val isLoggedInLive = liveFieldOf(HomeState::loginState).map { it is CamLoggedIn }
+    val isLogoutRunningLive = liveFieldOf(HomeState::logoutRunning)
 
     val camStateTextLive = isLoggedInLive.map { yes ->
         if (yes) {
@@ -99,13 +96,23 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
+    val recordingStateTextLive = recordingTracker.stateFlow.map { state ->
+        when (state) {
+            is RecordingState.Disabled -> "녹화중지"
+            is RecordingState.FiniteRecording -> "녹화중"
+            is RecordingState.InfiniteRecording -> "녹화중"
+            is RecordingState.RecordingScheduled -> "녹화 예약됨"
+            is RecordingState.RecordingExpired -> "녹화 종료"
+        }
+    }.asLiveData()
+
+    val isRecordingLive = recordingTracker.isRecordingFlow.asLiveData()
 
     init {
         // 액션 처리
         viewModelScope.launch {
             pendingActions.collect { action ->
                 when (action) {
-                    is HomeAction.UserInteracted -> setState { copy(lastUserInteractionTime = System.currentTimeMillis()) }
                     is HomeAction.Logout -> doLogout()
                 }
             }
@@ -128,19 +135,14 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun doLoadConfig() {
-        try {
-            loadConfig.executeSync(Unit)
-        } catch (err: Throwable) {
-            Timber.d("err=" + err.message)
-        }
-    }
-
     private suspend fun doLogout() {
+        setState { copy(logoutRunning = true) }
         try {
             logoutCamera.executeSync(Unit)
         } catch (err: Throwable) {
             Timber.d("err=" + err.message)
+        } finally {
+            setState { copy(logoutRunning = false) }
         }
     }
 

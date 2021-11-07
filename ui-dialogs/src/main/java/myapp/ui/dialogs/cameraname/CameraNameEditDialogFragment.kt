@@ -14,12 +14,17 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import myapp.BuildVars
+import myapp.error.AppException
 import myapp.extensions.trimOrEmpty
 import myapp.ui.dialogs.databinding.DialogCameraNameEditBinding
 import myapp.util.Action1
 import myapp.util.AndroidUtils
+import myapp.validator.CameraNameValidator
 import splitties.fragmentargs.arg
+import splitties.snackbar.snack
 
 @AndroidEntryPoint
 class CameraNameEditDialogFragment : DialogFragment() {
@@ -66,7 +71,6 @@ class CameraNameEditDialogFragment : DialogFragment() {
     private fun setupEvents() {
         // 취소버튼 클릭
         mBind.txtviewCancelBtn.setOnClickListener {
-            mResultCameraName = null
             dismiss()
         }
 
@@ -81,7 +85,10 @@ class CameraNameEditDialogFragment : DialogFragment() {
 
         // 완료버튼 클릭
         mBind.txtviewSaveBtn.setOnClickListener {
-            doSave(mBind.editText.trimOrEmpty())
+            AndroidUtils.hideKeyboard(mBind.editText)
+            lifecycleScope.launch {
+                trySave(mBind.editText.trimOrEmpty())
+            }
         }
     }
 
@@ -106,21 +113,50 @@ class CameraNameEditDialogFragment : DialogFragment() {
         window.setLayout(preferWindowWidth(requireContext()), ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    private fun doSave(cameraName: String?) {
-        lifecycleScope.launch {
-//            try {
-//                val card = mViewModel.saveBibleCardMessage(cameraName = cameraName)
-//                dismissWithSavedCard(cameraName = card)
-//            } catch (e: Throwable) {
-//                mBind.root.snack(trimNull(e.message) ?: "에러가 발생했습니다")
-//            }
+    private suspend fun trySave(cameraName: String) {
+        val cameraIp = mViewModel.camManager.cameraIp
+        if (cameraIp == null) {
+            mBind.root.snack("카메라 연결을 확인해주세요")
+            return
+        }
+
+        if (cameraName.isBlank()) {
+            mBind.root.snack("카메라 이름을 입력해주세요")
+            return
+        }
+
+        if (cameraName.length < BuildVars.cameraNameMinLength || cameraName.length > BuildVars.cameraNameMaxLength) {
+            mBind.root.snack(
+                String.format(
+                    "카메라 이름을 %d~%d 글자로 입력해주세요",
+                    BuildVars.cameraNameMinLength,
+                    BuildVars.cameraNameMaxLength
+                )
+            )
+            return
+        }
+
+        if (!CameraNameValidator.isValid(cameraName)) {
+            mBind.root.snack("카메라 이름이 유효하지 않습니다")
+            return
+        }
+
+        try {
+            mViewModel.doSaveCameraName(ip = cameraIp, cameraName = cameraName)
+            mBind.root.snack("저장되었습니다")
+            mResultCameraName = cameraName
+            delay(400)
+            dismiss()
+        } catch (e: Throwable) {
+            if (e is AppException) {
+                mBind.root.snack(e.displayMessage())
+            } else {
+                mBind.root.snack("에러 발생: ${e.message}")
+            }
+            e.printStackTrace()
         }
     }
 
-    private fun dismissWithSavedCard(cameraName: String?) {
-        mResultCameraName = cameraName
-        dismiss()
-    }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
