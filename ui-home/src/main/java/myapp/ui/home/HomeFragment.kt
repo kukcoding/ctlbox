@@ -34,6 +34,7 @@ import myapp.ui.player.LivePlayerActivity
 import myapp.ui.record.RecordFilesActivity
 import myapp.ui.settings.SettingsActivity
 import myapp.util.AndroidUtils
+import org.threeten.bp.Instant
 import splitties.snackbar.snack
 
 
@@ -180,6 +181,17 @@ class HomeFragment : Fragment() {
                 }
             }
         })
+
+        mBind.txtviewRecordingLabel.setOnClickListener {
+            openRecordingSchedule()
+        }
+
+        mBind.txtviewWifiLabel.setOnClickListener {
+            openNetworkMediaSetting()
+        }
+        mBind.txtviewLteLabel.setOnClickListener {
+            openNetworkMediaSetting()
+        }
     }
 
     fun closeDrawer() {
@@ -304,5 +316,29 @@ class HomeFragment : Fragment() {
             lifecycleScope = lifecycleScope,
             message = resStr(R.string.msg_one_more_back_button),
         )
+    }
+
+    /**
+     * 네트워크 설정
+     */
+    private fun openNetworkMediaSetting() {
+        val cfg = mViewModel.camManager.config ?: return
+        CameraDialogs.openNetworkMedia(
+            fm = childFragmentManager,
+            media = cfg.enabledNetworkMedia,
+        )
+    }
+
+    /**
+     * 녹화 설정 다이얼로그
+     */
+    private fun openRecordingSchedule() {
+        val schedule = mViewModel.camManager.config?.recordingSchedule ?: return
+        CameraDialogs.openRecordingSchedule(
+            fm = childFragmentManager,
+            disabled = schedule.disabled,
+            startTime = schedule.startTimestamp ?: Instant.now(),
+            durationMinute = schedule.durationMinute
+        ) {}
     }
 }
