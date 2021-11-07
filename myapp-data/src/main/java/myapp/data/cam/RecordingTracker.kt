@@ -108,11 +108,11 @@ class RecordingTracker @Inject constructor(
      * 녹화 여부 flow
      * 녹화중이거나 녹화 예약 상태인 경우 1초간격으로 체크한다
      */
-    val flow: Flow<Boolean> = stateFlow.flatMapLatest { state ->
+    val isRecordingFlow: Flow<Boolean> = stateFlow.flatMapLatest { state ->
         when (state) {
             is RecordingState.InfiniteRecording -> flowOf(true)
             is RecordingState.FiniteRecording -> flowOf(true)
-            is RecordingState.RecordingScheduled -> flowOf(true)
+            is RecordingState.RecordingScheduled -> flowOf(false)
             else -> flowOf(false)
         }
     }

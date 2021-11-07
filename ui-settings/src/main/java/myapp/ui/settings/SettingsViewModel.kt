@@ -86,7 +86,7 @@ internal class SettingsViewModel @Inject constructor(
         }
     }.asLiveData()
 
-    val isRecordingLive = recordingTracker.flow.asLiveData()
+    val isRecordingLive = recordingTracker.isRecordingFlow.asLiveData()
     val recordingStateTextLive = recordingTracker.stateFlow.map { state ->
         when (state) {
             is RecordingState.Disabled -> "중지됨"

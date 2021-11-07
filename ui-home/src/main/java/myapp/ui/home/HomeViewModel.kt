@@ -106,7 +106,7 @@ internal class HomeViewModel @Inject constructor(
         }
     }.asLiveData()
 
-
+    val isRecordingLive = recordingTracker.isRecordingFlow.asLiveData()
 
     init {
         // 액션 처리

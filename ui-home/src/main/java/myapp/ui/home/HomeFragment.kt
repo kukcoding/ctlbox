@@ -158,6 +158,14 @@ class HomeFragment : Fragment() {
             }
         })
 
+        mViewModel.isRecordingLive.observe(viewLifecycleOwner, { recording ->
+            if (recording) {
+                mBind.txtviewRecordingLabel.setTextColor(resColor(R.color.color_green_500))
+            } else {
+                mBind.txtviewRecordingLabel.setTextColor(styledColor(R.attr.colorOnSurface3))
+            }
+        })
+
 
         mViewModel.liveFieldOf(HomeState::loginState).observe(viewLifecycleOwner, { state ->
             when (state) {
