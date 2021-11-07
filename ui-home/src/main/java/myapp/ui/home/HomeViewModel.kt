@@ -1,18 +1,17 @@
 package myapp.ui.home
 
 import android.content.Context
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import myapp.ReduxViewModel
-import myapp.data.cam.CamLoggedIn
-import myapp.data.cam.CamLoggedOut
-import myapp.data.cam.CamLoginState
-import myapp.data.cam.CamManager
+import myapp.data.cam.*
 import myapp.data.code.CamConnectivity
 import myapp.data.entities.KuCameraConfig
 import myapp.domain.interactors.LogoutCamera
@@ -36,7 +35,8 @@ internal data class HomeState(
 internal class HomeViewModel @Inject constructor(
     @ApplicationContext context: Context,
     private val logoutCamera: LogoutCamera,
-    val camManager: CamManager
+    val camManager: CamManager,
+    val recordingTracker: RecordingTracker,
 ) : ReduxViewModel<HomeState>(HomeState()) {
     private val pendingActions = MutableSharedFlow<HomeAction>()
 
@@ -95,6 +95,17 @@ internal class HomeViewModel @Inject constructor(
             null
         }
     }
+
+    val recordingStateTextLive = recordingTracker.stateFlow.map { state ->
+        when (state) {
+            is RecordingState.Disabled -> "녹화중지"
+            is RecordingState.FiniteRecording -> "녹화중"
+            is RecordingState.InfiniteRecording -> "녹화중"
+            is RecordingState.RecordingScheduled -> "녹화 예약됨"
+            is RecordingState.RecordingExpired -> "녹화 만료"
+        }
+    }.asLiveData()
+
 
 
     init {

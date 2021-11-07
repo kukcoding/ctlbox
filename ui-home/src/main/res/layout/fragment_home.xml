@@ -324,6 +324,24 @@
                                 android:textSize="11sp"
                                 android:textStyle="bold" />
                         </FrameLayout>
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:background="@drawable/bt_status_outline_white">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="4dp"
+                                android:text="@{vm.recordingStateTextLive}"
+                                android:textColor="?attr/colorOnSurface4"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                tools:text="녹화중" />
+                        </FrameLayout>
                     </com.google.android.flexbox.FlexboxLayout>
 
 

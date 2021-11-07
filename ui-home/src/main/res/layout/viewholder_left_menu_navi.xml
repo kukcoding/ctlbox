@@ -65,6 +65,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:scaleType="centerCrop"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/imgview_logo"
             app:layout_constraintStart_toStartOf="@+id/imgview_logo"
             app:layout_constraintTop_toTopOf="parent"

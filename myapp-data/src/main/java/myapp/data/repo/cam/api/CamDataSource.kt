@@ -9,6 +9,7 @@ import myapp.data.mappers.CamConfigToKuCameraConfigMapper
 import myapp.data.mappers.LoginToKuCameraConfigMapper
 import myapp.data.mappers.RecordFileIdToKuRecordFileMapper
 import myapp.data.preferences.ApiPreference
+import org.threeten.bp.Instant
 import javax.inject.Inject
 
 
@@ -25,8 +26,11 @@ private fun createFakeConfig(): KuCameraConfig {
         mjpg = MjpgQuality(resolution = "1280x720", fps = 10),
         wifiSsid = "mpx-cam-demo",
         wifiPw = "1111",
-        recordStartTimestamp = null,
-        recordDurationMinute = 0L,
+        recordingSchedule = KuRecordingSchedule(
+            disabled = false,
+            startTimestamp = Instant.now().plusSeconds(10),
+            durationMinute = 1,
+        )
     )
 }
 

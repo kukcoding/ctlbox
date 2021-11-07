@@ -88,9 +88,7 @@ class HomeFragment : Fragment() {
 
     private fun setupEvents() {
 
-        mBind.toolbar.setNavigationOnClickListener {
-            toggleLeftMenu()
-        }
+        mBind.toolbar.setNavigationOnClickListener { toggleLeftMenu() }
 
         mBind.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
@@ -108,12 +106,8 @@ class HomeFragment : Fragment() {
             }
         })
 
-        mBind.layoutLoginBtn.setOnClickListener {
-            onClickLoginButton()
-        }
-        mBind.layoutNetworkBtn.setOnClickListener {
-            openWifiSetting()
-        }
+        mBind.layoutLoginBtn.setOnClickListener { onClickLoginButton() }
+        mBind.layoutNetworkBtn.setOnClickListener { openWifiSetting() }
 
         // RTSP 플레이 버튼 클릭
         mBind.btRtspPlayButton.setOnClickListener {
@@ -167,15 +161,11 @@ class HomeFragment : Fragment() {
 
         mViewModel.liveFieldOf(HomeState::loginState).observe(viewLifecycleOwner, { state ->
             when (state) {
-                is CamLoggedOut -> {
-                    mBind.layoutNetworkBtn.isVisible = false
-                }
+                is CamLoggedOut -> mBind.layoutNetworkBtn.isVisible = false
                 is CamLoggedIn -> {
                     if (state.cameraIp == BuildVars.cameraAccessPointIp) {
-                        // mBind.imgviewWifi.setImageResource(R.drawable.ic_main_wifi_connected)
                         mBind.loginNetworkLabel.title = "WIFI"
                     } else {
-                        // mBind.imgviewWifi.setImageResource(R.drawable.ic_baseline_cloud_24)
                         mBind.loginNetworkLabel.title = "LTE"
                     }
                     mBind.layoutNetworkBtn.isVisible = true
