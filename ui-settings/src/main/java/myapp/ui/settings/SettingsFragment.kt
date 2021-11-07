@@ -3,12 +3,14 @@ package myapp.ui.settings
 
 import android.os.Bundle
 import android.text.SpannedString
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.core.text.scale
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -103,6 +105,16 @@ class SettingsFragment : Fragment() {
             openReboot()
         }
 
+        // 녹화 상태 버튼 클릭
+        mBind.layoutRecordingStateBtn.setOnClickListener {
+            openRecordingSchedule()
+        }
+
+        // 녹화 스케줄 버튼 클릭
+        mBind.layoutRecordingScheduleBtn.setOnClickListener {
+            openRecordingSchedule()
+        }
+
         mViewModel.recordingTracker.stateFlow.asLiveData().observe(viewLifecycleOwner, Observer { state ->
 
             when (state) {
@@ -136,16 +148,16 @@ class SettingsFragment : Fragment() {
                     }
                 }
                 is RecordingState.RecordingScheduled -> {
-                    mBind.txtviewRecordScheduleType.text = "(녹화 예약)"
-                    val startTime = state.schedule.startTimestamp
                     val durationMinute = state.schedule.durationMinute
+                    mBind.txtviewRecordScheduleType.text = if(durationMinute <= 0) "(상시 녹화 예약)" else "(녹화 예약)"
+                    val startTime = state.schedule.startTimestamp
                     if (startTime != null) {
                         mBind.txtviewRecordTime1.text = formatRecordTime1(startTime, durationMinute)
                         mBind.txtviewRecordTime2.text = formatRecordTime2(startTime, durationMinute)
                     }
                 }
                 is RecordingState.RecordingExpired -> {
-                    mBind.txtviewRecordScheduleType.text = "(녹화 만료)"
+                    mBind.txtviewRecordScheduleType.text = "(녹화 종료)"
                     val startTime = state.schedule.startTimestamp
                     val durationMinute = state.schedule.durationMinute
                     if (startTime != null) {
@@ -154,6 +166,8 @@ class SettingsFragment : Fragment() {
                     }
                 }
             }
+
+            mBind.txtviewRecordTime2.isGone = TextUtils.isEmpty(mBind.txtviewRecordTime2.text)
         })
     }
 
@@ -183,7 +197,7 @@ class SettingsFragment : Fragment() {
         return when {
             from.year != to.year -> {
                 buildSpannedString {
-                    append("${to.year}년 ${to.monthValue.twoDigit()}월 ${to.dayOfMonth.twoDigit()}일 ${to.hour.twoDigit()}시 ${to.minute.twoDigit()})분 ${to.second.twoDigit()}초")
+                    append("${to.year}년 ${to.monthValue.twoDigit()}월 ${to.dayOfMonth.twoDigit()}일 ${to.hour.twoDigit()}시 ${to.minute.twoDigit()}분 ${to.second.twoDigit()}초")
                     scale(0.8f) {
                         color(resColor(R.color.colorDarkText8)) { append(" 까지") }
                     }
@@ -342,5 +356,18 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    /**
+     * 녹화 설정 다이얼로그
+     */
+    private fun openRecordingSchedule() {
+        val schedule = mViewModel.camManager.config?.recordingSchedule ?: return
+        CameraDialogs.openRecordingSchedule(
+            fm = childFragmentManager,
+            disabled = schedule.disabled,
+            startTime = schedule.startTimestamp ?: Instant.now(),
+            durationMinute = schedule.durationMinute
+        ) {}
     }
 }

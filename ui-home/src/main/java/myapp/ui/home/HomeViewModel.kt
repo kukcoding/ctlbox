@@ -102,7 +102,7 @@ internal class HomeViewModel @Inject constructor(
             is RecordingState.FiniteRecording -> "녹화중"
             is RecordingState.InfiniteRecording -> "녹화중"
             is RecordingState.RecordingScheduled -> "녹화 예약됨"
-            is RecordingState.RecordingExpired -> "녹화 만료"
+            is RecordingState.RecordingExpired -> "녹화 종료"
         }
     }.asLiveData()
 

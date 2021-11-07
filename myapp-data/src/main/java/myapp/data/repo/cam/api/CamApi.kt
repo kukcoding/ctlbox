@@ -1,9 +1,6 @@
 package myapp.data.repo.cam.api
 
-import myapp.data.entities.network.CamConfigPayload
-import myapp.data.entities.network.CamHealthPayload
-import myapp.data.entities.network.CamLoginPayload
-import myapp.data.entities.network.CamRecordFilesPayload
+import myapp.data.entities.network.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -70,6 +67,27 @@ interface CamApi {
         @Field("resolution") resolution: String, // 3840x2160
         @Field("fps") fps: Int
     ): Response<Unit>
+
+
+    /**
+     * 녹화 OFF
+     */
+    @POST("http://{ip}/config/update-recording-off")
+    suspend fun updateRecordingOff(
+        @Path(value = "ip") ip: String,
+    ): Response<CamRecordingSchedulePayload.Response>
+
+
+    /**
+     * 녹화 스케줄
+     */
+    @POST("http://{ip}/config/update-recording-schedule")
+    @FormUrlEncoded
+    suspend fun updateRecordingSchedule(
+        @Path(value = "ip") ip: String,
+        @Field("startAt") startTimeInSeconds: Long, // epochTime in seconds
+        @Field("durationInMinutes") durationInMinutes: Long  // duration in minutes
+    ): Response<CamRecordingSchedulePayload.Response>
 
     /**
      * 스트리밍 해상도 설정 변경

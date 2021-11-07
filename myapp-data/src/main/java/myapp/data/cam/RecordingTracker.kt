@@ -1,29 +1,11 @@
 package myapp.data.cam
 
-import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.isActive
-import myapp.data.entities.KuRecordingSchedule
 import myapp.util.tupleOf
 import org.threeten.bp.Instant
-import org.threeten.bp.ZoneId
 import javax.inject.Inject
 
-
-/**
- * 현재 녹화중인지 여부
- */
-private fun isRecordingNow(schedule: KuRecordingSchedule): Boolean {
-    if (schedule.disabled) return false
-    val startTime = schedule.startTimestamp ?: return false
-
-    val now = Instant.now()
-    if (now.isBefore(startTime)) return false
-    if (schedule.durationMinute <= 0L) return true
-    val deadline = startTime.plusSeconds(60 * schedule.durationMinute)
-    return now.isBefore(deadline)
-}
 
 class RecordingTracker @Inject constructor(
     camManager: CamManager
@@ -70,7 +52,7 @@ class RecordingTracker @Inject constructor(
         when (state) {
             is RecordingState.FiniteRecording,
             is RecordingState.RecordingScheduled -> {
-                // 녹화 중이므로 시간이 만료될때까지 반복 체크한다
+                // 반복 체크한다
                 flow {
                     emit(state)
                     delay(1000)
@@ -78,29 +60,6 @@ class RecordingTracker @Inject constructor(
                 }
             }
             else -> flowOf(state)
-        }
-    }
-
-
-    private fun waitRecordingStartFlow(schedule: KuRecordingSchedule): Flow<Boolean> {
-        return flow {
-            while (currentCoroutineContext().isActive) {
-                val isRecording = isRecordingNow(schedule)
-                emit(isRecording)
-                if (isRecording) break
-                delay(1000)
-            }
-        }
-    }
-
-    private fun waitRecordingFinishFlow(schedule: KuRecordingSchedule): Flow<Boolean> {
-        return flow {
-            while (currentCoroutineContext().isActive) {
-                val isRecording = isRecordingNow(schedule)
-                emit(isRecording)
-                if (!isRecording) break
-                delay(1000)
-            }
         }
     }
 
@@ -116,9 +75,4 @@ class RecordingTracker @Inject constructor(
             else -> flowOf(false)
         }
     }
-}
-
-private fun formatDate(startTime: Instant): String {
-    val from = startTime.atZone(ZoneId.systemDefault())
-    return "${from.year}년 ${from.monthValue}월 ${from.dayOfMonth}일 ${from.hour}시 ${from.minute}분 ${from.second}초"
 }

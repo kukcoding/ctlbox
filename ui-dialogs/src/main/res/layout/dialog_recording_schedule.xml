@@ -1,0 +1,279 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="vm"
+            type="myapp.ui.dialogs.recordingschedule.RecordingScheduleViewModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/layout_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_dialog1"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/background_dialog_toolbar1">
+
+                <TextView
+                    android:id="@+id/txtview_dialog_title"
+                    style="@style/DialogTitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:maxLines="1"
+                    android:text="녹화 설정"
+                    android:textColor="?attr/colorOnSurface1"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/layout_closeBtn"
+                    android:layout_width="?actionBarSize"
+                    android:layout_height="0dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_close_vd_theme_24px"
+                        app:tint="@color/selector_text4_and_secondary" />
+                </FrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtview_recordingInfiniteBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/selector_fps_button"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:onClick="@{() -> vm.updateTypeInfinite()}"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="8dp"
+                    android:text="상시 녹화"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toStartOf="@+id/txtview_recordingFiniteBtn"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:selected="@{vm.isInfiniteTypeLive}" />
+
+
+                <TextView
+                    android:id="@+id/txtview_recordingFiniteBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/selector_fps_button"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:onClick="@{() -> vm.updateTypeFinite()}"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="8dp"
+                    android:text="시간 지정"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/txtview_recordingInfiniteBtn"
+                    app:layout_constraintEnd_toStartOf="@+id/txtview_recordingOffBtn"
+                    app:layout_constraintStart_toEndOf="@+id/txtview_recordingInfiniteBtn"
+                    app:layout_constraintTop_toTopOf="@+id/txtview_recordingInfiniteBtn"
+                    app:selected="@{vm.isFiniteTypeLive}" />
+
+                <TextView
+                    android:id="@+id/txtview_recordingOffBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_fps_button"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:onClick="@{() -> vm.updateTypeDisabled()}"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="8dp"
+                    android:text="녹화 중지"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtview_recordingFiniteBtn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/txtview_recordingFiniteBtn"
+                    app:layout_constraintTop_toTopOf="@+id/txtview_recordingFiniteBtn"
+                    app:selected="@{vm.isDisabledTypeLive}" />
+
+                <TextView
+                    android:id="@+id/txtview_recordingStartLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="32dp"
+                    android:text="녹화 시작"
+                    android:textColor="?attr/colorOnSurface6"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtview_recordingInfiniteBtn"
+                    app:visible="@{!vm.isDisabledTypeLive()}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtview_recordingStartTime1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:drawablePadding="0dp"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:gravity="center"
+                    android:text="@{vm.startDateTextLive}"
+                    android:textColor="?attr/colorOnSurface1"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/txtview_recordingStartLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/txtview_recordingStartLabel"
+                    app:visible="@{!vm.isDisabledTypeLive()}"
+                    tools:text="2021년 11월 7월 2일" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtview_recordingStartTime2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="24dp"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:drawablePadding="0dp"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:gravity="center"
+                    android:text="@{vm.startTimeTextLive}"
+                    android:textColor="?attr/colorOnSurface1"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/txtview_recordingStartTime1"
+                    app:layout_constraintStart_toEndOf="@id/txtview_recordingStartTime1"
+                    app:layout_constraintTop_toTopOf="@id/txtview_recordingStartTime1"
+                    app:visible="@{!vm.isDisabledTypeLive()}"
+                    tools:text="19시 17분" />
+
+                <TextView
+                    android:id="@+id/txtview_recordingFinishLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="녹화 종료"
+                    android:textColor="?attr/colorOnSurface6"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@+id/txtview_recordingStartLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/txtview_recordingStartTime1"
+                    app:visible="@{vm.isFiniteTypeLive()}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtview_recordingFinishTime1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:drawablePadding="0dp"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:gravity="center"
+                    android:text="@{vm.endDateTextLive}"
+                    android:textColor="?attr/colorOnSurface1"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/txtview_recordingFinishLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/txtview_recordingFinishLabel"
+                    app:visible="@{vm.isFiniteTypeLive()}"
+                    tools:text="2021년 11월 7월 2일" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtview_recordingFinishTime2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="24dp"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:drawablePadding="0dp"
+                    android:drawableTint="?attr/colorPrimary"
+                    android:gravity="center"
+                    android:text="@{vm.endTimeTextLive}"
+                    android:textColor="?attr/colorOnSurface1"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/txtview_recordingFinishTime1"
+                    app:layout_constraintStart_toEndOf="@id/txtview_recordingFinishTime1"
+                    app:layout_constraintTop_toTopOf="@id/txtview_recordingFinishTime1"
+                    app:visible="@{vm.isFiniteTypeLive()}"
+                    tools:text="19시 17분" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtview_errorMsg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="left"
+                    android:text="@{vm.errorMsgLive}"
+                    android:textColor="?attr/colorError"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/txtview_recordingFinishTime1"
+                    app:layout_constraintTop_toBottomOf="@+id/txtview_recordingFinishTime1"
+                    tools:text="시간이 올바르지 않습니다" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_done"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="8dp"
+                android:text="확인"
+                android:textColor="@color/selector_secondary_and_white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/layout_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#40FFFFFF"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            app:visible="@{vm.isLoadingLive}">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true" />
+        </FrameLayout>
+    </FrameLayout>
+</layout>

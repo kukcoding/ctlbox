@@ -8,6 +8,7 @@ import myapp.data.entities.*
 import myapp.data.mappers.CamConfigToKuCameraConfigMapper
 import myapp.data.mappers.LoginToKuCameraConfigMapper
 import myapp.data.mappers.RecordFileIdToKuRecordFileMapper
+import myapp.data.mappers.RecordingScheduleToKuRecordingScheduleMapper
 import myapp.data.preferences.ApiPreference
 import org.threeten.bp.Instant
 import javax.inject.Inject
@@ -39,6 +40,7 @@ class CamDataSource @Inject constructor(
     private val loginToKuCameraConfigMapper: LoginToKuCameraConfigMapper,
     private val camConfigToKuCameraConfigMapper: CamConfigToKuCameraConfigMapper,
     private val recordFileIdToKuRecordFileMapper: RecordFileIdToKuRecordFileMapper,
+    private val recordingScheduleToKuRecordingScheduleMapper: RecordingScheduleToKuRecordingScheduleMapper,
 ) {
 
     private fun cameraIp(): String {
@@ -154,6 +156,57 @@ class CamDataSource @Inject constructor(
         }
 
         return callApi { camApi.updateRecordingVideoQuality(ip = cameraIp(), resolution = resolution, fps = fps) }
+    }
+
+
+    /**
+     * 녹화 스케줄 설정 업데이트
+     * TODO 실제 API 연동
+     */
+    suspend fun updateRecordingSchedule(
+        startTime: Instant,
+        durationMinute: Long
+    ): Result<KuRecordingSchedule> {
+        if (BuildVars.fakeCamera) {
+            delay(1000)
+            return Success(
+                KuRecordingSchedule(
+                    disabled = false,
+                    startTimestamp = startTime,
+                    durationMinute = durationMinute
+                )
+            )
+        }
+
+        return callApi {
+            camApi.updateRecordingSchedule(
+                ip = cameraIp(),
+                startTimeInSeconds = startTime.epochSecond,
+                durationInMinutes = durationMinute
+            )
+        }.map { recordingScheduleToKuRecordingScheduleMapper.map(it) }
+    }
+
+    /**
+     * TODO 실제 API 연동
+     */
+    suspend fun updateRecordingOff(): Result<KuRecordingSchedule> {
+        if (BuildVars.fakeCamera) {
+            delay(1000)
+            return Success(
+                KuRecordingSchedule(
+                    disabled = true,
+                    startTimestamp = Instant.now(),
+                    durationMinute = -1
+                )
+            )
+        }
+
+        return callApi { camApi.updateRecordingOff(ip = cameraIp()) }.map {
+            recordingScheduleToKuRecordingScheduleMapper.map(
+                it
+            )
+        }
     }
 
     /**

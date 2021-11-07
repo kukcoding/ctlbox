@@ -10,8 +10,6 @@
             name="vm"
             type="myapp.ui.home.HomeViewModel" />
 
-        <import type="android.text.TextUtils" />
-
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout

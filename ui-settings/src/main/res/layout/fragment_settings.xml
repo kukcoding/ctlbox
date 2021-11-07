@@ -6,6 +6,8 @@
 
         <import type="android.view.View" />
 
+        <import type="android.text.TextUtils" />
+
         <variable
             name="vm"
             type="myapp.ui.settings.SettingsViewModel" />
@@ -216,7 +218,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/layout_recordOnBtn"
+                    android:id="@+id/layout_recordingStateBtn"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?attr/selectableItemBackground"
@@ -253,14 +255,15 @@
                 <View style="@style/SettingDivider" />
 
                 <LinearLayout
-                    android:id="@+id/layout_recordBtn"
+                    android:id="@+id/layout_recordingScheduleBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:gravity="left|center_vertical"
                     android:orientation="horizontal"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="16dp">
+                    android:paddingVertical="16dp"
+                    app:visible="@{vm.recordingScheduleVisibleLive}">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -282,12 +285,12 @@
 
                             <TextView
                                 android:id="@+id/txtview_recordScheduleType"
-                                android:layout_marginStart="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
                                 android:textColor="?attr/colorOnSurface1"
-                                tools:text="(상시녹화)"
-                                android:textSize="11sp" />
+                                android:textSize="11sp"
+                                tools:text="(상시녹화)" />
                         </LinearLayout>
 
                         <TextView
@@ -320,7 +323,9 @@
                         app:tint="?attr/colorOnSurface" />
                 </LinearLayout>
 
-                <View style="@style/SettingDivider" />
+                <View
+                    style="@style/SettingDivider"
+                    app:visible="@{vm.recordingScheduleVisibleLive}" />
 
                 <LinearLayout
                     android:id="@+id/layout_recordQualityBtn"

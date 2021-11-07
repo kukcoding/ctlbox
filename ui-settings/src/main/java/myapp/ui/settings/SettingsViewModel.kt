@@ -36,14 +36,13 @@ internal data class SettingsState(
 )
 
 
-
 private fun formatRecordDate(startTime: Instant, durationMinute: Long): String {
     val from = startTime.atZone(ZoneId.systemDefault())
     val txt1 =
         "${from.year}년 ${from.monthValue}월 ${from.dayOfMonth}일 ${from.hour}시 ${from.minute}분 ${from.second}초"
 
     if (durationMinute <= 0) {
-        return "${txt1}부터 계속"
+        return "${txt1}부터"
     }
 
     val to = from.plusMinutes(durationMinute)
@@ -93,9 +92,11 @@ internal class SettingsViewModel @Inject constructor(
             is RecordingState.FiniteRecording -> "녹화중"
             is RecordingState.InfiniteRecording -> "녹화중"
             is RecordingState.RecordingScheduled -> "녹화 예약됨"
-            is RecordingState.RecordingExpired -> "녹화 만료"
+            is RecordingState.RecordingExpired -> "녹화 종료"
         }
     }.asLiveData()
+
+    val recordingScheduleVisibleLive = recordingTracker.stateFlow.map { it !is RecordingState.Disabled }.asLiveData()
 
     val cameraNameLive = camManager.observeConfig().map { cfg ->
         cfg?.cameraName ?: "-"
