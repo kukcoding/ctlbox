@@ -64,9 +64,7 @@ class LoginWifiDialogFragment : DialogFragment() {
 
     private fun setupEvents() {
         // 취소버튼 클릭
-        mBind.txtviewCancelBtn.setOnClickListener {
-            dismiss()
-        }
+        mBind.txtviewCancelBtn.setOnClickListener { dismiss() }
 
         mBind.edtxtPw.setOnEditorActionListener { _, actionId, _ ->
             if (EditorInfo.IME_ACTION_DONE == actionId) {
@@ -90,9 +88,7 @@ class LoginWifiDialogFragment : DialogFragment() {
         })
 
         // 와이파이 아이콘 클릭시 와이파이 설정화면으로 이동
-        mBind.layoutWifiBtn.setOnClickListener {
-            openWifiSetting()
-        }
+        mBind.layoutWifiBtn.setOnClickListener { openWifiSetting() }
     }
 
     /**

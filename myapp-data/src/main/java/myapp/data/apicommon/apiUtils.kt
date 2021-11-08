@@ -16,11 +16,11 @@ import retrofit2.Response
 fun <T> Response<TRApiResponse<T>>.toApiDataResult(): Result<T> = try {
     if (isSuccessful) {
         val apiResponse = bodyOrThrow()
-        if (apiResponse.result.success) {
+        if (apiResponse.success) {
             Success(data = apiResponse.data!!, responseModified = isFromNetwork())
         } else {
-            val exception = AppErrorCode.parse(apiResponse.result.errorCode)?.toException()
-                ?: AppException(msg = apiResponse.result.errorCode!!)
+            val exception = AppErrorCode.parse(apiResponse.errorCode)?.toException()
+                ?: AppException(msg = apiResponse.errorCode!!)
             ErrorResult(exception)
         }
     } else {
@@ -30,20 +30,27 @@ fun <T> Response<TRApiResponse<T>>.toApiDataResult(): Result<T> = try {
     ErrorResult(e)
 }
 
-fun <T> Response<T>.toResult(): Result<T> = try {
-    if (isSuccessful) {
-        val apiResponse: T = bodyOrThrow()
-        Success(data = apiResponse!!, responseModified = isFromNetwork())
-    } else {
-        ErrorResult(AppException.translate(toException()))
-    }
-} catch (e: Exception) {
-    ErrorResult(e)
-}
+//fun <T> Response<T>.toResult(): Result<T> = try {
+//    if (isSuccessful) {
+//        val apiResponse: T = bodyOrThrow()
+//        Success(data = apiResponse!!, responseModified = isFromNetwork())
+//    } else {
+//        ErrorResult(AppException.translate(toException()))
+//    }
+//} catch (e: Exception) {
+//    ErrorResult(e)
+//}
 
-fun Response<Unit>.toApiSuccessOrNot(): Result<Unit> = try {
+fun Response<TRApiResponse<Any>>.toApiSuccessOrNot(): Result<Unit> = try {
     if (isSuccessful) {
-        Success(data = Unit, responseModified = isFromNetwork())
+        val apiResponse = bodyOrThrow()
+        if (apiResponse.success) {
+            Success(data = Unit, responseModified = isFromNetwork())
+        } else {
+            val exception = AppErrorCode.parse(apiResponse.errorCode)?.toException()
+                ?: AppException(msg = apiResponse.errorCode!!)
+            ErrorResult(exception)
+        }
     } else {
         ErrorResult(AppException.translate(toException()))
     }
@@ -55,13 +62,13 @@ suspend inline fun <T> callApi(
     defaultDelay: Long = 100,
     maxAttempts: Int = 1,
     shouldRetry: (Exception) -> Boolean = ::defaultShouldRetry,
-    retrofitCall: () -> Response<T>
+    retrofitCall: () -> Response<TRApiResponse<T>>
 ): Result<T> {
     repeat(maxAttempts) { attempt ->
         val nextDelay = attempt * attempt * defaultDelay
         try {
             // Clone a new ready call if needed
-            return retrofitCall().toResult()
+            return retrofitCall().toApiDataResult()
         } catch (e: Exception) {
             // The response failed, so lets see if we should retry again
             if (attempt == (maxAttempts - 1) || !shouldRetry(e)) {
@@ -81,7 +88,7 @@ suspend inline fun execApi(
     defaultDelay: Long = 100,
     maxAttempts: Int = 1,
     shouldRetry: (Exception) -> Boolean = ::defaultShouldRetry,
-    retrofitCall: () -> Response<Unit>
+    retrofitCall: () -> Response<TRApiResponse<Any>>
 ): Result<Unit> {
     repeat(maxAttempts) { attempt ->
         val nextDelay = attempt * attempt * defaultDelay

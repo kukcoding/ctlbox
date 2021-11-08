@@ -1,5 +1,6 @@
 package myapp.data.repo.cam.api
 
+import myapp.data.apicommon.TRApiResponse
 import myapp.data.entities.network.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -14,7 +15,7 @@ interface CamApi {
     suspend fun login(
         @Path(value = "ip") ip: String,
         @Field("pw") pw: String
-    ): Response<CamLoginPayload.Login>
+    ): Response<TRApiResponse<CamLoginPayload.Login>>
 
     /**
      * 카메라 Health
@@ -22,28 +23,28 @@ interface CamApi {
     @POST("http://{ip}/health")
     suspend fun health(
         @Path(value = "ip") ip: String
-    ): Response<CamHealthPayload.Response>
+    ): Response<TRApiResponse<CamHealthPayload.Response>>
 
 
     /**
      * 카메라 로그아웃
      */
     @POST("http://{ip}/logout")
-    suspend fun logout(@Path(value = "ip") ip: String): Response<Unit>
+    suspend fun logout(@Path(value = "ip") ip: String): Response<TRApiResponse<Any>>
 
 
     /**
      * 카메라 설정 조회
      */
     @GET("http://{ip}/config")
-    suspend fun config(@Path(value = "ip") ip: String): Response<CamConfigPayload.Response>
+    suspend fun config(@Path(value = "ip") ip: String): Response<TRApiResponse<CamConfigPayload.Response>>
 
 
     /**
      * 녹화파일목록 조회
      */
     @POST("http://{ip}/recording/list")
-    suspend fun recordFiles(@Path(value = "ip") ip: String): Response<CamRecordFilesPayload.Response>
+    suspend fun recordFiles(@Path(value = "ip") ip: String): Response<TRApiResponse<CamRecordFilesPayload.Response>>
 
 
     /**
@@ -54,7 +55,7 @@ interface CamApi {
     suspend fun deleteFile(
         @Path(value = "ip") ip: String,
         @Field("fileName") fileId: String
-    ): Response<Unit>
+    ): Response<TRApiResponse<Any>>
 
 
     /**
@@ -66,7 +67,7 @@ interface CamApi {
         @Path(value = "ip") ip: String,
         @Field("resolution") resolution: String, // 3840x2160
         @Field("fps") fps: Int
-    ): Response<Unit>
+    ): Response<TRApiResponse<Any>>
 
 
     /**
@@ -75,7 +76,7 @@ interface CamApi {
     @POST("http://{ip}/config/update-recording-off")
     suspend fun updateRecordingOff(
         @Path(value = "ip") ip: String,
-    ): Response<CamRecordingSchedulePayload.Response>
+    ): Response<TRApiResponse<CamRecordingSchedulePayload.Response>>
 
 
     /**
@@ -87,7 +88,7 @@ interface CamApi {
         @Path(value = "ip") ip: String,
         @Field("startAt") startTimeInSeconds: Long, // epochTime in seconds
         @Field("durationInMinutes") durationInMinutes: Long  // duration in minutes
-    ): Response<CamRecordingSchedulePayload.Response>
+    ): Response<TRApiResponse<CamRecordingSchedulePayload.Response>>
 
     /**
      * 스트리밍 해상도 설정 변경
@@ -98,7 +99,7 @@ interface CamApi {
         @Path(value = "ip") ip: String,
         @Field("resolution") resolution: String, // 3840x2160
         @Field("fps") fps: Int
-    ): Response<Unit>
+    ): Response<TRApiResponse<Any>>
 
 
     /**
@@ -109,7 +110,7 @@ interface CamApi {
     suspend fun updateNetworkConfig(
         @Path(value = "ip") ip: String,
         @Field("enabled") enabled: String // wifi
-    ): Response<Unit>
+    ): Response<TRApiResponse<Any>>
 
 
     /**
@@ -120,7 +121,7 @@ interface CamApi {
     suspend fun updatePassword(
         @Path(value = "ip") ip: String,
         @Field("pw") pw: String
-    ): Response<Unit>
+    ): Response<TRApiResponse<Any>>
 
     /**
      * 카메라 이름 변경
@@ -130,7 +131,7 @@ interface CamApi {
     suspend fun updateCameraName(
         @Path(value = "ip") ip: String,
         @Field("cameraName") cameraName: String
-    ): Response<Unit>
+    ): Response<TRApiResponse<Any>>
 
 
     /**
@@ -142,7 +143,7 @@ interface CamApi {
         @Path(value = "ip") ip: String,
         @Field("ssid") ssid: String,
         @Field("pw") pw: String
-    ): Response<Unit>
+    ): Response<TRApiResponse<Any>>
 
     /**
      * execute 재부팅
@@ -152,5 +153,5 @@ interface CamApi {
     suspend fun exec(
         @Path(value = "ip") ip: String,
         @Field("cmd") cmd: String
-    ): Response<Unit>
+    ): Response<TRApiResponse<Any>>
 }

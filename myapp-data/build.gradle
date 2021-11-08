@@ -48,12 +48,11 @@ dependencies {
     // Spilitties
     implementation("com.louiscad.splitties:splitties-preferences:${versions.splitties}")
 
-
     // Timber
     api("com.jakewharton.timber:timber:${versions.timber}")
 
     // ThreeTenabp
     api("com.jakewharton.threetenabp:threetenabp:${versions.threetenabp}")
 
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation "com.google.code.gson:gson:${versions.gson}"
 }

@@ -41,7 +41,7 @@ versions.mdc = '1.4.0'
 
 // open source
 versions.moshi = '1.12.0'
-versions.gson = "2.8.6"
+versions.gson = "2.8.7"
 versions.okhttp3 = "4.9.0"
 versions.timber = '5.0.1'
 versions.glide = "4.12.0"

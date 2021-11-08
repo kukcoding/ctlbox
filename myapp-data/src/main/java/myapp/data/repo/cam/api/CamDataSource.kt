@@ -142,7 +142,7 @@ class CamDataSource @Inject constructor(
             return Success(Unit)
         }
 
-        return callApi { camApi.deleteFile(ip = cameraIp(), fileId = fileId) }
+        return execApi { camApi.deleteFile(ip = cameraIp(), fileId = fileId) }
     }
 
 
@@ -155,7 +155,7 @@ class CamDataSource @Inject constructor(
             return Success(Unit)
         }
 
-        return callApi { camApi.updateRecordingVideoQuality(ip = cameraIp(), resolution = resolution, fps = fps) }
+        return execApi { camApi.updateRecordingVideoQuality(ip = cameraIp(), resolution = resolution, fps = fps) }
     }
 
 
@@ -218,7 +218,7 @@ class CamDataSource @Inject constructor(
             return Success(Unit)
         }
 
-        return callApi { camApi.updateStreamingVideoQuality(ip = cameraIp(), resolution = resolution, fps = fps) }
+        return execApi { camApi.updateStreamingVideoQuality(ip = cameraIp(), resolution = resolution, fps = fps) }
     }
 
     /**
@@ -236,7 +236,7 @@ class CamDataSource @Inject constructor(
             wifi -> "wifi"
             else -> "off"
         }
-        return callApi { camApi.updateNetworkConfig(ip = cameraIp(), enabled = enabled) }
+        return execApi { camApi.updateNetworkConfig(ip = cameraIp(), enabled = enabled) }
     }
 
     /**
@@ -248,7 +248,7 @@ class CamDataSource @Inject constructor(
             return Success(Unit)
         }
 
-        return callApi { camApi.updatePassword(ip = cameraIp(), pw = pw) }
+        return execApi { camApi.updatePassword(ip = cameraIp(), pw = pw) }
     }
 
     /**
@@ -260,7 +260,7 @@ class CamDataSource @Inject constructor(
             return Success(Unit)
         }
 
-        return callApi { camApi.updateCameraName(ip = cameraIp(), cameraName = cameraName) }
+        return execApi { camApi.updateCameraName(ip = cameraIp(), cameraName = cameraName) }
     }
 
     /**
@@ -272,7 +272,7 @@ class CamDataSource @Inject constructor(
             return Success(Unit)
         }
 
-        return callApi { camApi.updateWifi(ip = cameraIp(), ssid = wifiSsid, pw = wifiPw) }
+        return execApi { camApi.updateWifi(ip = cameraIp(), ssid = wifiSsid, pw = wifiPw) }
     }
 
     private fun clearToken() {

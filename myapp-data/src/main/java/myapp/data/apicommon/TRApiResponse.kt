@@ -7,4 +7,4 @@ data class TRResult(val success: Boolean, val errorCode: String?, val errorMessa
 
 
 @Keep
-data class TRApiResponse<T>(val result: TRResult, val data: T? = null)
+data class TRApiResponse<T>(val success: Boolean, val errorCode: String?, val errorMessage: String?, val data: T? = null)
