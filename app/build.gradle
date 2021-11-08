@@ -29,8 +29,8 @@ android {
 
         archivesBaseName = "ctlbox-$versionName"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "MARKET_URL", "\"market://details?id=kr.ohlab.bible\""
-        buildConfigField "String", "PLAYSTORE_URL", "\"https://play.google.com/store/apps/details?id=kr.ohlab.bible\""
+        buildConfigField "String", "MARKET_URL", "\"market://details?id=com.google.ctlbox\""
+        buildConfigField "String", "PLAYSTORE_URL", "\"https://play.google.com/store/apps/details?id=com.google.ctlbox\""
     }
 
     signingConfigs {
@@ -228,10 +228,6 @@ dependencies {
     implementation("com.louiscad.splitties:splitties-preferences:${versions.splitties}")
     implementation("com.louiscad.splitties:splitties-appctx:${versions.splitties}")
     implementation("com.louiscad.splitties:splitties-snackbar:${versions.splitties}")
-
-
-    // dropbox store
-    implementation("com.dropbox.mobile.store:store4:${versions.dropbox_store}")
 
 
     implementation("me.zhanghai.android.materialprogressbar:library:${versions.zhanghai_materialprogressbar}")

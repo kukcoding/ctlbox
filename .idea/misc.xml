@@ -211,6 +211,7 @@
         <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/photo_maker_menu_background2.xml" value="0.228125" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/photo_maker_reset_btn_bg.xml" value="0.228125" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/photo_maker_reset_btn_bg_light.xml" value="0.228125" />
+        <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/recyclerview_scroll_thumb_inner.xml" value="0.271875" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/round_label_grey.xml" value="0.228125" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/selector_fps_button.xml" value="0.228125" />
         <entry key="..\:/p/kuk/ctlbox4/common-ui-resources/src/main/res/drawable/selector_recording_state_button.xml" value="0.228125" />
@@ -251,6 +252,7 @@
         <entry key="..\:/p/kuk/ctlbox4/ui-player/src/main/res/layout/player_overlay_settings.xml" value="0.25" />
         <entry key="..\:/p/kuk/ctlbox4/ui-settings/src/main/res/layout/activity_settings.xml" value="0.2536231884057971" />
         <entry key="..\:/p/kuk/ctlbox4/ui-settings/src/main/res/layout/fragment_settings.xml" value="0.33" />
+        <entry key="..\:/p/kuk/ctlbox4/ui-splash/src/main/res/layout/fragment_splash.xml" value="0.24003623188405798" />
         <entry key="..\:/p/kuk/ctlbox4/ui-splash/src/main/res/layout/splash_view.xml" value="0.22135416666666666" />
         <entry key="..\:/work/ctlbox-v3/ui-dialogs/src/main/res/layout/dialog_login_wifi.xml" value="0.2046875" />
         <entry key="..\:/work/ctlbox-v3/ui-dialogs/src/main/res/layout/dialog_network_media.xml" value="0.22447916666666667" />

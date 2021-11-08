@@ -2,79 +2,23 @@
     <string name="app_name">컨트롤 박스</string>
     <string name="settings_app_version_summary">v%1$s (%2$d)</string>
     <string name="msg_cellular_warning">3G/4G 환경으로 국내 및 해외에서 서비스 이용 시,\n사용 요금제에 따라 데이터 통화료가 부과될 수 있습니다.</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
 
     <string name="toolbar_navigation_close_description">Close demo</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <!-- title -->
-    <string name="title_activity_splash">Splash</string>
-    <string name="title_photo_picker">사진 선택</string>
-    <string name="title_app_info">앱 정보</string>
-    <string name="title_setting">앱 정보</string>
-    <string name="title_permission">앱 권한</string>
-
-
-    <!-- tab title -->
-    <string name="tab_hymn">찬송</string>
-    <string name="tab_bible">성경</string>
-    <string name="tab_mypage">MY</string>
-    <string name="tab_card">카드</string>
-    <string name="tab_rpr">교독문</string>
-    <string name="tab_lord_prayer">주기도문</string>
-    <string name="tab_creed">사도신경</string>
-
-
-    <!-- left menu -->
-
-    <string name="menu_bible_manage">성경책 관리</string>
-    <string name="menu_font_manage">폰트 관리</string>
-    <string name="menu_jebo">문의하기</string>
-    <string name="menu_logout">로그아웃</string>
-
+    <string name="dummy">Dummy</string>
 
     <!-- labels -->
-
     <string name="label_app_version">앱 버전</string>
-    <string name="label_email_question">이메일 문의</string>
-    <string name="label_open_source_license">오픈소스 라이선스</string>
-    <string name="label_app_info_setting">앱 정보 및 설정</string>
-    <string name="label_etc_question">문의</string>
-    <string name="label_etc">기타</string>
-    <string name="label_app_permission">앱 권한</string>
-    <string name="label_app_share">앱 공유</string>
-    <string name="label_market_review">마켓 리뷰</string>
-    <string name="label_settings_reset">설정 초기화</string>
-    <string name="label_remove_cache">캐시 지우기</string>
     <string name="label_save">저장</string>
     <string name="label_done">완료</string>
     <string name="label_cancel">취소</string>
     <string name="label_initialize">초기화</string>
     <string name="label_delete">삭제</string>
     <string name="label_edit">수정</string>
-    <string name="label_female">여자</string>
-    <string name="label_male">남자</string>
-    <string name="label_mother">엄마</string>
-    <string name="label_father">아빠</string>
-    <string name="label_open_album">앨범열기</string>
     <string name="label_take_pic">사진찍기</string>
-    <string name="label_open_file">파일 선택</string>
-    <string name="label_share_key_input">성경 공유번호 입력</string>
-    <string name="label_share_key">공유번호</string>
-    <string name="label_bible_share_key">성경 공유번호</string>
-    <string name="label_send_by_save">저장하기</string>
-    <string name="label_send_by_share_key">공유번호로 내보내기</string>
     <string name="label_download">다운로드</string>
-    <string name="label_export">내보내기</string>
-    <string name="label_import">Import</string>
-    <string name="label_upload">업로드중</string>
-    <string name="label_bible_info">성경 정보</string>
     <string name="label_close">닫기</string>
     <string name="label_completed">완료</string>
     <string name="label_edit_profile">프로필 수정</string>
@@ -83,21 +27,11 @@
     <string name="label_ad">AD</string>
     <string name="label_all">전체</string>
     <string name="label_reset">리셋</string>
-    <string name="label_bible_send">성경 보내기</string>
-    <string name="label_send_share_key">공유번호 전달</string>
-    <string name="label_photo_select_mode_delete">삭제</string>
 
     <!-- messages -->
-    <string name="msg_typeface_loading">폰트 로드중…</string>
     <string name="msg_downloading">다운로드중…</string>
-    <string name="msg_uploading">업로드중…</string>
-    <string name="msg_local_db_reading">로컬 디비 읽는중…</string>
     <string name="msg_preparing">준비중…</string>
     <string name="msg_loading">로딩중…</string>
-    <string name="msg_validating">유효성 검사중…</string>
-    <string name="msg_unzipping">압축 해제중…</string>
-    <string name="msg_zipping">압축중…</string>
-    <string name="msg_encrypting">Encrypting…</string>
     <string name="msg_temp_file_deleting">임시 파일 제거중…</string>
     <string name="msg_file_copying">파일 복사중…</string>
     <string name="msg_saving">저장중…</string>
@@ -110,121 +44,12 @@
     <string name="msg_do_u_want_save">저장하시겠습니까?</string>
     <string name="msg_deleted">삭제되었습니다</string>
 
-
     <string name="msg_off_airplane_mode">배행기 모드 해제 후 사용 부탁드립니다</string>
-    <string name="msg_login_need_do_u_want_login">로그인이 필요합니다. 로그인하시겠습니까?</string>
     <string name="label_login">로그인</string>
-    <string name="msg_this_function_need_login">로그인 후에 이용할 수 있습니다</string>
-    <string name="msg_hymn_big_sheet_music_first_guide">찬송 보기에서 큰 악보를 기본으로 사용합니다. 체크하지 않으면 작은 악보가 먼저 표시됩니다</string>
-
-    <string name="label_song_tube_guide_title">유튜브 정책 안내</string>
-    <string name="msg_song_tube_guide">오바이블 찬양은 유튜브 영상을 재생합니다. 유튜브의 정책에 의해 화면이 꺼지면 영상도 정지되므로, 화면을 끈 상태에서는 음악 감상이 불가능합니다.</string>
-
-
-    <!-- permission -->
-    <string name="perm_storage_name">저장소 접근권한</string>
-    <string name="perm_storage_usage">성경파일을 저장하는 용도로 사용합니다.</string>
-    <string name="perm_storage_rational_msg">저장소 접근권한을 허용해야 해당 기능을 사용할 수 있습니다</string>
-    <string name="perm_storage_goto_setting_msg">저장소 접근 권한을 허용해야 이 기능을 사용할 수 있습니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-
-    <string name="perm_camera_name">카메라 접근 권한</string>
-    <string name="perm_camera_usage">포토 메이커에서 사진을 촬영하는 용도로 사용합니다.</string>
-    <string name="perm_camera_rational_msg">카메라 권한을 허용해야 해당 기능을 사용할 수 있습니다</string>
-    <string name="perm_camera_goto_setting_msg">카메라 권한을 허용해야 해당 기능을 사용할 수 있습니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-
-
-    <string name="msg_need_perm_storage">저장소 접근권한을 허용해야 이 기능을 사용할 수 있습니다.</string>
-
-    <string name="msg_need_perm_camera">카메라 권한을 허용해야 이 기능을 사용할 수 있습니다.</string>
-    <string name="msg_need_perm_record">마이크 접근 권한을 허용해야 이 기능을 사용할 수 있습니다.</string>
-    <string name="msg_need_perm_contacts">주소록 접근 권한을 허용해야 이 기능을 사용할 수 있습니다.</string>
-    <string name="msg_need_perm_phone">전화 접근 권한을 허용해야 이 기능을 사용할 수 있습니다.</string>
-
-    <string name="msg_confirm_need_perm_storage_and_do_u_want_setting">저장소 접근 권한을 허용해야 이 기능을 사용할 수 있습니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-    <string name="msg_confirm_need_perm_camera_and_do_u_want_setting">카메라 권한을 허용해야 이 기능을 사용할 수 있습니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-    <string name="msg_confirm_need_perm_record_and_do_u_want_setting">마이크 접근 권한을 허용해야 이 기능을 사용할 수 있습니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-    <string name="msg_confirm_need_perm_contacts_and_do_u_want_setting">주소록 접근 권한을 허용해야 이 기능을 사용할 수 있습니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-    <string name="msg_confirm_need_perm_phone_and_do_u_want_setting">전화 접근 권한을 허용해야 이 기능을 사용할 수 있습니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-
-    <string name="msg_storage_permissions_and_move_to_setting">외부저장소 접근 권한에 동의하셔야 사용 가능합니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-    <string name="msg_camera_permissions_and_move_to_setting">카메라 접근 권한에 동의하셔야 사용 가능합니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-    <string name="msg_record_permissions_and_move_to_setting">마이크 접근 권한에 동의하셔야 사용 가능합니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-    <string name="msg_contacts_permissions_and_move_to_setting">주소록 접근 권한에 동의하셔야 사용 가능합니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-    <string name="msg_phone_permissions_and_move_to_setting">전화 접근 권한에 동의하셔야 사용 가능합니다.\n권한 설정페이지로 이동하시겠습니까?</string>
-    <string name="msg_chart_percentage_guide">백분율은 같은 성별과 나이의 아이들을 비교한 백분위수입니다.</string>
     <string name="label_list">목록</string>
     <string name="label_add">추가</string>
     <string name="label_ok">OK</string>
     <string name="label_confirm">확인</string>
-    <string name="label_bible_add">성경 추가</string>
 
     <string name="msg_one_more_back_button">한번 더 누르면 종료합니다</string>
-    <string name="msg_unzip_err">압축해제 오류. 파일 포맷이 올바르지 않습니다</string>
-    <string name="msg_unknown_err">오류가 발생했습니다</string>
-    <string name="msg_cannot_delete_more">더 이상 삭제할 수 없습니다</string>
-    <string name="do_u_want_delete_selections">선택한 항목을 삭제하시겠습니까?</string>
-    <string name="label_open_bible_file">성경 파일 불러오기</string>
-    <string name="label_allowed_bible_file_extensions">.txt 또는 .obible</string>
-    <string name="msg_bible_import_guide1">※ 백업 또는 친구에게 성경을 보내는 기능입니다</string>
-    <string name="msg_bible_import_guide2">※ 구글 드라이브나 메일을 권장합니다</string>
-    <string name="label_hymn">찬송가</string>
-    <string name="label_hymn_select">찬송가 선택</string>
-    <string name="label_bible_book_manage">성경책 추가</string>
-    <string name="label_abbr">약어</string>
-    <string name="label_lang">언어</string>
-    <string name="label_territory">지역</string>
-    <string name="label_id">ID</string>
-    <string name="label_copyright">Copyright</string>
-    <string name="label_input_share_key">성경 공유번호 입력</string>
-    <string name="msg_bible_share_guide1">친구에게 공유번호를 전달해주세요</string>
-    <string name="msg_bible_share_guide2">4시간 후에는 자동으로 삭제됩니다</string>
-    <string name="label_font_size">글자 크기</string>
-    <string name="msg_input_bible_share_key">친구가 보내준 공유번호 입력</string>
-    <string name="label_keep_screen_on">화면 켜짐 유지</string>
-    <string name="label_night_mode">다크 모드</string>
-    <string name="label_night_mode_auto">자동 다크 모드</string>
-    <string name="msg_night_mode_help">다크 모드로 시력을 보호하세요</string>
-    <string name="msg_keep_screen_on_help">화면을 터치하지 않아도 5분간 켜놓은 상태로 유지합니다</string>
-    <string name="label_bookmark">성경 책갈피</string>
-    <string name="label_bible_pen">형광펜</string>
-    <string name="label_bible_select">성경 선택</string>
-    <string name="label_a">A</string>
-    <string name="label_bible_book">성경책</string>
-    <string name="label_bible_book_select">성경책 선택</string>
-    <string name="label_sort">정렬</string>
-    <string name="label_select_all">전체 선택</string>
-    <string name="label_hymn_big_sheet_music_first">큰 악보 우선</string>
-    <string name="msg_dark_mode_help1">다크 모드를 사용해보세요</string>
-    <string name="msg_font_sample">가나다 123 abc</string>
-    <string name="msg_font_sample_long">가나다라마바사아자차카타파하 1234567890 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz</string>
-    <string name="msg_font_sample_bible1">웻 뤱 뷃 너희는 마음에 근심하지 말라 하나님을 믿으니 또 나를 믿으라.</string>
-    <string name="msg_font_sample_bible_ko_long">웻 뤱 뷃 내가 너희를 위하여 처소를 예비하러 가노니 가서 너희를 위하여 처소를 예비하면 내가 다시 와서 너희를 내게로 영접하여 나 있는 곳에 너희도 있게 하리라 내가 가는 곳에 그 길을 너희가 알리라 도마가 가로되 주여 어디로 가시는지 우리가 알지 못하거늘 그 길을 어찌 알겠삽나이까 예수께서 가라사대 내가 곧 길이요 진리요 생명이니 나로 말미암지 않고는 아버지께로 올 자가 없느니라</string>
-    <string name="msg_font_sample_bible_en_long">And if I go and prepare a place for you, I will come back and take you to be with me that you also may be where I am. You know the way to the place where I am going.</string>
-    <string name="msg_font_sample_bible2">Do not let your hearts be troubled. You believe also in God; believe also me.</string>
-    <string name="msg_font_sample1">가나다라마바사아자차카타파하</string>
-    <string name="msg_font_sample2">1234567890</string>
-    <string name="msg_font_sample3">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
-    <string name="msg_font_sample4">abcdefghijklmnopqrstuvwxyz</string>
-    <string name="msg_font_sample5">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz</string>
-    <string name="label_today_bible">오늘의 말씀</string>
-
-    <string name="notification_channel_id_default" translatable="false">default</string>
-    <string name="notification_channel_name_default" translatable="false">기본</string>
-    <string name="notification_channel_id_bible_today" translatable="false">bible_today</string>
-    <string name="notification_channel_name_bible_today" translatable="false">오늘의 성경</string>
-    <string name="notification_channel_id_bible_card_favor" translatable="false">bible_card_favor</string>
-    <string name="notification_channel_name_bible_card_favor" translatable="false">성경 카드 좋아요</string>
-
-    <string name="default_notification_channel_id" translatable="false">@string/notification_channel_id_default</string>
-    <string name="default_notification_channel_name" translatable="true">@string/notification_channel_name_default</string>
-
-    <string name="msg_subscribe_failed">Failed to subscribe to topic</string>
-    <string name="fcm_message">FCM Message</string>
-    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
-    <string name="quickstart_message">Click the SUBSCRIBE TO WEATHER button below to subscribe to the
-        weather topic. Messages sent to the weather topic will be received. The LOG TOKEN button logs the
-        InstanceID token to logcat.</string>
-    <string name="subscribe_to_weather">Subscribe To Weather</string>
-    <string name="log_token">Log Token</string>
-
 </resources>

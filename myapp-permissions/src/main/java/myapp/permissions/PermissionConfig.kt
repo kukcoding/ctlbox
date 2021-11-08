@@ -32,18 +32,18 @@ enum class PermissionConfig(
         R.string.perm_storage_usage,
         R.string.msg_need_perm_storage,
         R.string.msg_confirm_need_perm_storage_and_do_u_want_setting
-    ),
-
-    /**
-     * 카메라
-     */
-    CAMERA(
-        Manifest.permission.CAMERA,
-        R.string.perm_camera_name,
-        R.string.perm_camera_usage,
-        R.string.perm_camera_rational_msg,
-        R.string.perm_camera_goto_setting_msg
     );
+
+//    /**
+//     * 카메라
+//     */
+//    CAMERA(
+//        Manifest.permission.CAMERA,
+//        R.string.perm_camera_name,
+//        R.string.perm_camera_usage,
+//        R.string.perm_camera_rational_msg,
+//        R.string.perm_camera_goto_setting_msg
+//    );
 
     val isSettingPageMovable: Boolean
         get() = this.gotoSettingMsgResId != 0

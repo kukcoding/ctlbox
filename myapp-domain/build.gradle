@@ -33,13 +33,6 @@ dependencies {
     implementation("androidx.core:core-ktx:${LibAndroidX.core_ktx}")
     implementation("androidx.fragment:fragment-ktx:${LibAndroidX.fragment_ktx}")
 
-    // AndroidX paging
-    implementation("androidx.paging:paging-common-ktx:${LibAndroidX.paging}")
-    implementation("androidx.paging:paging-runtime-ktx:${LibAndroidX.paging}")
-
-    // dropbox store
-    implementation("com.dropbox.mobile.store:store4:${versions.dropbox_store}")
-
     // Timber
     implementation("com.jakewharton.timber:timber:${versions.timber}")
 

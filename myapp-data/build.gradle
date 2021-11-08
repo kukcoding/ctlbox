@@ -42,9 +42,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:${LibAndroidX.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-process:${LibAndroidX.lifecycle}")
 
-    // dropbox store
-    implementation("com.dropbox.mobile.store:store4:${versions.dropbox_store}")
-
     // Spilitties
     implementation("com.louiscad.splitties:splitties-preferences:${versions.splitties}")
 
