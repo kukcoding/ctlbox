@@ -38,9 +38,11 @@ private const val JOYSTICK_INPUT_DELAY = 300
 class VideoTouchDelegate(
     private val playerActivity: LivePlayerActivity,
     private val touchControls: Int,
-    var screenConfig: ScreenConfig,
-    private val tv: Boolean
+    var screenConfig: ScreenConfig
 ) {
+    companion object {
+        private const val SEEK_TIMEOUT = 750L
+    }
 
     var handler = Handler(Looper.getMainLooper())
 
@@ -63,11 +65,6 @@ class VideoTouchDelegate(
     private var animatorSet: AnimatorSet = AnimatorSet()
     var isShowing: Boolean = false
     var isShowingDialog: Boolean = false
-
-
-    companion object {
-        private const val SEEK_TIMEOUT = 750L
-    }
 
     private val scaleGestureDetector by lazy(LazyThreadSafetyMode.NONE) {
         ScaleGestureDetector(playerActivity, mScaleListener).apply {
@@ -395,7 +392,6 @@ class VideoTouchDelegate(
             }
         }
     }
-
 }
 
 data class ScreenConfig(val metrics: DisplayMetrics, val xRange: Int, val yRange: Int, val orientation: Int)

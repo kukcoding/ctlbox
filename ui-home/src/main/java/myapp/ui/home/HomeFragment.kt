@@ -114,12 +114,18 @@ class HomeFragment : Fragment() {
         mBind.btRtspPlayButton.setOnClickListener {
             val cameraIp = checkCameraIpOrNull()
             if (cameraIp != null) {
-                startActivity(
-                    LivePlayerActivity.createIntent(
-                        requireContext(),
-                        Uri.parse(Cam.rtspUrl(cameraIp))
+                if (BuildVars.fakeCamera) {
+                    startActivity(
+                        LivePlayerActivity.createIntent(
+                            requireContext(),
+                            Uri.parse("https://ohlab.kr/p/kuk/sample/stevejobs.mp4")
+                        )
                     )
-                )
+                } else {
+                    startActivity(
+                        LivePlayerActivity.createIntent(requireContext(), Uri.parse(Cam.rtspUrl(cameraIp)))
+                    )
+                }
             }
         }
 

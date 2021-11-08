@@ -252,4 +252,6 @@ class VideoPlayerOverlayDelegate(private val playerActivity: LivePlayerActivity)
         showOverlay()
         playerActivity.lockBackButton = false
     }
+
+
 }

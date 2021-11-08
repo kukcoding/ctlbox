@@ -5,11 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.Uri
 import android.os.*
+import android.support.v4.media.session.PlaybackStateCompat
 import android.util.DisplayMetrics
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.Surface
 import android.view.WindowManager
 import android.widget.Toast
@@ -19,6 +22,7 @@ import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +34,6 @@ import myapp.ui.player.vlc.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.MediaWrapper
 import splitties.init.appCtx
 import timber.log.Timber
 import javax.inject.Inject
@@ -71,6 +74,8 @@ class LivePlayerActivity : AppCompatActivity(), MediaPlayerEventListener {
         private set
     private var isPlaying = false
     var isLoading = false
+    private var isDragging: Boolean = false
+
     private var isMute = false
     private var volSave: Int = 0
     internal var volume: Float = 0.toFloat()
@@ -144,16 +149,25 @@ class LivePlayerActivity : AppCompatActivity(), MediaPlayerEventListener {
         val yRange = dm.widthPixels.coerceAtMost(dm.heightPixels)
         val xRange = dm.widthPixels.coerceAtLeast(dm.heightPixels)
         val sc = ScreenConfig(dm, xRange, yRange, resources.configuration.orientation)
-        touchDelegate = VideoTouchDelegate(this, touch, sc, false)
+        touchDelegate = VideoTouchDelegate(this, touch, sc)
+        overlayDelegate.playerUiContainer = findViewById(R.id.player_ui_container)
         customInit()
         setupEvents()
+        handler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY.toLong())
     }
 
     private fun customInit() {
         initPlayerView()
     }
 
-    private fun setupEvents() {}
+    private fun setupEvents() {
+        playerController.playbackState.asLiveData().observe(this, Observer { state ->
+            if (state == PlaybackStateCompat.STATE_PLAYING) {
+
+            }
+            Timber.d("PLAYBACK_STATE = ${state}")
+        })
+    }
 
     private fun initPlayerView() {
         val libVLC = VLCInstance.getInstance(appCtx)
@@ -178,7 +192,55 @@ class LivePlayerActivity : AppCompatActivity(), MediaPlayerEventListener {
     }
 
     override suspend fun onEvent(event: MediaPlayer.Event) {
-        // Timber.d("XXX onEvent=${event}")
+        when (event.type) {
+            MediaPlayer.Event.Playing -> {
+                Timber.d("XXXY onEvent Playback = MediaPlayer.Event.Playing")
+                onPlaying()
+            }
+            MediaPlayer.Event.Paused -> {
+                Timber.d("XXXY onEvent Playback = MediaPlayer.Event.Paused")
+                // overlayDelegate.updateOverlayPausePlay()
+            }
+            MediaPlayer.Event.EncounteredError -> {
+                Timber.d("XXXY onEvent = MediaPlayer.Event.EncounteredError")
+            }
+            MediaPlayer.Event.PausableChanged -> {
+                Timber.d("XXXY onEvent = MediaPlayer.Event.PausableChanged = ${event.pausable}")
+            }
+            MediaPlayer.Event.SeekableChanged -> {
+                Timber.d("XXXY onEvent = MediaPlayer.Event.SeekableChanged = ${event.seekable}")
+            }
+            MediaPlayer.Event.LengthChanged -> {
+                // updateProgress(newLength = event.lengthChanged)
+                Timber.d("XXXY onEvent = MediaPlayer.Event.LengthChanged = ${event.lengthChanged}")
+            }
+            MediaPlayer.Event.TimeChanged -> {
+                // 재생 시간
+                // Timber.d("XXXY onEvent = MediaPlayer.Event.TimeChanged = ${event.timeChanged}")
+//                val time = event.timeChanged
+//                if (abs(time - lastTime) > 950L) {
+//                    updateProgress(newTime = time)
+//                    lastTime = time
+//                }
+            }
+            MediaPlayer.Event.PositionChanged -> {
+//                lastPosition = event.positionChanged
+                // Timber.d("XXXY onEvent = MediaPlayer.Event.PositionChanged = ${event.positionChanged}")
+            }
+            MediaPlayer.Event.Buffering -> {
+                if (playerController.isPlaying()) {
+                    if (event.buffering == 100f) {
+                        stopLoading()
+                    } else if (!handler.hasMessages(LOADING_ANIMATION) && !isLoading && (!::touchDelegate.isInitialized || !touchDelegate.isSeeking()) && !isDragging) {
+                        handler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY.toLong())
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun dd() {
+
     }
 
     override fun onPause() {
@@ -320,15 +382,9 @@ class LivePlayerActivity : AppCompatActivity(), MediaPlayerEventListener {
 
 
     private fun onPlaying() {
-        val mw = playerController.getMedia() as MediaWrapper
         isPlaying = true
         stopLoading()
-        if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED))
-            handler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT.toLong())
-        else {
-            mw.removeFlags(MediaWrapper.MEDIA_PAUSED)
-            wasPaused = false
-        }
+        handler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT.toLong())
         // optionsDelegate?.setup()
         settings.edit { remove(VIDEO_PAUSED) }
     }
@@ -483,6 +539,7 @@ class LivePlayerActivity : AppCompatActivity(), MediaPlayerEventListener {
         private const val RESULT_CONNECTION_FAILED = Activity.RESULT_FIRST_USER + 1
         private const val RESULT_PLAYBACK_ERROR = Activity.RESULT_FIRST_USER + 2
         private const val RESULT_VIDEO_TRACK_LOST = Activity.RESULT_FIRST_USER + 3
+        private const val LOADING_ANIMATION_DELAY = 1000
 
         const val OVERLAY_TIMEOUT = 4000
         const val OVERLAY_INFINITE = -1
@@ -516,6 +573,21 @@ class LivePlayerActivity : AppCompatActivity(), MediaPlayerEventListener {
                 mViewModel.camManager.disconnectedMessage.show(this)
             }
         })
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val dm = DisplayMetrics()
+        touchDelegate.screenConfig = ScreenConfig(
+            dm,
+            dm.widthPixels.coerceAtLeast(dm.heightPixels),
+            dm.widthPixels.coerceAtMost(dm.heightPixels),
+            newConfig.orientation
+        )
+    }
+
+    override fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
+        return !isLoading && ::touchDelegate.isInitialized && touchDelegate.dispatchGenericMotionEvent(event)
     }
 }
 

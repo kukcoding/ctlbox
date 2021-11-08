@@ -9,6 +9,8 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import myapp.ui.player.vlc.*
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -19,6 +21,9 @@ import kotlin.math.abs
 
 class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.EventListener, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
+
+    val playbackState = MutableStateFlow(PlaybackStateCompat.STATE_NONE)
+    val isPlayingFlow = playbackState.map { it == PlaybackStateCompat.STATE_PLAYING }
 
     //    private val exceptionHandler by lazy(LazyThreadSafetyMode.NONE) { CoroutineExceptionHandler { _, _ -> onPlayerError() } }
     private val playerContext by lazy(LazyThreadSafetyMode.NONE) { newSingleThreadContext("vlc-player") }
@@ -67,6 +72,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     private var mediaplayerEventListener: MediaPlayerEventListener? = null
+
     internal suspend fun startPlayback(media: IMedia, listener: MediaPlayerEventListener, time: Long) {
         mediaplayerEventListener = listener
         resetPlaybackState(time, media.duration)
@@ -110,7 +116,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         if (seekable && mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.setTime(time, fast)
     }
 
-    fun isPlaying() = playbackState == PlaybackStateCompat.STATE_PLAYING
+    fun isPlaying() = playbackState.value == PlaybackStateCompat.STATE_PLAYING
 
     fun isVideoPlaying() = !mediaplayer.isReleased && mediaplayer.vlcVout.areViewsAttached()
 
@@ -149,7 +155,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     fun getSpuDelay() = if (mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.spuDelay else 0L
 
     fun getRate() =
-        if (mediaplayer.hasMedia() && !mediaplayer.isReleased && playbackState != PlaybackStateCompat.STATE_STOPPED) mediaplayer.rate else 1.0f
+        if (mediaplayer.hasMedia() && !mediaplayer.isReleased && playbackState.value != PlaybackStateCompat.STATE_STOPPED) mediaplayer.rate else 1.0f
 
     fun setSpuDelay(delay: Long) = mediaplayer.setSpuDelay(delay)
 
@@ -306,8 +312,8 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         actor<MediaPlayer.Event>(capacity = Channel.UNLIMITED, start = CoroutineStart.UNDISPATCHED) {
             for (event in channel) {
                 when (event.type) {
-                    MediaPlayer.Event.Playing -> playbackState = PlaybackStateCompat.STATE_PLAYING
-                    MediaPlayer.Event.Paused -> playbackState = PlaybackStateCompat.STATE_PAUSED
+                    MediaPlayer.Event.Playing -> playbackState.value = PlaybackStateCompat.STATE_PLAYING
+                    MediaPlayer.Event.Paused -> playbackState.value = PlaybackStateCompat.STATE_PAUSED
                     MediaPlayer.Event.EncounteredError -> setPlaybackStopped()
                     MediaPlayer.Event.PausableChanged -> pausable = event.pausable
                     MediaPlayer.Event.SeekableChanged -> seekable = event.seekable
@@ -338,7 +344,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     private fun setPlaybackStopped() {
-        playbackState = PlaybackStateCompat.STATE_STOPPED
+        playbackState.value = PlaybackStateCompat.STATE_STOPPED
         updateProgress(0L, 0L)
         lastTime = 0L
     }
@@ -350,11 +356,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         }
     }
 
-    companion object {
-        @Volatile
-        var playbackState = PlaybackStateCompat.STATE_NONE
-            private set
-    }
+
 }
 
 const val NO_LENGTH_PROGRESS_MAX = 1000
