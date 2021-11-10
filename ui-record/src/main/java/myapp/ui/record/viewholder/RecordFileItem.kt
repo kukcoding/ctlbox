@@ -7,10 +7,12 @@ import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import kr.ohlab.android.recyclerviewgroup.ItemBase
 import kr.ohlab.android.recyclerviewgroup.TRViewHolder
+import myapp.BuildVars
 import myapp.Cam
 import myapp.data.entities.KuRecordFile
 import myapp.extensions.formatDurationMilliInMinute
 import myapp.extensions.humanReadableCount
+import myapp.ui.record.R
 import myapp.ui.record.databinding.ViewholderRecordFileBinding
 import myapp.util.Action2
 import myapp.util.Func1
@@ -67,16 +69,19 @@ class RecordFileItem(
         b.txtviewResolution.text = "${recordFile.width}x${recordFile.height}"
         b.txtviewFps.text = "${recordFile.fps} fps"
 
-        Glide.with(b.imgviewThumbnail)
-            .load(
-                Cam.thumbnailUrl(
-                    ip = cameraIp,
-                    fileId = recordFile.fileId,
-                    timestamp = recordFile.dateTime.toEpochSecond(ZoneOffset.UTC)
+        if (BuildVars.fakeCamera) {
+            b.imgviewThumbnail.setImageResource(R.drawable.sample_campic)
+        } else {
+            Glide.with(b.imgviewThumbnail)
+                .load(
+                    Cam.thumbnailUrl(
+                        ip = cameraIp,
+                        fileId = recordFile.fileId,
+                        timestamp = recordFile.dateTime.toEpochSecond(ZoneOffset.UTC)
+                    )
                 )
-            )
-            .into(b.imgviewThumbnail)
-
+                .into(b.imgviewThumbnail)
+        }
         this.updateSelection(isHolderSelected)
     }
 

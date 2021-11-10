@@ -146,8 +146,6 @@ internal class RecordFilesFragmentViewModel @Inject constructor(
         }
     }
 
-    fun setupWithLifecycle(lifecycleScope: LifecycleCoroutineScope) {
-    }
 
     fun submitAction(action: RecordFilesFragmentAction) {
         viewModelScope.launch {

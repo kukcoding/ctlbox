@@ -3,7 +3,7 @@
 <resources>
 
     <style name="MainToolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
-        <item name="android:background">#000</item>
+        <item name="android:background">@color/base_color_tool_bar</item>
         <item name="titleTextColor">#FFF</item>
         <item name="subtitleTextColor">@color/material_on_primary_emphasis_medium</item>
     </style>

@@ -250,6 +250,8 @@
         <entry key="..\:/p/kuk/ctlbox4/ui-player/src/main/res/layout/player_hud.xml" value="0.2536231884057971" />
         <entry key="..\:/p/kuk/ctlbox4/ui-player/src/main/res/layout/player_overlay_brightness.xml" value="0.21197916666666666" />
         <entry key="..\:/p/kuk/ctlbox4/ui-player/src/main/res/layout/player_overlay_settings.xml" value="0.25" />
+        <entry key="..\:/p/kuk/ctlbox4/ui-record/src/main/res/layout/fragment_record_files.xml" value="0.33" />
+        <entry key="..\:/p/kuk/ctlbox4/ui-record/src/main/res/layout/viewholder_record_file.xml" value="0.23052536231884058" />
         <entry key="..\:/p/kuk/ctlbox4/ui-settings/src/main/res/layout/activity_settings.xml" value="0.2536231884057971" />
         <entry key="..\:/p/kuk/ctlbox4/ui-settings/src/main/res/layout/fragment_settings.xml" value="0.33" />
         <entry key="..\:/p/kuk/ctlbox4/ui-splash/src/main/res/layout/fragment_splash.xml" value="0.24003623188405798" />

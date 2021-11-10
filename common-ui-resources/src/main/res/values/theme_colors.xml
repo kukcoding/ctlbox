@@ -11,9 +11,9 @@
 
     <!-- 다양한 배경색상, 대부분 0~4번만 사용함 -->
     <color name="base_color_status_bar">#050505</color>
-    <color name="base_color_tool_bar">#000</color>
-    <color name="base_color_background">#141313</color>
-    <color name="base_color_surface">#303030</color>
+    <color name="base_color_tool_bar">#414449</color>
+    <color name="base_color_background">#2F3033</color>
+    <color name="base_color_surface">#2F3033</color>
     <color name="base_color_surface0">#141313</color>
     <color name="base_color_surface1">#202122</color>
     <color name="base_color_surface2">#313335</color>

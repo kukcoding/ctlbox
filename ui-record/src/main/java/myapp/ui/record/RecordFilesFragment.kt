@@ -21,6 +21,7 @@ import myapp.Cam
 import myapp.data.entities.KuRecordFile
 import myapp.extensions.alert
 import myapp.extensions.confirmOk
+import myapp.extensions.resources.resColor
 import myapp.permissions.PermissionConfig
 import myapp.permissions.PermissionUtils
 import myapp.ui.dialogs.CameraDialogs
@@ -125,8 +126,14 @@ class RecordFilesFragment : Fragment() {
                 }
                 // mViewModel.submitAction(RecordFilesFragmentAction.ToggleEditing)
             }
-
         }
+        mViewModel.isFilterOnLive.observe(viewLifecycleOwner, {filterOn ->
+            if(filterOn) {
+                mBind.layoutStatusBar.setBackgroundColor(resColor(R.color.black_transparent_10))
+            } else {
+                mBind.layoutStatusBar.setBackgroundColor(resColor(R.color.transparent))
+            }
+        })
 
         // 삭제 버튼 클릭
         mBind.layoutDeleteBtn.setOnClickListener {

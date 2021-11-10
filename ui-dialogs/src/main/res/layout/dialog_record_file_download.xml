@@ -61,6 +61,7 @@
                     android:layout_marginEnd="8dp"
                     android:text="@{vm.elapsedTimeTextLive}"
                     android:textColor="?attr/colorOnSurface2"
+                    android:textSize="11sp"
                     app:layout_constraintBottom_toBottomOf="@id/txtview_dialog_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/txtview_dialog_title"

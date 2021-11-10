@@ -52,7 +52,7 @@ internal data class RecordFileDownloadViewState(
 )
 
 private fun secondText(from: Long, to: Long): String {
-    return ((to - from) / 1000f).roundToInt().toString()
+    return ((to - from) / 1000f).roundToInt().toString() +"초"
 }
 
 @HiltViewModel

@@ -91,10 +91,6 @@ class RecordFileDownloadDialogFragment : DialogFragment() {
                     dismiss()
                 }
                 else -> {
-//                    confirmYesIfPositive("취소하시겠습니까?") {
-//                        mViewModel.cancelDownload()
-//                        dismiss()
-//                    }
                     mViewModel.submitAction(RecordFileDownloadAction.AskCancel)
                 }
             }
@@ -103,6 +99,7 @@ class RecordFileDownloadDialogFragment : DialogFragment() {
         mViewModel.isFinished.observe(viewLifecycleOwner) { finished ->
             isCancelable = finished
         }
+
 
         mViewModel.liveFieldOf(RecordFileDownloadViewState::downloadStatus)
             .filter { it is DownloadStatus.Success || it is DownloadStatus.Error }

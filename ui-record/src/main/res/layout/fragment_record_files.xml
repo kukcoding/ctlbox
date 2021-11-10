@@ -48,9 +48,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@{vm.cameraNameLive}"
-                        tools:text="거실 카메라"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="거실 카메라" />
 
                     <FrameLayout
                         android:id="@+id/layout_editBtn"
@@ -171,7 +171,6 @@
                 android:id="@+id/layout_statusBar"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="?attr/colorSurface0"
                 android:gravity="left|center_vertical"
                 android:paddingStart="20dp"
                 ads:layout_constraintEnd_toEndOf="parent"
@@ -199,18 +198,18 @@
                     android:id="@+id/layout_filterBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:paddingHorizontal="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:gravity="left|center_vertical">
+                    android:gravity="left|center_vertical"
+                    android:paddingHorizontal="8dp">
 
                     <TextView
                         android:id="@+id/txtview_filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="18dp"
                         android:text="@{vm.filterTextLive}"
                         android:textColor="?attr/colorSecondary"
                         android:textSize="14sp"
-                        android:layout_marginRight="18dp"
                         tools:text="2021년 12월 12일 13시" />
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -228,6 +227,15 @@
                         app:srcCompat="@drawable/filter_list_selector2" />
                 </LinearLayout>
             </LinearLayout>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black_transparent_10"
+                ads:layout_constraintEnd_toEndOf="@id/layout_statusBar"
+                ads:layout_constraintStart_toStartOf="@id/layout_statusBar"
+                ads:layout_constraintTop_toBottomOf="@id/layout_statusBar" />
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipeRefreshLayout"
