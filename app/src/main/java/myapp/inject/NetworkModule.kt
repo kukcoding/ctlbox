@@ -32,7 +32,8 @@ object NetworkModule {
 //        if (BuildConfig.DEBUG) return null
 
         return HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.HEADERS
+            // level = HttpLoggingInterceptor.Level.HEADERS
+            level = HttpLoggingInterceptor.Level.BODY
         }
     }
 

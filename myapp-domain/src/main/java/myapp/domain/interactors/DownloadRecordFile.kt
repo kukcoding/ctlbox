@@ -5,6 +5,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import myapp.BuildVars
 import myapp.base.mediastore.MediaStoreHelper
 import myapp.error.AppException
 import myapp.util.Logger
@@ -36,10 +37,13 @@ class DownloadRecordFile @Inject constructor(
 ) {
 
     operator fun invoke(downloadUrl: String, destFileName: String, destFolderName: String): Flow<DownloadStatus> {
+        val url = if (BuildVars.fakeCamera) {
+            "https://ohlab.kr/p/kuk/sample/stevejobs.mp4".toHttpUrl()
+        } else {
+            downloadUrl.toHttpUrl()
+        }
         return start(
-            downloadUrl = "https://ohlab.kr/p/kuk/sample/stevejobs.mp4".toHttpUrl(),
-            // TODO 임시
-            // downloadUrl = downloadUrl.toHttpUrl(),
+            downloadUrl = url,
             destFileName = destFileName,
             destFolderName = destFolderName
         ).flowOn(Dispatchers.IO).catch { t ->

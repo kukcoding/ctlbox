@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.source.rtsp.RtspMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -22,9 +23,11 @@ import kr.ohlab.android.recyclerviewgroup.ItemBase
 import myapp.ReduxViewModel
 import myapp.api.UiError
 import myapp.data.cam.CamManager
+import myapp.data.preferences.ApiPreference
 import myapp.ui.SnackbarManager
 import myapp.util.Logger
 import myapp.util.ObservableLoadingCounter
+
 
 internal sealed class FilePlayerAction {
     object ToggleEditing : FilePlayerAction()
@@ -86,6 +89,12 @@ internal class FilePlayerViewModel @AssistedInject constructor(
     fun mediaSource(appCtx: Context): MediaSource {
         return if (this.videoUri.toString().startsWith("rtsp://")) {
             RtspMediaSource.Factory().createMediaSource(MediaItem.fromUri(this.videoUri))
+        } else if (this.videoUri.toString().startsWith("http://")) {
+            val token = ApiPreference.accessToken.value
+            val factory = DefaultHttpDataSource.Factory()
+            factory.setDefaultRequestProperties(mapOf("x-custom-auth" to token))
+            ProgressiveMediaSource.Factory(factory)
+                .createMediaSource(MediaItem.fromUri(this.videoUri))
         } else {
             ProgressiveMediaSource.Factory(DefaultDataSourceFactory(appCtx))
                 .createMediaSource(MediaItem.fromUri(this.videoUri))

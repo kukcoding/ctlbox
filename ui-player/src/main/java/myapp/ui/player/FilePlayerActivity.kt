@@ -38,6 +38,7 @@ class FilePlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBind.vm = mViewModel
+
         customInit()
         setupEvents()
 

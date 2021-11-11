@@ -118,7 +118,7 @@ class HomeFragment : Fragment() {
                     startActivity(
                         LivePlayerActivity.createIntent(
                             requireContext(),
-                            Uri.parse("https://ohlab.kr/p/kuk/sample/stevejobs.mp4")
+                            uri = Uri.parse("https://ohlab.kr/p/kuk/sample/stevejobs.mp4")
                         )
                     )
                 } else {
@@ -131,8 +131,7 @@ class HomeFragment : Fragment() {
 
         // 녹화파일 목록 버튼 클릭
         mBind.btRecordList.setOnClickListener {
-            val cameraIp = checkCameraIpOrNull()
-            if (cameraIp != null) {
+            if (checkCameraIpOrNull() != null) {
                 startActivity(RecordFilesActivity.createIntent(requireContext()))
             }
         }

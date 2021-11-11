@@ -5,6 +5,7 @@ import android.content.Context
 import kotlinx.coroutines.flow.*
 import myapp.ActivityLauncher
 import myapp.data.entities.KuCameraConfig
+import myapp.data.entities.KuRecordingState
 import myapp.util.tupleOf
 
 sealed class CamLoginState
@@ -16,15 +17,23 @@ class CamManager constructor(
     private val context: Context,
     private val activityLauncher: ActivityLauncher
 ) {
+
     /**
      * 로그인 상태 모니터링
      */
     val loginStateFlow = MutableStateFlow<CamLoginState>(CamLoggedOut)
 
+
     /**
      * 카메라 설정 정보 조회
      */
     private val configFlow = MutableStateFlow<KuCameraConfig?>(null)
+
+    /**
+     * 녹화 상태 flow
+     */
+    val recordingStateFlow = MutableStateFlow<KuRecordingState?>(null)
+
 
     /**
      * 연결 끊김 메시지 알림의 상태
@@ -139,6 +148,7 @@ class CamManager constructor(
         }
     }
 
+
     fun updateConfig(action: (config: KuCameraConfig) -> KuCameraConfig) {
         val cfg = this.config
         if (cfg != null) {
@@ -154,10 +164,13 @@ class CamManager constructor(
         this.loginStateFlow.tryEmit(CamLoggedIn(cameraId = cameraId, cameraIp = cameraIp))
     }
 
-    fun onLogout() {
+    suspend fun onLogout() {
         this.configFlow.tryEmit(null)
         this.loginStateFlow.tryEmit(CamLoggedOut)
     }
 
+    fun updateRecordingState(state: KuRecordingState?) {
+        this.recordingStateFlow.value = state
+    }
 }
 

@@ -12,9 +12,6 @@ import kotlinx.coroutines.flow.*
 import myapp.SingletonHolder
 import myapp.data.code.CamConnectivity
 import myapp.flowInterval
-import myapp.util.NetworkUtils
-import splitties.init.appCtx
-import timber.log.Timber
 
 
 class CamConnectMonitor(private val context: Context) : DefaultLifecycleObserver {
@@ -61,24 +58,24 @@ class CamConnectMonitor(private val context: Context) : DefaultLifecycleObserver
     }
 
     private suspend fun checkConnectivityInternal(force: Boolean) {
-        if (!force) {
-            val diff = System.currentTimeMillis() - lastConnectivityCheckTime
-            if (diff < CONNECTIVITY_CHECK_INTERVAL && connectionFlow.value == CamConnectivity.CONNECTED) {
-                Timber.i("XXX SKIP CHECK")
-                return
-            }
-        }
-
-        lastConnectivityCheckTime = System.currentTimeMillis()
-        if (!NetworkUtils.isWifiEnabled(appCtx)) {
-            connectionFlow.tryEmit(CamConnectivity.DISABLED)
-            return
-        } else {
-            Timber.i("XXX CHECK CONNECTABLE")
-//            val connectable = Cam.checkConnectable()
-//            val newState = if (connectable) CamConnectivity.CONNECTED else CamConnectivity.NOT_CONNECTED
-//            connectionFlow.tryEmit(newState)
-        }
+//        if (!force) {
+//            val diff = System.currentTimeMillis() - lastConnectivityCheckTime
+//            if (diff < CONNECTIVITY_CHECK_INTERVAL && connectionFlow.value == CamConnectivity.CONNECTED) {
+//                Timber.i("XXX SKIP CHECK")
+//                return
+//            }
+//        }
+//
+//        lastConnectivityCheckTime = System.currentTimeMillis()
+//        if (!NetworkUtils.isWifiEnabled(appCtx)) {
+//            connectionFlow.tryEmit(CamConnectivity.DISABLED)
+//            return
+//        } else {
+//            Timber.i("XXX CHECK CONNECTABLE")
+////            val connectable = Cam.checkConnectable()
+////            val newState = if (connectable) CamConnectivity.CONNECTED else CamConnectivity.NOT_CONNECTED
+////            connectionFlow.tryEmit(newState)
+//        }
     }
 
     private fun start() {

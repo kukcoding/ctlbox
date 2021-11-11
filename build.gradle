@@ -84,8 +84,10 @@ subprojects {
 //            freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
 //            freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
             freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.InternalCoroutinesApi"
+            freeCompilerArgs += "-Xopt-in=kotlin.time.ExperimentalTime"
+
 //            //This declaration is experimental and its usage must be marked with '@kotlinx.coroutines.InternalCoroutinesApi' or '@OptIn(kotlinx.coroutines.InternalCoroutinesApi::class)'
-//            freeCompilerArgs += "-Xuse-experimental=kotlin.Experimental"
+            freeCompilerArgs += "-Xuse-experimental=kotlin.Experimental"
             // freeCompilerArgs += "-Xallow-jvm-ir-dependencies"
         }
     }

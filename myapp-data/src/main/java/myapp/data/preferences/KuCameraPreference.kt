@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.map
 import myapp.data.entities.KuCamera
 import splitties.preferences.PrefDelegate
 import splitties.preferences.Preferences
+import timber.log.Timber
 
 private data class KuCameraListJson(val list: List<KuCamera>)
 
@@ -32,18 +33,25 @@ object KuCameraPreference : Preferences("KuCamera") {
     }
 
     private fun toJson(list: List<KuCamera>): String {
-        return Gson().toJson(KuCameraListJson(list))
+        return Gson().toJson(KuCameraListJson(list)).also {
+            Timber.d("XXX toJSON():" + it)
+        }
     }
 
     private fun saveCommit(cameras: List<KuCamera>) {
         this.cameraListJson.value = toJson(cameras)
     }
 
-    fun replace(cameras: List<KuCamera>) {
+    fun replaceList(cameras: List<KuCamera>) {
         saveCommit(cameras)
     }
 
+    fun find(cameraId: String): KuCamera? {
+        return this.cameraList().firstOrNull { it.cameraId == cameraId }
+    }
+
     fun add(camera: KuCamera) {
+        Timber.d("XXX camera = ${camera }")
         val list = this.cameraList().filter { it.cameraId != camera.cameraId }.toMutableList()
         list.add(camera)
         saveCommit(list)

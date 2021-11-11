@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 
 object BuildVars {
     const val cameraAccessPointIp = "192.168.157.100"
-    const val fakeCamera = true
+    const val fakeCamera = false
     const val fakeCameraId = "fakeab0012abde"
 
     /**
@@ -20,7 +20,7 @@ object BuildVars {
     /**
      * WIFI SSID 길이
      */
-    const val wifiSsidMinLength = 4
+    const val wifiSsidMinLength = 3
     const val wifiSsidMaxLength = 30
 
 

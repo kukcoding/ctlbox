@@ -15,6 +15,7 @@ import myapp.data.cam.*
 import myapp.data.code.CamConnectivity
 import myapp.data.entities.KuCameraConfig
 import myapp.domain.interactors.LogoutCamera
+import myapp.domain.observers.ObserveRecordingState
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,7 +37,8 @@ internal class HomeViewModel @Inject constructor(
     @ApplicationContext context: Context,
     private val logoutCamera: LogoutCamera,
     val camManager: CamManager,
-    val recordingTracker: RecordingTracker,
+    private val recordingTracker: RecordingTracker,
+    private val observeRecordingState: ObserveRecordingState
 ) : ReduxViewModel<HomeState>(HomeState()) {
     private val pendingActions = MutableSharedFlow<HomeAction>()
 
@@ -96,13 +98,20 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
-    val recordingStateTextLive = recordingTracker.stateFlow.map { state ->
-        when (state) {
-            is RecordingState.Disabled -> "녹화중지"
-            is RecordingState.FiniteRecording -> "녹화중"
-            is RecordingState.InfiniteRecording -> "녹화중"
-            is RecordingState.RecordingScheduled -> "녹화 예약됨"
-            is RecordingState.RecordingExpired -> "녹화 종료"
+//    val recordingStateTextLive = recordingTracker.stateFlow.map { state ->
+//        when (state) {
+//            is RecordingState.Disabled -> "녹화중지"
+//            is RecordingState.FiniteRecording -> "녹화중"
+//            is RecordingState.InfiniteRecording -> "녹화중"
+//            is RecordingState.RecordingScheduled -> "녹화 예약됨"
+//            is RecordingState.RecordingExpired -> "녹화 종료"
+//        }
+//    }.asLiveData()
+
+    val recordingStateTextLive = observeRecordingState.observe().map { state ->
+        when (state.running) {
+            true -> "녹화중"
+            else -> "녹화중지"
         }
     }.asLiveData()
 

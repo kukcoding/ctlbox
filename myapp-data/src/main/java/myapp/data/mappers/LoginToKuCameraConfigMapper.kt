@@ -8,6 +8,7 @@ import myapp.data.entities.network.CamLoginPayload
 import org.threeten.bp.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.roundToLong
 
 @Singleton
 class LoginToKuCameraConfigMapper @Inject constructor(
@@ -32,11 +33,12 @@ class LoginToKuCameraConfigMapper @Inject constructor(
         mjpg = MjpgQuality(resolution = from.preview.resolution, fps = from.preview.fps),
         wifiSsid = null,
         wifiPw = null,
-        // TODO
+
         recordingSchedule = KuRecordingSchedule(
-            disabled = false,
-            startTimestamp = Instant.now(),
-            durationMinute = -1,
+            disabled = from.recordingSchedule.disabled,
+            startTimestamp = Instant.ofEpochSecond(from.recordingSchedule.startAt),
+            durationMinute = if (from.recordingSchedule.duration <= 0) 0L else (from.recordingSchedule.duration / 60f).roundToLong(),
+            switchOn = from.recordingSchedule.switchOn,
         )
     )
 }

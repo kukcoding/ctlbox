@@ -5,13 +5,16 @@ import kotlinx.coroutines.flow.*
 import myapp.util.tupleOf
 import org.threeten.bp.Instant
 import javax.inject.Inject
+import javax.inject.Singleton
 
-
+@Singleton
 class RecordingTracker @Inject constructor(
     camManager: CamManager
 ) {
 
     private val refreshFlow = MutableStateFlow(0L)
+
+
 
     /**
      * 녹화 여부 flow

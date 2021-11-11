@@ -368,11 +368,11 @@ fun humanReadableSize(size: Int): String {
     return humanReadableSize(size.toLong())
 }
 
-fun humanReadableSize(size: Long): String {
+fun humanReadableSize(size: Long, fmt: String = "#,##0.#"): String {
     if (size <= 0) return "0"
     val units = arrayOf("B", "kB", "MB", "GB", "TB")
     val digitGroups = (log10(size.toDouble()) / log10(1024.0)).toInt()
-    return DecimalFormat("#,##0.#").format(
+    return DecimalFormat(fmt).format(
         size / 1024.0.pow(digitGroups.toDouble())
     ) + " " + units[digitGroups]
 }

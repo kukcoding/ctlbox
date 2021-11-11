@@ -8,9 +8,11 @@ data class KuRecordingSchedule(
     val startTimestamp: Instant?,
 
     // -1 상시녹확
-    val durationMinute: Long
+    val durationMinute: Long,
+
+    val switchOn: Boolean
 ) {
     companion object {
-        val DISABLED = KuRecordingSchedule(disabled = false, startTimestamp = null, durationMinute = -1L)
+        val DISABLED = KuRecordingSchedule(disabled = false, startTimestamp = null, durationMinute = -1L, switchOn = false )
     }
 }

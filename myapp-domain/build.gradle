@@ -41,4 +41,6 @@ dependencies {
 
     // ThreeTenabp
     implementation("com.jakewharton.threetenabp:threetenabp:${versions.threetenabp}")
+
+    implementation "com.dropbox.mobile.store:store4:4.0.2-KT15"
 }

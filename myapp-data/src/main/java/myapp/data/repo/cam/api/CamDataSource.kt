@@ -5,11 +5,9 @@ import myapp.BuildVars
 import myapp.data.apicommon.callApi
 import myapp.data.apicommon.execApi
 import myapp.data.entities.*
-import myapp.data.mappers.CamConfigToKuCameraConfigMapper
-import myapp.data.mappers.LoginToKuCameraConfigMapper
-import myapp.data.mappers.RecordFileIdToKuRecordFileMapper
-import myapp.data.mappers.RecordingScheduleToKuRecordingScheduleMapper
+import myapp.data.mappers.*
 import myapp.data.preferences.ApiPreference
+import myapp.util.Logger
 import org.threeten.bp.Instant
 import javax.inject.Inject
 
@@ -31,17 +29,99 @@ private fun createFakeConfig(): KuCameraConfig {
             disabled = false,
             startTimestamp = Instant.now().plusSeconds(10),
             durationMinute = 1,
+            switchOn = false
         )
     )
 }
 
-class CamDataSource @Inject constructor(
+interface CamDataSource {
+
+    suspend fun login(ip: String, pw: String): Result<KuCameraConfig>
+
+
+    /**
+     * 카메라 상태 체크 - 해당 IP 주소가 카메라인지 체크한다
+     *
+     */
+    suspend fun health(ip: String): Result<String>
+
+
+    /**
+     * 카메라 설정 정보 조회
+     */
+    suspend fun config(): Result<KuCameraConfig>
+
+    /**
+     * 녹화 파일 목록 조회
+     */
+    suspend fun recordFiles(): Result<List<KuRecordFile>>
+
+    /**
+     * 녹화 파일 삭제
+     */
+    suspend fun deleteFile(fileId: String): Result<Unit>
+
+    /**
+     * 녹화 품질 설정 업데이트
+     */
+    suspend fun updateRecordingVideoQuality(resolution: String, fps: Int): Result<Unit>
+
+    /**
+     * 녹화 스케줄 설정 업데이트
+     * TODO 실제 API 연동
+     */
+    suspend fun updateRecordingSchedule(
+        startTime: Instant,
+        durationMinute: Long
+    ): Result<Unit>
+
+    suspend fun updateRecordingOff(): Result<Unit>
+
+    suspend fun recordingState(): Result<KuRecordingState>
+
+    /**
+     * 스트리밍 품질 설정 업데이트
+     */
+    suspend fun updateStreamingVideoQuality(resolution: String, fps: Int): Result<Unit>
+
+    /**
+     * 카메라 네트워크 변경
+     */
+    suspend fun updateNetworkConfig(wifi: Boolean, lte: Boolean): Result<Unit>
+
+    /**
+     * 카메라 비번 변경
+     */
+    suspend fun updatePassword(pw: String): Result<Unit>
+
+    /**
+     * 카메라 이름 변경
+     */
+    suspend fun updateCameraName(cameraName: String): Result<Unit>
+
+    /**
+     * 와이파이 업데이트
+     */
+    suspend fun updateWifi(wifiSsid: String, wifiPw: String): Result<Unit>
+
+    suspend fun logout(): Result<Unit>
+
+    /**
+     * 재부팅
+     */
+    suspend fun reboot(): Result<Unit>
+}
+
+
+class CamDataSourceImpl @Inject constructor(
     private val camApi: CamApi,
+    private val logger: Logger,
     private val loginToKuCameraConfigMapper: LoginToKuCameraConfigMapper,
     private val camConfigToKuCameraConfigMapper: CamConfigToKuCameraConfigMapper,
     private val recordFileIdToKuRecordFileMapper: RecordFileIdToKuRecordFileMapper,
     private val recordingScheduleToKuRecordingScheduleMapper: RecordingScheduleToKuRecordingScheduleMapper,
-) {
+    private val recordingStateToKuRecordingStateMapper: RecordingStateToKuRecordingStateMapper,
+) : CamDataSource {
 
     private fun cameraIp(): String {
         val ip = ApiPreference.cameraIp.value
@@ -52,7 +132,7 @@ class CamDataSource @Inject constructor(
     }
 
 
-    suspend fun login(ip: String, pw: String): Result<KuCameraConfig> {
+    override suspend fun login(ip: String, pw: String): Result<KuCameraConfig> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             ApiPreference.accessToken.value = "1234"
@@ -75,7 +155,7 @@ class CamDataSource @Inject constructor(
      * 카메라 상태 체크 - 해당 IP 주소가 카메라인지 체크한다
      *
      */
-    suspend fun health(ip: String): Result<String> {
+    override suspend fun health(ip: String): Result<String> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             return Success(BuildVars.fakeCameraId)
@@ -92,7 +172,7 @@ class CamDataSource @Inject constructor(
     /**
      * 카메라 설정 정보 조회
      */
-    suspend fun config(): Result<KuCameraConfig> {
+    override suspend fun config(): Result<KuCameraConfig> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             return Success(createFakeConfig())
@@ -105,7 +185,7 @@ class CamDataSource @Inject constructor(
     /**
      * 녹화 파일 목록 조회
      */
-    suspend fun recordFiles(): Result<List<KuRecordFile>> {
+    override suspend fun recordFiles(): Result<List<KuRecordFile>> {
         if (BuildVars.fakeCamera) {
             delay(1500)
             // ${yymmdd}_${hhmmss}_${width}x${height}_${fps}_${kbps}_${duration_msec}_${file_size}.mp4
@@ -118,7 +198,7 @@ class CamDataSource @Inject constructor(
                     "20211012_180737_3840x2160_15_1500_0_0.mp4",
                 ).map {
                     recordFileIdToKuRecordFileMapper.map(it)
-                }
+                }.filter { it.fileSize > 0 && it.durationMilli > 0 }
             )
         }
 
@@ -129,14 +209,14 @@ class CamDataSource @Inject constructor(
             data.files.forEach { fileId ->
                 recordFiles.add(recordFileIdToKuRecordFileMapper.map(fileId))
             }
-            recordFiles
+            recordFiles.filter { it.fileSize > 0 && it.durationMilli > 0 }
         }
     }
 
     /**
      * 녹화 파일 삭제
      */
-    suspend fun deleteFile(fileId: String): Result<Unit> {
+    override suspend fun deleteFile(fileId: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             return Success(Unit)
@@ -149,7 +229,7 @@ class CamDataSource @Inject constructor(
     /**
      * 녹화 품질 설정 업데이트
      */
-    suspend fun updateRecordingVideoQuality(resolution: String, fps: Int): Result<Unit> {
+    override suspend fun updateRecordingVideoQuality(resolution: String, fps: Int): Result<Unit> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             return Success(Unit)
@@ -161,58 +241,57 @@ class CamDataSource @Inject constructor(
 
     /**
      * 녹화 스케줄 설정 업데이트
-     * TODO 실제 API 연동
      */
-    suspend fun updateRecordingSchedule(
+    override suspend fun updateRecordingSchedule(
         startTime: Instant,
         durationMinute: Long
-    ): Result<KuRecordingSchedule> {
+    ): Result<Unit> {
         if (BuildVars.fakeCamera) {
             delay(1000)
-            return Success(
-                KuRecordingSchedule(
-                    disabled = false,
-                    startTimestamp = startTime,
-                    durationMinute = durationMinute
-                )
-            )
+            return Success(Unit)
         }
 
-        return callApi {
+        return execApi {
             camApi.updateRecordingSchedule(
                 ip = cameraIp(),
-                startTimeInSeconds = startTime.epochSecond,
-                durationInMinutes = durationMinute
+                startTimeInSeconds = if (startTime.epochSecond == 0L) 1 else startTime.epochSecond,
+                durationInSeconds = if (durationMinute <= 0) -1L else durationMinute * 60
             )
-        }.map { recordingScheduleToKuRecordingScheduleMapper.map(it) }
+        }
     }
 
-    /**
-     * TODO 실제 API 연동
-     */
-    suspend fun updateRecordingOff(): Result<KuRecordingSchedule> {
+    override suspend fun updateRecordingOff(): Result<Unit> {
+        if (BuildVars.fakeCamera) {
+            delay(1000)
+            return Success(Unit)
+        }
+
+        return execApi { camApi.updateRecordingOff(ip = cameraIp()) }
+    }
+
+    override suspend fun recordingState(): Result<KuRecordingState> {
+        logger.d("XXX fetch recording state")
+
         if (BuildVars.fakeCamera) {
             delay(1000)
             return Success(
-                KuRecordingSchedule(
-                    disabled = true,
-                    startTimestamp = Instant.now(),
-                    durationMinute = -1
+                KuRecordingState(
+                    disabled = false,
+                    running = true,
+                    switchOn = false
                 )
             )
         }
 
-        return callApi { camApi.updateRecordingOff(ip = cameraIp()) }.map {
-            recordingScheduleToKuRecordingScheduleMapper.map(
-                it
-            )
+        return callApi { camApi.recordingState(ip = cameraIp()) }.map {
+            recordingStateToKuRecordingStateMapper.map(it)
         }
     }
 
     /**
      * 스트리밍 품질 설정 업데이트
      */
-    suspend fun updateStreamingVideoQuality(resolution: String, fps: Int): Result<Unit> {
+    override suspend fun updateStreamingVideoQuality(resolution: String, fps: Int): Result<Unit> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             return Success(Unit)
@@ -224,7 +303,7 @@ class CamDataSource @Inject constructor(
     /**
      * 카메라 네트워크 변경
      */
-    suspend fun updateNetworkConfig(wifi: Boolean, lte: Boolean): Result<Unit> {
+    override suspend fun updateNetworkConfig(wifi: Boolean, lte: Boolean): Result<Unit> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             return Success(Unit)
@@ -242,7 +321,7 @@ class CamDataSource @Inject constructor(
     /**
      * 카메라 비번 변경
      */
-    suspend fun updatePassword(pw: String): Result<Unit> {
+    override suspend fun updatePassword(pw: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             return Success(Unit)
@@ -254,7 +333,7 @@ class CamDataSource @Inject constructor(
     /**
      * 카메라 이름 변경
      */
-    suspend fun updateCameraName(cameraName: String): Result<Unit> {
+    override suspend fun updateCameraName(cameraName: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             return Success(Unit)
@@ -266,7 +345,7 @@ class CamDataSource @Inject constructor(
     /**
      * 와이파이 업데이트
      */
-    suspend fun updateWifi(wifiSsid: String, wifiPw: String): Result<Unit> {
+    override suspend fun updateWifi(wifiSsid: String, wifiPw: String): Result<Unit> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             return Success(Unit)
@@ -281,7 +360,7 @@ class CamDataSource @Inject constructor(
         ApiPreference.cameraId.value = ""
     }
 
-    suspend fun logout(): Result<Unit> {
+    override suspend fun logout(): Result<Unit> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             clearToken()
@@ -296,7 +375,7 @@ class CamDataSource @Inject constructor(
     /**
      * 재부팅
      */
-    suspend fun reboot(): Result<Unit> {
+    override suspend fun reboot(): Result<Unit> {
         if (BuildVars.fakeCamera) {
             delay(1000)
             clearToken()
@@ -308,3 +387,6 @@ class CamDataSource @Inject constructor(
         return result
     }
 }
+
+
+

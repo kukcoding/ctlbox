@@ -79,7 +79,7 @@ class CameraWifiEditDialogFragment : DialogFragment() {
 
         mBind.editTextSsid.setOnEditorActionListener { _, actionId, _ ->
             if (EditorInfo.IME_ACTION_DONE == actionId) {
-                AndroidUtils.hideKeyboard(mBind.editTextSsid)
+                mBind.editTextPw.requestFocus()
                 true
             } else {
                 false
@@ -88,7 +88,8 @@ class CameraWifiEditDialogFragment : DialogFragment() {
 
         // 완료버튼 클릭
         mBind.txtviewSaveBtn.setOnClickListener {
-            trySave(mBind.editTextSsid.trimOrEmpty(), mBind.editTextSsid.trimOrEmpty())
+            AndroidUtils.hideKeyboard(mBind.editTextSsid, mBind.editTextPw)
+            trySave(mBind.editTextSsid.trimOrEmpty(), mBind.editTextPw.trimOrEmpty())
         }
     }
 
@@ -112,13 +113,19 @@ class CameraWifiEditDialogFragment : DialogFragment() {
             return
         }
 
-        if (!WifiSsidValidator.isValid(wifiSsid)) {
-            mBind.root.snack("SSID가 유효하지 않습니다")
+        if (wifiSsid.length < BuildVars.wifiSsidMinLength || wifiSsid.length > BuildVars.wifiSsidMaxLength) {
+            mBind.root.snack(
+                String.format(
+                    "SSID를 %d~%d 글자로 입력해주세요",
+                    BuildVars.wifiSsidMinLength,
+                    BuildVars.wifiSsidMaxLength
+                )
+            )
             return
         }
 
-        if (wifiPw.length < 4 || wifiPw.length > 30) {
-            mBind.root.snack("SSID를 4~30 글자로 입력해주세요")
+        if (!WifiSsidValidator.isValid(wifiSsid)) {
+            mBind.root.snack("SSID가 유효하지 않습니다")
             return
         }
 

@@ -17,6 +17,7 @@ import kr.ohlab.android.permission.TRPermissionResult
 import kr.ohlab.android.recyclerviewgroup.DefaultHolderTracker
 import kr.ohlab.android.recyclerviewgroup.TRListAdapter
 import kr.ohlab.android.recyclerviewgroup.support.buildListAdapter
+import myapp.BuildVars
 import myapp.Cam
 import myapp.data.entities.KuRecordFile
 import myapp.extensions.alert
@@ -127,8 +128,8 @@ class RecordFilesFragment : Fragment() {
                 // mViewModel.submitAction(RecordFilesFragmentAction.ToggleEditing)
             }
         }
-        mViewModel.isFilterOnLive.observe(viewLifecycleOwner, {filterOn ->
-            if(filterOn) {
+        mViewModel.isFilterOnLive.observe(viewLifecycleOwner, { filterOn ->
+            if (filterOn) {
                 mBind.layoutStatusBar.setBackgroundColor(resColor(R.color.black_transparent_10))
             } else {
                 mBind.layoutStatusBar.setBackgroundColor(resColor(R.color.transparent))
@@ -259,12 +260,15 @@ class RecordFilesFragment : Fragment() {
         } else {
             val cameraIp = mViewModel.camManager.cameraIp
             if (cameraIp != null) {
+                val url = if (BuildVars.fakeCamera) {
+                    "https://ohlab.kr/p/kuk/sample/stevejobs.mp4"
+                } else {
+                    Cam.recordFileUrl(ip = cameraIp, fileId = recordFile.fileId)
+                }
                 startActivity(
                     FilePlayerActivity.createIntent(
                         context = requireContext(),
-//                    uri = Uri.parse("https://ohlab.kr/p/kuk/sample/stevejobs.mp4")
-                        // uri = Uri.parse("http://192.168.0.100/recording/download?fileName=19700101_103208_1920x1080_15_1500_30000_7434536.mp4")
-                        uri = Cam.recordFileUrl(ip = cameraIp, fileId = recordFile.fileId).toUri()
+                        uri = url.toUri()
                     )
                 )
             }

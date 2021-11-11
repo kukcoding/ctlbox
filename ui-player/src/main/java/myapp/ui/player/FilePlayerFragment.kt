@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.util.EventLogger
 import dagger.hilt.android.AndroidEntryPoint
 import myapp.ui.player.databinding.FragmentFilePlayerBinding
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -71,6 +72,7 @@ class FilePlayerFragment : Fragment() {
         val appCtx = requireContext().applicationContext
         val player = SimpleExoPlayer.Builder(appCtx).build()
         player.repeatMode = Player.REPEAT_MODE_ALL
+        Timber.d("XXX FilePlayerFragment: videoUri = ${mViewModel.videoUri}")
         player.setMediaSource(mViewModel.mediaSource(appCtx))
         player.prepare()
         // player.play()

@@ -13,8 +13,6 @@ import myapp.ActivityLauncher
 import myapp.data.apicommon.ApiClientDeviceInfo
 import myapp.data.cam.CamManager
 import myapp.util.AndroidUtils
-import java.io.File
-import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -24,21 +22,6 @@ object AppModule {
     @ApplicationId
     @Provides
     fun provideApplicationId(application: Application): String = application.packageName
-
-    @Provides
-    @Singleton
-    @Named("cache")
-    fun provideCacheDir(
-        @ApplicationContext context: Context
-    ): File = context.cacheDir
-
-
-    @Provides
-    @Singleton
-    @Named("fonts")
-    fun provideFontsDir(
-        @ApplicationContext context: Context
-    ): File = File(context.filesDir, "fonts").also { it.mkdirs() }
 
 
     @Provides
@@ -60,6 +43,5 @@ object AppModule {
         @ApplicationContext context: Context,
         activityLauncher: ActivityLauncher,
     ) = CamManager(context, activityLauncher)
-
 
 }

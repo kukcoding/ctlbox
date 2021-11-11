@@ -76,7 +76,7 @@ interface CamApi {
     @POST("http://{ip}/config/update-recording-off")
     suspend fun updateRecordingOff(
         @Path(value = "ip") ip: String,
-    ): Response<TRApiResponse<CamRecordingSchedulePayload.Response>>
+    ): Response<TRApiResponse<Any>>
 
 
     /**
@@ -87,8 +87,16 @@ interface CamApi {
     suspend fun updateRecordingSchedule(
         @Path(value = "ip") ip: String,
         @Field("startAt") startTimeInSeconds: Long, // epochTime in seconds
-        @Field("durationInMinutes") durationInMinutes: Long  // duration in minutes
-    ): Response<TRApiResponse<CamRecordingSchedulePayload.Response>>
+        @Field("duration") durationInSeconds: Long  // duration in seconds
+    ): Response<TRApiResponse<Any>>
+
+    /**
+     * 녹화 상태 조회
+     */
+    @POST("http://{ip}/status/recording")
+    suspend fun recordingState(
+        @Path(value = "ip") ip: String
+    ): Response<TRApiResponse<CamRecordingStatePayload.Response>>
 
     /**
      * 스트리밍 해상도 설정 변경

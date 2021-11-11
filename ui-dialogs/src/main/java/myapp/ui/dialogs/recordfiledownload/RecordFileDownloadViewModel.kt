@@ -133,7 +133,7 @@ internal class RecordFileDownloadViewModel @Inject constructor(
         if (it == null) {
             ""
         } else {
-            "${humanReadableSize(it.speed)} / 초"
+            "${humanReadableSize(it.speedAvg)} / 초"
         }
     }
 
@@ -145,7 +145,7 @@ internal class RecordFileDownloadViewModel @Inject constructor(
         when {
             speed == null -> ""
             status is DownloadStatus.Saving || status is DownloadStatus.Error -> {
-                "${humanReadableSize(speed.downloadedBytes)} / ${humanReadableSize(speed.contentLength)}"
+                "${humanReadableSize(speed.downloadedBytes, fmt="#,##0.0")} / ${humanReadableSize(speed.contentLength, fmt="#,##0.0")}"
             }
             else -> {
                 humanReadableSize(speed.contentLength)

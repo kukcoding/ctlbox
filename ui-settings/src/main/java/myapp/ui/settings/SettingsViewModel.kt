@@ -15,6 +15,7 @@ import myapp.api.UiError
 import myapp.data.cam.CamManager
 import myapp.data.cam.RecordingState
 import myapp.data.cam.RecordingTracker
+import myapp.domain.observers.ObserveRecordingState
 import myapp.ui.SnackbarManager
 import myapp.util.Logger
 import myapp.util.ObservableLoadingCounter
@@ -62,6 +63,7 @@ internal class SettingsViewModel @Inject constructor(
     val camManager: CamManager,
     private val snackbarManager: SnackbarManager,
     val recordingTracker: RecordingTracker,
+    private val observeRecordingState: ObserveRecordingState,
     private val logger: Logger
 ) : ReduxViewModel<SettingsState>(SettingsState()) {
     private val loadingState = ObservableLoadingCounter()
@@ -85,14 +87,21 @@ internal class SettingsViewModel @Inject constructor(
         }
     }.asLiveData()
 
-    val isRecordingLive = recordingTracker.isRecordingFlow.asLiveData()
-    val recordingStateTextLive = recordingTracker.stateFlow.map { state ->
-        when (state) {
-            is RecordingState.Disabled -> "중지됨"
-            is RecordingState.FiniteRecording -> "녹화중"
-            is RecordingState.InfiniteRecording -> "녹화중"
-            is RecordingState.RecordingScheduled -> "녹화 예약됨"
-            is RecordingState.RecordingExpired -> "녹화 종료"
+    // val isRecordingLive = recordingTracker.isRecordingFlow.asLiveData()
+//    val recordingStateTextLive = recordingTracker.stateFlow.map { state ->
+//        when (state) {
+//            is RecordingState.Disabled -> "중지됨"
+//            is RecordingState.FiniteRecording -> "녹화중"
+//            is RecordingState.InfiniteRecording -> "녹화중"
+//            is RecordingState.RecordingScheduled -> "녹화 예약됨"
+//            is RecordingState.RecordingExpired -> "녹화 종료"
+//        }
+//    }.asLiveData()
+    val isRecordingLive = observeRecordingState.observe().map { it.running }.asLiveData()
+    val recordingStateTextLive = observeRecordingState.observe().map { state ->
+        when (state.running) {
+            true -> "녹화중"
+            else -> "녹화중지"
         }
     }.asLiveData()
 

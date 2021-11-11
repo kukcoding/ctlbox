@@ -16,6 +16,7 @@ class CamLoginPayload {
         val recording: VideoQuality,
         val streaming: VideoQuality,
         val preview: MjpgQuality,
+        val recordingSchedule: RecordingSchedule
     )
 }
 

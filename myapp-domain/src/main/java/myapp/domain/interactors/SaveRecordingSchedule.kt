@@ -1,8 +1,10 @@
 package myapp.domain.interactors
 
+import com.dropbox.android.external.store4.fresh
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import myapp.data.cam.CamManager
+import myapp.data.repo.cam.RecordingStateStore
 import myapp.data.repo.cam.api.CamDataSource
 import myapp.domain.Interactor
 import myapp.util.Logger
@@ -12,7 +14,8 @@ import javax.inject.Inject
 class SaveRecordingSchedule @Inject constructor(
     private val logger: Logger,
     private val camManager: CamManager,
-    private val dataSource: CamDataSource
+    private val dataSource: CamDataSource,
+    private val recordingStateStore: RecordingStateStore
 ) : Interactor<SaveRecordingSchedule.Params>() {
 
     data class Params(val ip: String, val disabled: Boolean, val startTime: Instant, val durationMinute: Long)
@@ -27,7 +30,7 @@ class SaveRecordingSchedule @Inject constructor(
     )
 
     override suspend fun doWork(params: Params) = withContext(Dispatchers.IO) {
-        val schedule = if (params.disabled) {
+        if (params.disabled) {
             dataSource.updateRecordingOff()
         } else {
             dataSource.updateRecordingSchedule(
@@ -35,9 +38,8 @@ class SaveRecordingSchedule @Inject constructor(
                 durationMinute = params.durationMinute
             )
         }.getOrThrow()
-
-        camManager.updateConfig {
-            it.copy(recordingSchedule = schedule)
-        }
+        recordingStateStore.store().fresh("1")
+        val cfg = dataSource.config().getOrThrow()
+        camManager.updateConfig { cfg }
     }
 }
