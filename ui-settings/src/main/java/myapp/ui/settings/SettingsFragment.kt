@@ -11,6 +11,7 @@ import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.core.text.scale
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -115,6 +116,28 @@ class SettingsFragment : Fragment() {
             openRecordingSchedule()
         }
 
+        mBind.layoutTimeBtn.setOnClickListener {
+            lifecycleScope.launch {
+                try {
+                    val startTime = System.currentTimeMillis()
+                    mBind.layoutTimeBtn.isEnabled = false
+                    mBind.imgviewTimeIndicator.isVisible = false
+                    mBind.progressTimeUpdate.isVisible = true
+                    mViewModel.updateTime()
+                    val diff = System.currentTimeMillis() - startTime
+                    if (diff < 1000) {
+                        delay(700)
+                    }
+                } catch (err: Throwable) {
+                    err.printStackTrace()
+                } finally {
+                    mBind.layoutTimeBtn.isEnabled = true
+                    mBind.imgviewTimeIndicator.isVisible = true
+                    mBind.progressTimeUpdate.isVisible = false
+                }
+            }
+        }
+
         mViewModel.recordingTracker.stateFlow.asLiveData().observe(viewLifecycleOwner, Observer { state ->
 
             when (state) {
@@ -149,7 +172,7 @@ class SettingsFragment : Fragment() {
                 }
                 is RecordingState.RecordingScheduled -> {
                     val durationMinute = state.schedule.durationMinute
-                    mBind.txtviewRecordScheduleType.text = if(durationMinute <= 0) "(상시 녹화 예약)" else "(녹화 예약)"
+                    mBind.txtviewRecordScheduleType.text = if (durationMinute <= 0) "(상시 녹화 예약)" else "(녹화 예약)"
                     val startTime = state.schedule.startTimestamp
                     if (startTime != null) {
                         mBind.txtviewRecordTime1.text = formatRecordTime1(startTime, durationMinute)

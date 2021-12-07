@@ -27,6 +27,16 @@ interface CamApi {
 
 
     /**
+     * 시간 업데이트
+     */
+    @FormUrlEncoded
+    @POST("http://{ip}/config/update-time")
+    suspend fun updateTime(
+        @Path(value = "ip") ip: String,
+        @Field("time") timeSeconds: Long
+    ): Response<TRApiResponse<Any>>
+
+    /**
      * 카메라 로그아웃
      */
     @POST("http://{ip}/logout")

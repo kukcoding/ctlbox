@@ -25,6 +25,7 @@ private fun createFakeConfig(): KuCameraConfig {
         mjpg = MjpgQuality(resolution = "1280x720", fps = 10),
         wifiSsid = "mpx-cam-demo",
         wifiPw = "1111",
+        timeSeconds = Instant.now().epochSecond,
         recordingSchedule = KuRecordingSchedule(
             disabled = false,
             startTimestamp = Instant.now().plusSeconds(10),
@@ -50,6 +51,11 @@ interface CamDataSource {
      * 카메라 설정 정보 조회
      */
     suspend fun config(): Result<KuCameraConfig>
+
+    /**
+     * 카메라 시간 업데이트
+     */
+    suspend fun updateTime(timeSeconds: Long): Result<Unit>
 
     /**
      * 녹화 파일 목록 조회
@@ -183,6 +189,18 @@ class CamDataSourceImpl @Inject constructor(
     }
 
     /**
+     * 카메라 네트워크 변경
+     */
+    override suspend fun updateTime(timeSeconds: Long): Result<Unit> {
+        if (BuildVars.fakeCamera) {
+            delay(1000)
+            return Success(Unit)
+        }
+
+        return execApi { camApi.updateTime(ip = cameraIp(), timeSeconds = timeSeconds) }
+    }
+
+    /**
      * 녹화 파일 목록 조회
      */
     override suspend fun recordFiles(): Result<List<KuRecordFile>> {
@@ -191,11 +209,11 @@ class CamDataSourceImpl @Inject constructor(
             // ${yymmdd}_${hhmmss}_${width}x${height}_${fps}_${kbps}_${duration_msec}_${file_size}.mp4
             return Success(
                 listOf(
-                    "20211012_180556_3840x2160_15_1500_33327_7562350.mp4",
-                    "20211012_180630_3840x2160_15_1500_33613_7548455.mp4",
-                    "20211012_180703_3840x2160_15_1500_33372_7558826.mp4",
+                    "1538896308_3840x2160_15_1500_33327_7562350.mp4",
+                    "1638996308_3840x2160_15_1500_33613_7548455.mp4",
+                    "1638081238_3840x2160_15_1500_33372_7558826.mp4",
                     // <-- means that file is recording now (not closed)
-                    "20211012_180737_3840x2160_15_1500_0_0.mp4",
+                    "1740096308_3840x2160_15_1500_0_0.mp4",
                 ).map {
                     recordFileIdToKuRecordFileMapper.map(it)
                 }.filter { it.fileSize > 0 && it.durationMilli > 0 }

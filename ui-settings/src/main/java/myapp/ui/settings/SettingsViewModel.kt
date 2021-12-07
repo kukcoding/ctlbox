@@ -15,6 +15,7 @@ import myapp.api.UiError
 import myapp.data.cam.CamManager
 import myapp.data.cam.RecordingState
 import myapp.data.cam.RecordingTracker
+import myapp.domain.interactors.UpdateCameraTime
 import myapp.domain.observers.ObserveRecordingState
 import myapp.ui.SnackbarManager
 import myapp.util.Logger
@@ -58,12 +59,19 @@ private fun formatRecordDate(startTime: Instant, durationMinute: Long): String {
     return "${txt1}부터 ${txt2}까지"
 }
 
+private fun formatDateEpochSeconds(time: Long): String {
+    val now = Instant.ofEpochSecond(time)
+    val from = now.atZone(ZoneId.systemDefault())
+    return "${from.year}년 ${from.monthValue}월 ${from.dayOfMonth}일 ${from.hour}시 ${from.minute}분 ${from.second}초"
+}
+
 @HiltViewModel
 internal class SettingsViewModel @Inject constructor(
     val camManager: CamManager,
     private val snackbarManager: SnackbarManager,
     val recordingTracker: RecordingTracker,
     private val observeRecordingState: ObserveRecordingState,
+    private val updateCameraTime: UpdateCameraTime,
     private val logger: Logger
 ) : ReduxViewModel<SettingsState>(SettingsState()) {
     private val loadingState = ObservableLoadingCounter()
@@ -71,6 +79,7 @@ internal class SettingsViewModel @Inject constructor(
 
     val viewItems = MutableLiveData<List<ItemBase<*>>>()
     val isLoadingLive = liveFieldOf(SettingsState::isLoading)
+
     val streamingQualityTextLive = camManager.observeConfig().map { cfg ->
         if (cfg != null) {
             "${cfg.streaming.resolution} / ${cfg.streaming.fps} FPS"
@@ -82,6 +91,14 @@ internal class SettingsViewModel @Inject constructor(
     val recordingQualityTextLive = camManager.observeConfig().map { cfg ->
         if (cfg != null) {
             "${cfg.recording.resolution} / ${cfg.recording.fps} FPS"
+        } else {
+            "-"
+        }
+    }.asLiveData()
+
+    val cameraCurrentTimeTextLive = camManager.observeConfig().map { cfg ->
+        if (cfg != null) {
+            formatDateEpochSeconds(cfg.timeSeconds)
         } else {
             "-"
         }
@@ -168,5 +185,9 @@ internal class SettingsViewModel @Inject constructor(
 //            snackbarManager.sendError(UiError(result.throwable))
 //        }
         loadingState.removeLoader()
+    }
+
+    suspend fun updateTime() {
+        updateCameraTime.executeSync()
     }
 }

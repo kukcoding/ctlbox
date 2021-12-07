@@ -11,6 +11,7 @@ class CamLoginPayload {
         val sid: String,
         val cameraId: String,
         val cameraName: String,
+        val time: Long?,
         val resolutions: Resolutions,
         val network: Network,
         val recording: VideoQuality,

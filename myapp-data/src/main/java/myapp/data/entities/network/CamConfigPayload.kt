@@ -8,6 +8,7 @@ class CamConfigPayload {
     @Keep
     data class Response(
         val cameraId: String,
+        val time: Long,
         val cameraName: String,
         val resolutions: Resolutions,
         val network: Network,

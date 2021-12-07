@@ -461,6 +461,60 @@
                     android:layout_marginTop="16dp"
                     android:text="기타" />
 
+
+                <LinearLayout
+                    android:id="@+id/layout_timeBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="left|center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp">
+
+                    <TextView
+                        style="@style/SettingItemLabelText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="카메라 시간" />
+
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+
+                    <TextView
+                        style="@style/SettingItemValueText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.cameraCurrentTimeTextLive}"
+                        android:textSize="13sp"
+                        tools:text="2021년 1월 1일 12시 20분 22초" />
+
+
+                    <ProgressBar
+                        android:id="@+id/progress_timeUpdate"
+                        android:layout_width="24px"
+                        android:layout_height="24px"
+                        android:indeterminate="true"
+                        android:visibility="gone"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        tools:visibility="visible" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgview_timeIndicator"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+                        app:tint="?attr/colorOnSurface" />
+                </LinearLayout>
+
+                <View style="@style/SettingDivider" />
+
                 <LinearLayout
                     android:id="@+id/layout_rebootBtn"
                     android:layout_width="match_parent"

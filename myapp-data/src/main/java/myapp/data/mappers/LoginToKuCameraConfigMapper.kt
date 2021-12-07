@@ -16,6 +16,7 @@ class LoginToKuCameraConfigMapper @Inject constructor(
     override suspend fun map(from: CamLoginPayload.Login) = KuCameraConfig(
         cameraId = from.cameraId,
         cameraName = from.cameraName,
+        timeSeconds = from.time ?: 0L,
         recordingResolutions = from.resolutions.recording,
         streamingResolutions = from.resolutions.streaming,
         recording = VideoQuality(
