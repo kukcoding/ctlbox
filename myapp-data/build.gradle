@@ -46,6 +46,6 @@ dependencies {
     api("com.jakewharton.threetenabp:threetenabp:${versions.threetenabp}")
 
     implementation "com.google.code.gson:gson:${versions.gson}"
-    implementation "com.dropbox.mobile.store:store4:4.0.2-KT15"
+    implementation 'com.dropbox.mobile.store:store4:4.0.4-KT15'
 
 }

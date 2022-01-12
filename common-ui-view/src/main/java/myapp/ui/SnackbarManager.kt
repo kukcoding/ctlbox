@@ -39,13 +39,13 @@ class SnackbarManager @Inject constructor() {
 
     fun sendError(error: UiError) {
         if (!pendingErrors.isClosedForSend) {
-            pendingErrors.offer(error)
+            pendingErrors.trySend(error)
         }
     }
 
     fun removeCurrentError() {
         if (!removeErrorSignal.isClosedForSend) {
-            removeErrorSignal.offer(Unit)
+            removeErrorSignal.trySend(Unit)
         }
     }
 }

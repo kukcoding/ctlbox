@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import myapp.BuildVars
 import myapp.data.cam.RecordingState
 import myapp.data.code.VideoQualityKind
 import myapp.extensions.resources.resColor
@@ -29,6 +30,7 @@ import myapp.ui.dialogs.CameraDialogs
 import myapp.ui.settings.databinding.FragmentSettingsBinding
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
+import splitties.snackbar.snack
 
 private fun formatDate(startTime: Instant): String {
     val from = startTime.atZone(ZoneId.systemDefault())
@@ -277,10 +279,31 @@ class SettingsFragment : Fragment() {
 
     private fun openNetworkMediaSetting() {
         val cfg = mViewModel.camManager.config ?: return
+        val cameraIp = mViewModel.camManager.cameraIp ?: return
+        val prevWifi = BuildVars.isWifiIp(cameraIp)
         CameraDialogs.openNetworkMedia(
             fm = childFragmentManager,
             media = cfg.enabledNetworkMedia,
-        )
+        ) { media ->
+            if (media != null && prevWifi) {
+                if (!media.contains("wifi")) {
+                    doLogout()
+                }
+            }
+        }
+    }
+
+    private fun doLogout() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            (activity as? SettingsActivity)?.enableDisconnectMessage = false
+            try {
+                mViewModel.doLogout()
+            } catch (ignore: Throwable) {
+            }
+            mBind.root.snack("로그아웃 되었습니다")
+            delay(700)
+            activity?.onBackPressed()
+        }
     }
 
     private fun openRecordQuality() {

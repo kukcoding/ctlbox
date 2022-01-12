@@ -84,9 +84,9 @@ class MjpgPlayerFragment : Fragment() {
 
     private fun startPlay() {
         stopped = false
+        showMjpg()
         lifecycleScope.launchWhenCreated {
-
-            while (lifecycleScope.isActive) {
+            while (lifecycleScope.isActive && !stopped) {
                 val ip = cameraIp
                 if (ip == null) {
                     mBind.mjpgView.setImageDrawable(null)
@@ -101,9 +101,21 @@ class MjpgPlayerFragment : Fragment() {
                 }
                 fetch(Cam.url(ip = ip, path = "/mjpg"))
             }
+            if (stopped) {
+                hideMjpg()
+            }
         }
     }
 
+    private fun hideMjpg() {
+        mBind.mjpgView.isGone = true
+        mBind.overlayError.isGone = true
+    }
+
+    private fun showMjpg() {
+        mBind.mjpgView.isVisible = true
+        mBind.overlayError.isGone = true
+    }
 
     private suspend fun fetch(url: String) {
         val newUrl = url.toHttpUrl().newBuilder().addQueryParameter("_t", System.currentTimeMillis().toString()).build()
@@ -133,6 +145,7 @@ class MjpgPlayerFragment : Fragment() {
     private fun stopPlay() {
         disconnectLast()
         stopped = true
+        hideMjpg()
     }
 
     private val client: OkHttpClient by lazy {

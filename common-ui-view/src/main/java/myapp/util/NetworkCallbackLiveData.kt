@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 
@@ -82,7 +83,7 @@ class ConnectivityFlow constructor(
     private fun observeConnectivityChanged() = callbackFlow {
         val mgr = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val callback = OnNetworkChangedCallback {
-            sendBlocking(System.currentTimeMillis())
+            trySendBlocking(System.currentTimeMillis())
         }
         mgr.registerNetworkCallback(buildNetworkRequest(), callback)
         awaitClose {

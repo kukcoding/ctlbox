@@ -17,7 +17,6 @@ class LogoutCamera @Inject constructor(
     private val recordingStateStore: RecordingStateStore
 ) : Interactor<Unit>() {
 
-    @ExperimentalTime
     override suspend fun doWork(params: Unit) = withContext(Dispatchers.IO) {
         try {
             dataSource.logout()

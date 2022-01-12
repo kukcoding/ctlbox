@@ -15,6 +15,7 @@ import myapp.api.UiError
 import myapp.data.cam.CamManager
 import myapp.data.cam.RecordingState
 import myapp.data.cam.RecordingTracker
+import myapp.domain.interactors.LogoutCamera
 import myapp.domain.interactors.UpdateCameraTime
 import myapp.domain.observers.ObserveRecordingState
 import myapp.ui.SnackbarManager
@@ -72,6 +73,7 @@ internal class SettingsViewModel @Inject constructor(
     val recordingTracker: RecordingTracker,
     private val observeRecordingState: ObserveRecordingState,
     private val updateCameraTime: UpdateCameraTime,
+    private val logoutCamera: LogoutCamera,
     private val logger: Logger
 ) : ReduxViewModel<SettingsState>(SettingsState()) {
     private val loadingState = ObservableLoadingCounter()
@@ -185,6 +187,10 @@ internal class SettingsViewModel @Inject constructor(
 //            snackbarManager.sendError(UiError(result.throwable))
 //        }
         loadingState.removeLoader()
+    }
+
+    suspend fun doLogout() {
+        logoutCamera.executeSync(Unit)
     }
 
     suspend fun updateTime() {

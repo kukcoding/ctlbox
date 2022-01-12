@@ -36,14 +36,13 @@ internal class NetworkMediaDialogViewModel @Inject constructor(
 
 
     val wifiLive: LiveData<Boolean> =
-        liveFieldOf(NetworkMediaViewState::media).map { it == "wifi" }
-    val lteLive: LiveData<Boolean> =
-        liveFieldOf(NetworkMediaViewState::media).map { it == "lte" }
-
-    val wifiLteLive: LiveData<Boolean> =
-        liveFieldOf(NetworkMediaViewState::media).map { it == "wifi,lte" }
+        liveFieldOf(NetworkMediaViewState::media).map { it.contains("wifi") }
+//    val lteLive: LiveData<Boolean> =
+//        liveFieldOf(NetworkMediaViewState::media).map { it == "lte" }
+//    val wifiLteLive: LiveData<Boolean> =
+//        liveFieldOf(NetworkMediaViewState::media).map { it == "wifi,lte" }
     val offLive: LiveData<Boolean> =
-        liveFieldOf(NetworkMediaViewState::media).map { it == "off" }
+        liveFieldOf(NetworkMediaViewState::media).map {!it.contains("wifi")}
 
     init {
         viewModelScope.launch {
@@ -64,10 +63,16 @@ internal class NetworkMediaDialogViewModel @Inject constructor(
         }
     }
 
-    fun updateMediaWifi() = updateMedia("wifi")
-    fun updateMediaLte() = updateMedia("lte")
-    fun updateMediaOff() = updateMedia("off")
-    fun updateMediaWifiLte() = updateMedia("wifi,lte")
+//    fun updateMediaWifi() = updateMedia("wifi")
+//    fun updateMediaLte() = updateMedia("lte")
+//    fun updateMediaOff() = updateMedia("off")
+//    fun updateMediaWifiLte() = updateMedia("wifi,lte")
+
+    // WIFI OFF 시에 lte만 적용
+    fun updateWifiOff() = updateMedia("lte")
+
+    // WIFI OFF 시에 lte와 wifi 적용
+    fun updateWifiOn() = updateMedia("lte,wifi")
 
 
     suspend fun saveNetworkMedia(ip: String, media: String) {

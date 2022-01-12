@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -47,6 +48,7 @@ class NetworkMediaDialogFragment : DialogFragment() {
         if (onDismissListener == null) {
             dismiss()
         }
+
         if (savedInstanceState == null) {
             mViewModel.updateMedia(mArgNetworkMedia)
         }
@@ -69,12 +71,22 @@ class NetworkMediaDialogFragment : DialogFragment() {
     }
 
     private fun setupEvents() {
-        // 완료버튼 클릭
-        mBind.btDone.setOnClickListener {
+        // 설정 확인 버튼 클릭
+        mBind.btConfirm.setOnClickListener {
+            showConfirm()
+        }
+
+        // 설정 확인 Yes 버튼 클릭
+        mBind.btConfirmYes.setOnClickListener {
             val state = mViewModel.currentState()
             lifecycleScope.launch {
                 trySave(media = state.media)
             }
+        }
+
+        // 설정 확인 No 버튼 클릭
+        mBind.btConfirmNo.setOnClickListener {
+            hideConfirm()
         }
 
         // 닫기 버튼 클릭
@@ -93,7 +105,7 @@ class NetworkMediaDialogFragment : DialogFragment() {
     }
 
     private fun preferWindowWidth(ctx: Context): Float {
-        val preferWidth = dpf(260)
+        val preferWidth = dpf(320)
         val screenWidth = AndroidUtils.screenSmallSide(ctx)
 
 
@@ -121,6 +133,18 @@ class NetworkMediaDialogFragment : DialogFragment() {
             }
             e.printStackTrace()
         }
+    }
+
+    private fun showConfirm() {
+        mBind.layoutConfirm.isVisible = true
+        mBind.layoutSetting.isVisible = false
+        mBind.btConfirmNo.isEnabled = true
+        mBind.btConfirmYes.isEnabled = true
+    }
+
+    private fun hideConfirm() {
+        mBind.layoutConfirm.isVisible = false
+        mBind.layoutSetting.isVisible = true
     }
 
 

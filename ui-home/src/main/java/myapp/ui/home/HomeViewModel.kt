@@ -15,7 +15,9 @@ import myapp.data.cam.*
 import myapp.data.code.CamConnectivity
 import myapp.data.entities.KuCameraConfig
 import myapp.domain.interactors.LogoutCamera
+import myapp.domain.interactors.SaveRecordingSchedule
 import myapp.domain.observers.ObserveRecordingState
+import org.threeten.bp.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -38,7 +40,8 @@ internal class HomeViewModel @Inject constructor(
     private val logoutCamera: LogoutCamera,
     val camManager: CamManager,
     private val recordingTracker: RecordingTracker,
-    private val observeRecordingState: ObserveRecordingState
+    private val observeRecordingState: ObserveRecordingState,
+    private val saveRecordingSchedule: SaveRecordingSchedule,
 ) : ReduxViewModel<HomeState>(HomeState()) {
     private val pendingActions = MutableSharedFlow<HomeAction>()
 
@@ -127,7 +130,6 @@ internal class HomeViewModel @Inject constructor(
             }
         }
 
-
         viewModelScope.launch {
             camManager.loginStateFlow.collect { setState { copy(loginState = it) } }
         }
@@ -155,4 +157,21 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
+    suspend fun startRecordNow(ip: String) {
+        saveRecordingSchedule.executeSync(
+            ip = ip,
+            disabled = false,
+            startTime = Instant.ofEpochSecond(0),
+            durationMinute = -1L
+        )
+    }
+
+    suspend fun stopRecord(ip: String) {
+        saveRecordingSchedule.executeSync(
+            ip = ip,
+            disabled = true,
+            startTime = Instant.ofEpochSecond(0),
+            durationMinute = -1L
+        )
+    }
 }

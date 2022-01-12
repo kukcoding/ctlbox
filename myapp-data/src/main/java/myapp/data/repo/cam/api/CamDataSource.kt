@@ -259,6 +259,8 @@ class CamDataSourceImpl @Inject constructor(
 
     /**
      * 녹화 스케줄 설정 업데이트
+     * startTime은 녹화 시작 시간
+     * durationMinute 녹화 Duration, 0 보다 작거나 같으면 계속 녹화
      */
     override suspend fun updateRecordingSchedule(
         startTime: Instant,
@@ -327,12 +329,12 @@ class CamDataSourceImpl @Inject constructor(
             return Success(Unit)
         }
 
-        val enabled = when {
-            wifi && lte -> "wifi,lte"
-            lte -> "lte"
-            wifi -> "wifi"
-            else -> "off"
-        }
+        // 항상 lte를 포함해야 한다
+        val enabled = if (wifi) "wifi,lte" else "lte"
+
+        // 개발중에는 wifi,lte 를 항상 활성화시킨다
+        // WIFI 끊어지면 개발이 힘들다
+        // val enabled = "wifi,lte"
         return execApi { camApi.updateNetworkConfig(ip = cameraIp(), enabled = enabled) }
     }
 

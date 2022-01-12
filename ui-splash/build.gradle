@@ -71,7 +71,7 @@ dependencies {
     // Lottie
     implementation("com.airbnb.android:lottie:${versions.lottie}")
 
-    implementation("com.google.android:flexbox:${versions.flexbox}")
+    implementation("com.google.android.flexbox:flexbox:${versions.flexbox}")
     implementation("com.daimajia.easing:library:${versions.daimajia_easing}")
     implementation("com.daimajia.androidanimations:library:${versions.daimajia_androidanimations}")
     implementation("ru.ldralighieri.corbind:corbind:${versions.corbind}")

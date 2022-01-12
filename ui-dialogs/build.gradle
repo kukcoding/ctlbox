@@ -71,7 +71,7 @@ dependencies {
     implementation("com.louiscad.splitties:splitties-appctx:${versions.splitties}")
     implementation("com.louiscad.splitties:splitties-snackbar:${versions.splitties}")
 
-    implementation("com.google.android:flexbox:${versions.flexbox}")
+    implementation("com.google.android.flexbox:flexbox:${versions.flexbox}")
     implementation("com.daimajia.easing:library:${versions.daimajia_easing}")
     implementation("com.daimajia.androidanimations:library:${versions.daimajia_androidanimations}")
     implementation("ru.ldralighieri.corbind:corbind:${versions.corbind}")

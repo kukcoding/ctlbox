@@ -57,10 +57,8 @@ dependencies {
 
     api("com.github.bumptech.glide:glide:${versions.glide}")
     implementation("com.jakewharton.threetenabp:threetenabp:${versions.threetenabp}")
-    implementation("com.google.android:flexbox:${versions.flexbox}")
+    implementation("com.google.android.flexbox:flexbox:${versions.flexbox}")
 
-    // 자주 사용하는 슬라이더, 슬라이더는 이게 짱
-    implementation("com.github.warkiz.widget:indicatorseekbar:${versions.warkiz_indicatorseekbar}")
 
     // Splitties
     implementation("com.louiscad.splitties:splitties-mainthread:${versions.splitties}")

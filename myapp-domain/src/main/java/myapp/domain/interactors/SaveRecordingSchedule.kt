@@ -2,8 +2,11 @@ package myapp.domain.interactors
 
 import com.dropbox.android.external.store4.fresh
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import myapp.BuildVars
 import myapp.data.cam.CamManager
+import myapp.data.entities.KuRecordingSchedule
 import myapp.data.repo.cam.RecordingStateStore
 import myapp.data.repo.cam.api.CamDataSource
 import myapp.domain.Interactor
@@ -38,8 +41,26 @@ class SaveRecordingSchedule @Inject constructor(
                 durationMinute = params.durationMinute
             )
         }.getOrThrow()
-        recordingStateStore.store().fresh("1")
+        delay(1500)
         val cfg = dataSource.config().getOrThrow()
-        camManager.updateConfig { cfg }
+        if (BuildVars.fakeCamera) {
+            camManager.updateConfig { old ->
+                old.copy(
+                    recordingSchedule = if (params.disabled) {
+                        KuRecordingSchedule.DISABLED
+                    } else {
+                        old.recordingSchedule.copy(
+                            disabled = false,
+                            startTimestamp = params.startTime,
+                            durationMinute = params.durationMinute
+                        )
+                    }
+                )
+            }
+        } else {
+            camManager.updateConfig { cfg }
+        }
+        recordingStateStore.store().fresh("1")
+        Unit
     }
 }

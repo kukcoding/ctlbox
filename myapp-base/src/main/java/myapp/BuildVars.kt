@@ -8,8 +8,13 @@ import java.util.concurrent.TimeUnit
 
 object BuildVars {
     const val cameraAccessPointIp = "192.168.157.100"
-    const val fakeCamera = true
+    const val fakeCamera = false
     const val fakeCameraId = "fakeab0012abde"
+
+
+    fun isWifiIp(ip: String): Boolean {
+        return ip.contains("192.168.157.")
+    }
 
     /**
      * 카메라 재부팅 시간

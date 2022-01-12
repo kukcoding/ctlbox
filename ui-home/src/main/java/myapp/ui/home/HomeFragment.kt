@@ -1,6 +1,7 @@
 package myapp.ui.home
 
 
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.CycleInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -18,11 +20,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import myapp.BuildVars
 import myapp.Cam
 import myapp.data.cam.CamLoggedIn
 import myapp.data.cam.CamLoggedOut
+import myapp.error.AppException
 import myapp.extensions.resources.resColor
 import myapp.extensions.resources.resStr
 import myapp.extensions.resources.styledColor
@@ -36,6 +43,7 @@ import myapp.ui.settings.SettingsActivity
 import myapp.util.AndroidUtils
 import org.threeten.bp.Instant
 import splitties.snackbar.snack
+import java.lang.Exception
 
 
 @AndroidEntryPoint
@@ -143,6 +151,14 @@ class HomeFragment : Fragment() {
             }
         }
 
+        // 녹화버튼을 클릭. 녹화 상태 토글
+        mBind.layoutRecord.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                val recording = mBind.layoutBtRecord.isSelected
+                updateRecording(!recording)
+            }
+        }
+
 
         mViewModel.isLteEnabledLive.observe(viewLifecycleOwner, { enabled ->
             if (enabled == true) {
@@ -164,11 +180,30 @@ class HomeFragment : Fragment() {
             }
         })
 
+        // 녹화버튼 테스트
+//        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+//            delay(1000)
+//            mBind.txtviewRecording.isVisible = true
+//            YoYo.with(Techniques.Flash)
+//                .repeatMode(ValueAnimator.RESTART)
+//                .duration(7000)
+//                .repeat(-1)
+//                .playOn(mBind.txtviewRecording)
+//        }
         mViewModel.isRecordingLive.observe(viewLifecycleOwner, { recording ->
+            mBind.txtviewRecordingLabel.isVisible = false
+            mBind.layoutBtRecord.isSelected = recording
             if (recording) {
-                mBind.txtviewRecordingLabel.setTextColor(resColor(R.color.color_green_500))
+                // mBind.txtviewRecordingLabel.setTextColor(resColor(R.color.color_green_500))
+                mBind.txtviewRecording.isVisible = true
+                YoYo.with(Techniques.Flash)
+                    .repeatMode(ValueAnimator.RESTART)
+                    .duration(5000)
+                    .repeat(-1)
+                    .playOn(mBind.txtviewRecording)
             } else {
-                mBind.txtviewRecordingLabel.setTextColor(styledColor(R.attr.colorOnSurface3))
+                // mBind.txtviewRecordingLabel.setTextColor(styledColor(R.attr.colorOnSurface3))
+                mBind.txtviewRecording.isVisible = false
             }
         })
 
@@ -345,5 +380,33 @@ class HomeFragment : Fragment() {
             startTime = schedule.startTimestamp ?: Instant.now(),
             durationMinute = schedule.durationMinute
         ) {}
+    }
+
+    private suspend fun updateRecording(recording: Boolean) {
+        val cameraIp = checkCameraIpOrNull() ?: return
+        val startTime = System.currentTimeMillis()
+        try {
+            mBind.spinnerRecording.isVisible = true
+            mBind.layoutBtRecord.alpha = 0.1f
+            if (recording) {
+                mViewModel.startRecordNow(ip = cameraIp)
+            } else {
+                mViewModel.stopRecord(ip = cameraIp)
+            }
+        } catch (e: Throwable) {
+            if (e is AppException) {
+                mBind.root.snack(e.displayMessage())
+            } else {
+                mBind.root.snack("에러 발생: ${e.message}")
+            }
+            e.printStackTrace()
+        } finally {
+            val diff = System.currentTimeMillis() - startTime
+            if(diff < 1500) {
+                delay(1500)
+            }
+            mBind.spinnerRecording.isVisible = false
+            mBind.layoutBtRecord.alpha = 1f
+        }
     }
 }

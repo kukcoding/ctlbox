@@ -46,12 +46,15 @@ class SettingsActivity : AppCompatActivity() {
     private fun customInit() {}
     private fun setupEvents() {}
 
+    var enableDisconnectMessage: Boolean = true
 
     override fun onResume() {
         super.onResume()
         camManager.disconnectedMessage.flow.asLiveData().observe(this, { disconnected ->
-            if (disconnected) {
-                camManager.disconnectedMessage.show(this)
+            if (enableDisconnectMessage) {
+                if (disconnected) {
+                    camManager.disconnectedMessage.show(this)
+                }
             }
         })
     }
