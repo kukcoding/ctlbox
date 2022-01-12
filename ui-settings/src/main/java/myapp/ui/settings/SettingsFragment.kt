@@ -285,11 +285,14 @@ class SettingsFragment : Fragment() {
             fm = childFragmentManager,
             media = cfg.enabledNetworkMedia,
         ) { media ->
-            if (media != null && prevWifi) {
-                if (!media.contains("wifi")) {
-                    doLogout()
-                }
+            if (media != null) {
+                doLogout()
             }
+//            if (media != null && prevWifi) {
+//                if (!media.contains("wifi")) {
+//                    doLogout()
+//                }
+//            }
         }
     }
 
