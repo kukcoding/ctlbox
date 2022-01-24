@@ -38,7 +38,7 @@ class DownloadRecordFile @Inject constructor(
 
     operator fun invoke(downloadUrl: String, destFileName: String, destFolderName: String): Flow<DownloadStatus> {
         val url = if (BuildVars.fakeCamera) {
-            "https://ohlab.kr/p/kuk/sample/stevejobs.mp4".toHttpUrl()
+            "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4".toHttpUrl()
         } else {
             downloadUrl.toHttpUrl()
         }

@@ -4,7 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
+import androidx.core.text.scale
 import androidx.core.view.isVisible
+import myapp.extensions.fancyResolution
 import myapp.ui.common.R
 import myapp.ui.common.databinding.WidgetResolutionRadioButtonBinding
 
@@ -48,11 +52,22 @@ class ResolutionRadioButton @JvmOverloads constructor(
         updateUi()
     }
 
+
     private fun updateUi() {
         val empty = this.resolution.isNullOrBlank()
         this.isVisible = !empty
         if (!empty) {
-            mBind.txtviewResolution.text = this.resolution
+            when (val alias = fancyResolution(this.resolution!!)) {
+                null -> mBind.txtviewResolution.text = this.resolution!!
+                else -> mBind.txtviewResolution.text = buildSpannedString {
+                    bold {
+                        append(alias)
+                    }
+                    scale(0.9f) {
+                        append("  $resolution")
+                    }
+                }
+            }
         }
     }
 }

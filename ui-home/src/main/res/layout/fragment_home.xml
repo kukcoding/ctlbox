@@ -228,7 +228,7 @@
                         app:layout_constraintEnd_toEndOf="@id/view_cameraArea"
                         app:layout_constraintStart_toStartOf="@id/view_cameraArea"
                         app:layout_constraintTop_toTopOf="@id/view_cameraArea" />
-
+<!--
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/txtview_recording"
                         android:layout_width="wrap_content"
@@ -245,7 +245,7 @@
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="@id/view_cameraArea"
                         app:layout_constraintTop_toTopOf="@id/view_cameraArea" />
-
+-->
 
                     <com.google.android.flexbox.FlexboxLayout
                         android:id="@+id/layout_statusText"
@@ -340,11 +340,12 @@
                         </FrameLayout>
 
                         <FrameLayout
+                            android:id="@+id/layout_recordingLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:background="@drawable/bt_status_outline_white"
-                            android:visibility="gone">
+                            app:visible="@{vm.isRecordingLive}">
 
                             <TextView
                                 android:id="@+id/txtview_recordingLabel"
@@ -353,7 +354,7 @@
                                 android:layout_gravity="center"
                                 android:paddingHorizontal="8dp"
                                 android:paddingVertical="4dp"
-                                android:text="@{vm.recordingStateTextLive}"
+                                android:text="녹화중"
                                 android:textColor="?attr/colorOnSurface4"
                                 android:textSize="11sp"
                                 android:textStyle="bold"

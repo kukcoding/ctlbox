@@ -393,6 +393,34 @@ fun formatDurationSecond(duration: Float, text: Boolean = false): String? {
     return formatDurationMilli(round(duration * 1000).toLong(), text)
 }
 
+//fun fancyResolution(resolution: String): String {
+//    return try {
+//        val value = resolution.split("""\s*x\s*""".toRegex()).maxOf { it.toInt() }
+//        when {
+//            value > 3000 -> "4K (${resolution})"
+//            value == 1920 -> "FHD (${resolution})"
+//            value == 1280 -> "HD (${resolution})"
+//            else -> resolution
+//        }
+//    } catch (e: Throwable) {
+//        resolution
+//    }
+//}
+
+fun fancyResolution(resolution: String): String? {
+    return try {
+        val value = resolution.split("""\s*x\s*""".toRegex()).maxOf { it.toInt() }
+        when {
+            value > 3000 -> "4K"
+            value == 1920 -> "FHD"
+            value == 1280 -> "HD"
+            else -> null
+        }
+    } catch (e: Throwable) {
+        null
+    }
+}
+
 fun formatDurationMilli(durationMilli: Long, text: Boolean = false): String {
     var millis = durationMilli
     val negative = millis < 0

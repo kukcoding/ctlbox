@@ -52,7 +52,7 @@ internal data class RecordFileDownloadViewState(
 )
 
 private fun secondText(from: Long, to: Long): String {
-    return ((to - from) / 1000f).roundToInt().toString() +"초"
+    return ((to - from) / 1000f).roundToInt().toString() + "초"
 }
 
 @HiltViewModel
@@ -145,7 +145,9 @@ internal class RecordFileDownloadViewModel @Inject constructor(
         when {
             speed == null -> ""
             status is DownloadStatus.Saving || status is DownloadStatus.Error -> {
-                "${humanReadableSize(speed.downloadedBytes, fmt="#,##0.0")} / ${humanReadableSize(speed.contentLength, fmt="#,##0.0")}"
+                "${humanReadableSize(speed.downloadedBytes, fmt = "#,##0.0")} / ${
+                    humanReadableSize(speed.contentLength, fmt = "#,##0.0")
+                }"
             }
             else -> {
                 humanReadableSize(speed.contentLength)

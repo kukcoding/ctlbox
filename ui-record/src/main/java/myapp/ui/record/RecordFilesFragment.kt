@@ -279,7 +279,6 @@ class RecordFilesFragment : Fragment() {
         lifecycleScope.launch {
             openRecordFileDownload(recordFile = item.recordFile)
         }
-
     }
 
     private suspend fun askPermission(permission: PermissionConfig): Boolean {

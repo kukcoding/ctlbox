@@ -10,7 +10,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.CycleInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -43,7 +42,6 @@ import myapp.ui.settings.SettingsActivity
 import myapp.util.AndroidUtils
 import org.threeten.bp.Instant
 import splitties.snackbar.snack
-import java.lang.Exception
 
 
 @AndroidEntryPoint
@@ -191,22 +189,44 @@ class HomeFragment : Fragment() {
 //                .playOn(mBind.txtviewRecording)
 //        }
         mViewModel.isRecordingLive.observe(viewLifecycleOwner, { recording ->
-            mBind.txtviewRecordingLabel.isVisible = false
+//            mBind.txtviewRecording.isVisible = false
             mBind.layoutBtRecord.isSelected = recording
+//            mBind.layoutRecordingLabel.isVisible = recording
             if (recording) {
-                // mBind.txtviewRecordingLabel.setTextColor(resColor(R.color.color_green_500))
-                mBind.txtviewRecording.isVisible = true
+                mBind.txtviewRecordingLabel.setTextColor(resColor(R.color.color_red_500))
+//                mBind.txtviewRecording.isVisible = true
+//                YoYo.with(Techniques.Flash)
+//                    .repeatMode(ValueAnimator.RESTART)
+//                    .duration(5000)
+//                    .repeat(-1)
+//                    .playOn(mBind.txtviewRecording)
+
                 YoYo.with(Techniques.Flash)
                     .repeatMode(ValueAnimator.RESTART)
-                    .duration(5000)
+                    .duration(4000)
                     .repeat(-1)
-                    .playOn(mBind.txtviewRecording)
+                    .playOn(mBind.txtviewRecordingLabel)
             } else {
-                // mBind.txtviewRecordingLabel.setTextColor(styledColor(R.attr.colorOnSurface3))
-                mBind.txtviewRecording.isVisible = false
+                // mBind.txtviewRecordingLabel.setTextColor(styledColor(R.attr.colorOnSurface4))
             }
         })
 
+//        mViewModel.isRecordingLive.observe(viewLifecycleOwner, { recording ->
+//            mBind.txtviewRecordingLabel.isVisible = false
+//            mBind.layoutBtRecord.isSelected = recording
+//            if (recording) {
+//                // mBind.txtviewRecordingLabel.setTextColor(resColor(R.color.color_green_500))
+//                mBind.txtviewRecording.isVisible = true
+//                YoYo.with(Techniques.Flash)
+//                    .repeatMode(ValueAnimator.RESTART)
+//                    .duration(5000)
+//                    .repeat(-1)
+//                    .playOn(mBind.txtviewRecording)
+//            } else {
+//                // mBind.txtviewRecordingLabel.setTextColor(styledColor(R.attr.colorOnSurface3))
+//                mBind.txtviewRecording.isVisible = false
+//            }
+//        })
 
         mViewModel.liveFieldOf(HomeState::loginState).observe(viewLifecycleOwner, { state ->
             when (state) {
@@ -402,7 +422,7 @@ class HomeFragment : Fragment() {
             e.printStackTrace()
         } finally {
             val diff = System.currentTimeMillis() - startTime
-            if(diff < 1500) {
+            if (diff < 1500) {
                 delay(1500)
             }
             mBind.spinnerRecording.isVisible = false
